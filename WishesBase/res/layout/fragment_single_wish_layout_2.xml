@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <Button
+        android:id="@+id/button1"
+        style="@style/Style_TextWithShadow"
+        android:layout_width="30dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:background="@color/btn_blue_selector"
+        android:text="&lt;" />
+
+    <Button
+        android:id="@+id/button2"
+        style="@style/Style_TextWithShadow"
+        android:layout_width="30dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/button1"
+        android:layout_alignBottom="@+id/button1"
+        android:layout_alignParentRight="true"
+        android:background="@color/btn_blue_selector"
+        android:text=">" />
+
+    <RelativeLayout
+        android:id="@+id/rl1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" >
+
+        <TextView
+            android:id="@+id/textView1"
+            style="@style/Style_TextWithShadow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="(12/326)"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="21dp" >
+
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/cbx_star_enabled" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:text="7.2"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/ll1"
+        android:layout_below="@+id/rl1"
+        android:layout_toLeftOf="@+id/button2"
+        android:layout_toRightOf="@+id/button1" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:id="@+id/textView3"
+                style="@style/Style_TextWithShadow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="50 – tka już na karku już szampan stoi w barku. Bo dziś są twoje urodziny zbierze się grono rodziny by uczcić Twoją rocznicę złotą więc czas powiedzieć „pa” kłopotom i niech bąbelki zakręcą im w głowie jak wypiją Twoje zdrowie. Żyj tak by żadnego dnia nie żałować i problemami się nie przejmować,bo dzień dziś szczęśliwy, dzień dziś jedyny dziś są Twoje 50-te urodziny więc składam Ci te życzenia zdrowia, szczęścia, snów spełnienia żyj sto lat w radości!"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textStyle="normal" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/ll1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:orientation="horizontal"
+        android:weightSum="1" >
+
+        <Button
+            android:id="@+id/Button01"
+            style="@style/Style_TextWithShadow"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:background="@color/btn_blue_selector"
+            android:text="Podziel się" />
+
+        <Button
+            android:id="@+id/button3"
+            style="@style/Style_TextWithShadow"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:background="@color/btn_blue_selector"
+            android:drawableLeft="@drawable/cbx_star_enabled"
+            android:text="Usuń z ulubionych" />
+
+    </LinearLayout>
+
+</RelativeLayout>

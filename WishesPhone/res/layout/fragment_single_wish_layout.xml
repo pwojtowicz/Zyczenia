@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/ll_our_rating"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true" >
+
+        <RelativeLayout
+            android:id="@+id/rl1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="10dp" >
+
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:src="@drawable/cbx_star_enabled" />
+
+            <TextView
+                android:id="@+id/tv_rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:text="7.2"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/textView1"
+            style="@style/Style_TextWithShadow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/rl1"
+            android:text="@string/our_rating"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <TextView
+            android:id="@+id/textView2"
+            style="@style/Style_TextWithShadow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="18dp"
+            android:text="(1/122)"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:id="@+id/sv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/btn_favorite"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/ll_our_rating"
+        android:layout_margin="10dp" >
+
+        <TextView
+            android:id="@+id/tv_wish"
+            style="@style/Style_TextWithShadow"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Życzenia bożonarodzeniowe, ciepłe, serdeczne, pełne miłości i radości – czyli teksty idealnie oddające atomsferę towarzyszącą Świętom Bożego Narodzenia, pasujące zarówno do wpisów na kartki świąteczne, jak i do wiadomości SMS"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btn_favorite"
+        style="@style/Style_TextWithShadow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/llbottom"
+        android:layout_alignParentLeft="true"
+        android:background="@color/btn_blue_selector"
+        android:drawableLeft="@drawable/cbx_star_disabled"
+        android:text="@string/add_to_favorites" />
+
+    <LinearLayout
+        android:id="@+id/llbottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:weightSum="1" >
+
+        <Button
+            android:id="@+id/button1"
+            style="@style/Style_TextWithShadow"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:background="@color/btn_blue_selector"
+            android:text="&lt;" />
+
+        <Button
+            android:id="@+id/button3"
+            style="@style/Style_TextWithShadow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.4"
+            android:background="@color/btn_blue_selector"
+            android:text="Podziel się" />
+
+        <Button
+            android:id="@+id/button2"
+            style="@style/Style_TextWithShadow"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_weight="0.3"
+            android:background="@color/btn_blue_selector"
+            android:text=">" />
+
+    </LinearLayout>
+
+</RelativeLayout>
