@@ -1,8 +1,7 @@
 <resources>
 
     <string name="app_name">WishesBase</string>
-    <string name="add_to_favorites">Dodaj do ulubionych</string>
-    <string name="removed_from_favorites">Usuń z ulubionych</string>
+   
     <string name="our_rating">Nasza ocena</string>
     <string name="categores">Kategorie:</string>
     <string name="aboutApp">O programie</string>

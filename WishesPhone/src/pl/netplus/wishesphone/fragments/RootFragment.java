@@ -11,6 +11,7 @@ import pl.netplus.wishesphone.WishesActivity;
 import pl.netplus.wishesphone.support.WishesGlobals;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -56,9 +57,16 @@ public class RootFragment extends BaseFragment<Object> implements
 	}
 
 	@Override
-	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-		Intent intent = new Intent(getActivity(), WishesActivity.class);
-		startActivity(intent);
+	public void onItemClick(AdapterView<?> arg0, View view, int arg2, long arg3) {
+
+		Category cat = (Category) view.getTag();
+		if (cat != null) {
+			Intent intent = new Intent(getActivity(), WishesActivity.class);
+			Bundle b = new Bundle();
+			b.putInt(WishesActivity.BUNDLE_CATEGORY_ID, cat.getId());
+			intent.putExtras(b);
+			startActivity(intent);
+		}
 	}
 
 }

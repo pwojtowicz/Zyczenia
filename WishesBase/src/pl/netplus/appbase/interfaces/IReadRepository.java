@@ -7,7 +7,7 @@ public interface IReadRepository {
 
 	void onTaskEnd();
 
-	void onTaskStart();
+	void onTaskStart(String message);
 
 	void onTaskResponse(AsyncTaskResult response);
 

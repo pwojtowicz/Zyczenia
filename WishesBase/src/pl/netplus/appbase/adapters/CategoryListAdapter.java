@@ -23,6 +23,8 @@ public class CategoryListAdapter extends BaseListAdapter<Category> {
 			Category cat = (Category) item;
 			name.setText(cat.getName() + " (" + String.valueOf(cat.getCount())
 					+ ")");
+
+			convertView.setTag(cat);
 		}
 
 		return convertView;

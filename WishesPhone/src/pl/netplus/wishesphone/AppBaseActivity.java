@@ -18,9 +18,12 @@ public abstract class AppBaseActivity extends FragmentActivity implements
 	}
 
 	@Override
-	public void onTaskStart() {
+	public void onTaskStart(String message) {
 		dialog = new ProgressDialog(this);
-		dialog.setMessage("Pobieranie");
+
+		if (message.length() == 0)
+			message = getString(R.string.progress_download_data);
+		dialog.setMessage(message);
 		dialog.setIndeterminate(true);
 		dialog.setCancelable(false);
 		dialog.show();

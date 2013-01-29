@@ -1,5 +1,6 @@
 package pl.netplus.appbase.asynctask;
 
+import pl.netplus.appbase.entities.ModelBase;
 import pl.netplus.appbase.enums.ERepositoryException;
 import pl.netplus.appbase.enums.ERepositoryManagerMethods;
 import pl.netplus.appbase.exception.RepositoryException;
@@ -15,12 +16,15 @@ public class ObjectsAsycnTask extends AsyncTask<Void, Void, Void> {
 	private ERepositoryManagerMethods method;
 	private IBaseRepository repository;
 	private ReadAllDataRepository repositoryItemContainer;
+	private ModelBase item;
 
 	public ObjectsAsycnTask(IReadRepository listener,
-			ERepositoryManagerMethods method, IBaseRepository repository) {
+			ERepositoryManagerMethods method, IBaseRepository repository,
+			ModelBase item) {
 		this.listener = listener;
 		this.method = method;
 		this.repository = repository;
+		this.item = item;
 
 	}
 
@@ -37,6 +41,12 @@ public class ObjectsAsycnTask extends AsyncTask<Void, Void, Void> {
 		try {
 
 			switch (method) {
+			case InsertOrUpdate:
+				if (repository != null) {
+					Thread.sleep(5000);
+					response.bundle = repository.insertOrUpdate(item);
+				}
+				break;
 			case Read:
 				break;
 			case ReadAll:
@@ -77,7 +87,7 @@ public class ObjectsAsycnTask extends AsyncTask<Void, Void, Void> {
 	public void onPreExecute() {
 		super.onPreExecute();
 		if (listener != null) {
-			listener.onTaskStart();
+			listener.onTaskStart("");
 		}
 	}
 

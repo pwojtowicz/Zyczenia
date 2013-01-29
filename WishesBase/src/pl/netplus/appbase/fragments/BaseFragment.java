@@ -11,6 +11,7 @@ public abstract class BaseFragment<T> extends Fragment {
 
 	private int resources;
 	private ERepositoryTypes repositoryType;
+	protected View convertView;
 
 	public BaseFragment(int resources, ERepositoryTypes repositoryType) {
 
@@ -21,7 +22,7 @@ public abstract class BaseFragment<T> extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View convertView = inflater.inflate(this.resources, null);
+		convertView = inflater.inflate(this.resources, null);
 		linkViews(convertView);
 		return convertView;
 	}

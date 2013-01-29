@@ -22,4 +22,10 @@ public class CategoriesRepository implements IBaseRepository<Category> {
 		return categories;
 	}
 
+	@Override
+	public boolean insertOrUpdate(Category item) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

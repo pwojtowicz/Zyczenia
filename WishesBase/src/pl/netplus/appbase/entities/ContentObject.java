@@ -4,10 +4,14 @@ public class ContentObject extends ModelBase {
 
 	private String text;
 	private boolean isFavorites;
-	private Double rating;
+	private double rating;
 
-	public ContentObject(String value) {
+	public ContentObject(int id, String value, double rating,
+			boolean isFavorites) {
+		super.setId(id);
 		this.text = value;
+		this.rating = rating;
+		this.isFavorites = isFavorites;
 	}
 
 	public ContentObject() {
