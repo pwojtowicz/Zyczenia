@@ -3,6 +3,7 @@ package pl.netplus.appbase.repositories;
 import java.util.ArrayList;
 
 import pl.netplus.appbase.entities.Favorite;
+import pl.netplus.appbase.httpconnection.IHttpRequestToAsyncTaskCommunication;
 import pl.netplus.appbase.interfaces.IBaseRepository;
 
 public class FavoritesRepository implements IBaseRepository<Favorite> {
@@ -20,6 +21,13 @@ public class FavoritesRepository implements IBaseRepository<Favorite> {
 	@Override
 	public boolean insertOrUpdate(Favorite item) {
 		return false;
+	}
+
+	@Override
+	public ArrayList<Favorite> getFromServer(
+			IHttpRequestToAsyncTaskCommunication listener) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

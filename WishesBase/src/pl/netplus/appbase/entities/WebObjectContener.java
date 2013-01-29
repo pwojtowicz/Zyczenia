@@ -7,24 +7,12 @@ import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonSerialize(include = Inclusion.NON_NULL)
-public class ModelBase {
+public class WebObjectContener {
 
-	public ModelBase() {
+	@JsonProperty("polaczenie")
+	public String connection;
 
-	}
+	@JsonProperty("utime_serwera")
+	public int serverTime;
 
-	public ModelBase(int id) {
-		this.id = id;
-	}
-
-	@JsonProperty("Id")
-	private int id;
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
 }

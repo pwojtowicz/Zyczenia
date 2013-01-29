@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DataBaseHelper extends SQLiteOpenHelper {
 
 	private static final String DATABASE_NAME = "netpluswishes.db";
-	private static final int DATABASE_VERSION = 1;
+	private static final int DATABASE_VERSION = 2;
 
 	public static final String TABLE_CATEGORIES = "Category";
 	public static final String TABLE_OBJECTS = "Objects";
@@ -15,11 +15,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
 	private static final String CREATE_CATEGORIES = "create table "
 			+ TABLE_CATEGORIES
-			+ "(ID integer primary key autoincrement, Name text not null);";
+			+ "(ID integer primary key autoincrement, Name text not null, ItemCount integer not null);";
 
 	private static final String CREATE_OBJECTS = "create table "
 			+ TABLE_OBJECTS
-			+ "(ID integer primary key autoincrement, Content text not null, CategoryId integer, Rating REAL);";
+			+ "(ID integer primary key autoincrement, Content text not null, Categories text, Rating REAL);";
 
 	private static final String CREATE_FAVORITES = "create table "
 			+ TABLE_FAVORITES
@@ -37,7 +37,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 		database.execSQL(CREATE_CATEGORIES);
 		database.execSQL(CREATE_OBJECTS);
 		database.execSQL(CREATE_FAVORITES);
-
 	}
 
 	@Override
@@ -45,7 +44,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_CATEGORIES);
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_OBJECTS);
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_FAVORITES);
-
 	}
 
 }

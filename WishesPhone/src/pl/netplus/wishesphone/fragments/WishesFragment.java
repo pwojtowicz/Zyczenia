@@ -35,6 +35,7 @@ public class WishesFragment extends BaseFragment<ContentObject> implements
 	private Button btn_next;
 	private Button btn_previous;
 	private Button btn_favorite;
+	private TextView tv_lenght;
 
 	@Override
 	public void onResume() {
@@ -52,6 +53,7 @@ public class WishesFragment extends BaseFragment<ContentObject> implements
 				.findViewById(R.id.txtv_actual_element_number);
 
 		tv_wish = (TextView) convertView.findViewById(R.id.txtv_wish);
+		tv_lenght = (TextView) convertView.findViewById(R.id.txtv_lenght);
 
 		tv_rating = (TextView) convertView.findViewById(R.id.txtv_rating);
 
@@ -116,6 +118,9 @@ public class WishesFragment extends BaseFragment<ContentObject> implements
 			tv_actual.setText(String.format("%d/%d", actualWishId + 1,
 					objects.size()));
 
+			tv_lenght.setText(String.format("znaki: %d", object.getText()
+					.length()));
+
 			tv_wish.setText(object.getText());
 
 			tv_rating.setText(String.format("%.2f", object.getRating()));
@@ -175,8 +180,8 @@ public class WishesFragment extends BaseFragment<ContentObject> implements
 	}
 
 	@Override
-	public void onTaskProgress() {
-		((AppBaseActivity) getActivity()).onTaskProgress();
+	public void onTaskProgressUpdate(int actualProgress) {
+		((AppBaseActivity) getActivity()).onTaskProgressUpdate(actualProgress);
 
 	}
 

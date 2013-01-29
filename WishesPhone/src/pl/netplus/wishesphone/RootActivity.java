@@ -17,16 +17,17 @@ public class RootActivity extends AppBaseActivity {
 	private RootFragment details;
 
 	@Override
+	public void onResume() {
+		super.onResume();
+		ObjectManager manager = new ObjectManager();
+		// manager.readAll(this, ERepositoryTypes.Categories);
+		manager.readFromServer(this, ERepositoryTypes.Categories);
+	}
+
+	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_root);
-
-		// ItemContainerManager manager = new ItemContainerManager();
-		//
-		// manager.readAllData(this);
-
-		ObjectManager manager = new ObjectManager();
-		manager.readAll(this, ERepositoryTypes.Categories);
 
 		details = new RootFragment();
 

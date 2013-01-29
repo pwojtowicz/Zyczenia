@@ -13,6 +13,6 @@ public interface IReadRepository {
 
 	void onTaskInvalidResponse(RepositoryException exception);
 
-	void onTaskProgress();
+	void onTaskProgressUpdate(int actualProgress);
 
 }

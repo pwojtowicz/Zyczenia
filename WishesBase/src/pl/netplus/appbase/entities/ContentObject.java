@@ -1,10 +1,27 @@
 package pl.netplus.appbase.entities;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonSerialize(include = Inclusion.NON_NULL)
 public class ContentObject extends ModelBase {
 
+	@JsonProperty("Text")
 	private String text;
 	private boolean isFavorites;
+
+	@JsonProperty("Category")
+	private String category;
+
+	@JsonProperty("Rating")
 	private double rating;
+
+	public ContentObject() {
+
+	}
 
 	public ContentObject(int id, String value, double rating,
 			boolean isFavorites) {
@@ -12,10 +29,6 @@ public class ContentObject extends ModelBase {
 		this.text = value;
 		this.rating = rating;
 		this.isFavorites = isFavorites;
-	}
-
-	public ContentObject() {
-
 	}
 
 	public String getText() {
@@ -40,6 +53,14 @@ public class ContentObject extends ModelBase {
 
 	public void setRating(Double rating) {
 		this.rating = rating;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
 	}
 
 }

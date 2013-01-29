@@ -4,12 +4,14 @@ import pl.netplus.appbase.entities.ModelBase;
 import pl.netplus.appbase.enums.ERepositoryException;
 import pl.netplus.appbase.enums.ERepositoryManagerMethods;
 import pl.netplus.appbase.exception.RepositoryException;
+import pl.netplus.appbase.httpconnection.IHttpRequestToAsyncTaskCommunication;
 import pl.netplus.appbase.interfaces.IBaseRepository;
 import pl.netplus.appbase.interfaces.IReadRepository;
 import pl.netplus.appbase.repositories.ReadAllDataRepository;
 import android.os.AsyncTask;
 
-public class ObjectsAsycnTask extends AsyncTask<Void, Void, Void> {
+public class ObjectsAsycnTask extends AsyncTask<Void, Void, Void> implements
+		IHttpRequestToAsyncTaskCommunication {
 
 	private AsyncTaskResult response;
 	private IReadRepository listener;
@@ -39,11 +41,10 @@ public class ObjectsAsycnTask extends AsyncTask<Void, Void, Void> {
 	protected Void doInBackground(Void... params) {
 		response = new AsyncTaskResult();
 		try {
-
 			switch (method) {
 			case InsertOrUpdate:
 				if (repository != null) {
-					Thread.sleep(5000);
+
 					response.bundle = repository.insertOrUpdate(item);
 				}
 				break;
@@ -52,6 +53,11 @@ public class ObjectsAsycnTask extends AsyncTask<Void, Void, Void> {
 			case ReadAll:
 				if (repository != null) {
 					response.bundle = repository.readAll();
+				}
+				break;
+			case ReadFromServer:
+				if (repository != null) {
+					response.bundle = repository.getFromServer(this);
 				}
 				break;
 			case ReadItemContainer:
@@ -94,13 +100,29 @@ public class ObjectsAsycnTask extends AsyncTask<Void, Void, Void> {
 	public void onProgressUpdate(Void... values) {
 		super.onProgressUpdate(values);
 		if (listener != null) {
-			listener.onTaskProgress();
+			listener.onTaskProgressUpdate(1);
 		}
 	}
 
 	public class AsyncTaskResult {
 		public Object bundle;
 		public RepositoryException exception;
+	}
+
+	@Override
+	public void onObjectsProgressUpdate(int progressPercent) {
+		if (listener != null) {
+			int actualProgress = 100 / progressPercent;
+			actualProgress = actualProgress + progressPercent / 1;
+			listener.onTaskProgressUpdate(actualProgress);
+		}
+
+	}
+
+	@Override
+	public boolean checkIsTaskCancled() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

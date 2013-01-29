@@ -32,7 +32,12 @@ public class WishesGlobals {
 	}
 
 	public void setCategories(ArrayList<Category> categories) {
-		this.categories = categories;
+
+		this.categories = new ArrayList<Category>();
+		for (Category category : categories) {
+			if (category.getCount() > 0)
+				this.categories.add(category);
+		}
 	}
 
 	public void setObjectsDictionary(int categoryId,
