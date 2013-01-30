@@ -5,9 +5,12 @@ import pl.netplus.appbase.exception.RepositoryException;
 import pl.netplus.appbase.interfaces.IReadRepository;
 import pl.netplus.wishesbase.support.StringHelper;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
+import android.view.MenuItem;
 
 public abstract class AppBaseActivity extends FragmentActivity implements
 		IReadRepository {
@@ -107,6 +110,26 @@ public abstract class AppBaseActivity extends FragmentActivity implements
 
 	public String getSignature() {
 		return pref_signature;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			break;
+		case R.id.menu_settings:
+			if (Build.VERSION.SDK_INT < 11) {
+				startActivity(new Intent(this, PreferencesOldActivity.class));
+			} else {
+				startActivity(new Intent(this, PreferencesNewActivity.class));
+			}
+			break;
+		case R.id.menu_search:
+			break;
+		case R.id.menu_share:
+			break;
+		}
+		return true;
 	}
 
 }

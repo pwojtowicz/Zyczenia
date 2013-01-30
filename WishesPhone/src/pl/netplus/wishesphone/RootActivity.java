@@ -9,12 +9,9 @@ import pl.netplus.appbase.enums.ERepositoryTypes;
 import pl.netplus.appbase.managers.ObjectManager;
 import pl.netplus.wishesphone.fragments.RootFragment;
 import pl.netplus.wishesphone.support.WishesGlobals;
-import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
-import android.view.MenuItem;
 
 public class RootActivity extends AppBaseActivity {
 
@@ -54,22 +51,6 @@ public class RootActivity extends AppBaseActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.activity_root, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case android.R.id.home:
-			break;
-		case R.id.menu_settings:
-			if (Build.VERSION.SDK_INT < 11) {
-				startActivity(new Intent(this, PreferencesOldActivity.class));
-			} else {
-				startActivity(new Intent(this, PreferencesNewActivity.class));
-			}
-			break;
-		}
 		return true;
 	}
 

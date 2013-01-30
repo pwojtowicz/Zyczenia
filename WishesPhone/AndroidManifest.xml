@@ -33,10 +33,12 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="pl.netplus.wishesphone.PreferencesOldActivity" >
+            android:name="pl.netplus.wishesphone.PreferencesOldActivity" 
+            android:label="@string/title_activity_preferences">
         </activity>
         <activity
-            android:name="pl.netplus.wishesphone.PreferencesNewActivity" >
+            android:name="pl.netplus.wishesphone.PreferencesNewActivity" 
+            android:label="@string/title_activity_preferences">
         </activity>
     </application>
 
