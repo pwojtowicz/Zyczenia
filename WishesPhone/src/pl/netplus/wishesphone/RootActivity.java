@@ -20,8 +20,8 @@ public class RootActivity extends AppBaseActivity {
 	public void onResume() {
 		super.onResume();
 		ObjectManager manager = new ObjectManager();
-		manager.readAll(this, ERepositoryTypes.Categories);
-		// manager.readFromServer(this, ERepositoryTypes.Categories);
+		// manager.readAll(this, ERepositoryTypes.Categories);
+		manager.readFromServer(this, ERepositoryTypes.Categories);
 	}
 
 	@Override

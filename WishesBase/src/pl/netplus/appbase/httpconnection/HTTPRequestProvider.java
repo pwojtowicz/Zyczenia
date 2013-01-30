@@ -1,10 +1,13 @@
 package pl.netplus.appbase.httpconnection;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.zip.GZIPInputStream;
 
 public class HTTPRequestProvider {
@@ -48,15 +51,15 @@ public class HTTPRequestProvider {
 
 			InputStream in = getConnectionInputStream(connection);
 
-			ByteArrayOutputStream byteArray = readInpdutStream(in, fileSize,
-					listener);
+			// ByteArrayOutputStream byteArray = readInpdutStream(in, fileSize,
+			// listener);
 			try {
-				response = byteArray.toString();
+				response = readFromInputStream(in, fileSize, listener);// byteArray.toString();
 			} catch (Exception e) {
 
 			}
 
-			rawResponse = byteArray.toByteArray();
+			// rawResponse = byteArray.toByteArray();
 
 			connection.disconnect();
 			connection = null;
@@ -94,6 +97,20 @@ public class HTTPRequestProvider {
 			input = new GZIPInputStream(input);
 
 		return input;
+	}
+
+	private static String readFromInputStream(InputStream inputStream,
+			int fileSize, IHttpRequestToAsyncTaskCommunication listener)
+			throws IOException {
+		InputStreamReader inp = new InputStreamReader(inputStream,
+				Charset.forName("ISO-8859-2"));
+		BufferedReader rd = new BufferedReader(inp);
+		String l;
+		String response = "";
+		while ((l = rd.readLine()) != null) {
+			response += l;
+		}
+		return response;
 	}
 
 	private static ByteArrayOutputStream readInpdutStream(
