@@ -83,6 +83,13 @@ public class CategoriesRepository implements IBaseRepository<Category> {
 		} catch (CommunicationException e) {
 			e.printStackTrace();
 		}
-		return new ArrayList<Category>(Arrays.asList(content.items));
+
+		ArrayList<Category> items = new ArrayList<Category>(
+				Arrays.asList(content.items));
+
+		for (Category category : items) {
+			insertOrUpdate(category);
+		}
+		return items;
 	}
 }

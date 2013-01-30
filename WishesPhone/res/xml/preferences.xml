@@ -1,0 +1,33 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" android:title="...">
+    
+    <CheckBoxPreference
+            android:key="prop_replace"
+            android:defaultValue="false"
+            android:title="@string/preference_title_replace" 
+            android:summary="@string/preference_summary_replace"/>
+    
+    <CheckBoxPreference
+            android:key="prop_add_signature"
+            android:defaultValue="false"
+            android:title="@string/preference_title_add_signature"
+            android:summary="@string/preference_summary_add_signature" />
+     
+    <EditTextPreference
+        	android:dependency="prop_add_signature"
+            android:key="prop_signature"
+           	android:title="@string/preference_title_signature"
+            android:dialogTitle="@string/preference_title_signature"
+            android:defaultValue="@string/preference_default_signature" />
+    
+    <EditTextPreference 
+        	android:title="prop_last_update_date"
+        	android:key="prop_last_update_date"
+        	android:defaultValue="0"
+        	/>
+    <EditTextPreference 
+        android:title="prop_next_update_date"
+        	android:key="prop_next_update_date"
+        	android:defaultValue=""
+        	/>
+
+</PreferenceScreen>

@@ -2,16 +2,14 @@ package pl.netplus.appbase.adapters;
 
 import java.util.ArrayList;
 
+import pl.netplus.appbase.entities.FragmentObject;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.view.View;
-import pl.netplus.appbase.entities.FragmentObject;
+
 public class FragmentAdapter extends FragmentPagerAdapter {
 
 	protected ArrayList<FragmentObject> fragments = new ArrayList<FragmentObject>();
-
 
 	public FragmentAdapter(FragmentManager fm,
 			ArrayList<FragmentObject> fragments, int startIndex) {
@@ -21,9 +19,10 @@ public class FragmentAdapter extends FragmentPagerAdapter {
 
 	@Override
 	public Fragment getItem(int i) {
-
 		FragmentObject fragmentObject = fragments.get(i);
-		
+
+		// BaseFragment t = (BaseFragment)
+
 		return fragmentObject.getFragment();
 	}
 
@@ -37,27 +36,27 @@ public class FragmentAdapter extends FragmentPagerAdapter {
 		return FragmentPagerAdapter.POSITION_NONE;
 	}
 
-	@Override
-	public CharSequence getPageTitle(int position) {
-		FragmentObject fo = fragments.get(position);
-		if (fo != null) {
-			return fo.getTitle();
-		}
-		return "";
-	}
+	// @Override
+	// public CharSequence getPageTitle(int position) {
+	// FragmentObject fo = fragments.get(position);
+	// if (fo != null) {
+	// return fo.getTitle();
+	// }
+	// return "";
+	// }
 
-	public void addFragment(FragmentObject newFragment) {
-		fragments.add(newFragment);
-		this.notifyDataSetChanged();
-	}
-
-	public void removeFragment(int fragmentIndex) {
-		fragments.remove(fragmentIndex);
-		this.notifyDataSetChanged();
-	}
-
-	@Override
-	public void destroyItem(View collection, int position, Object view) {
-		((ViewPager) collection).removeView((View) view);
-	}
+	// public void addFragment(FragmentObject newFragment) {
+	// fragments.add(newFragment);
+	// this.notifyDataSetChanged();
+	// }
+	//
+	// public void removeFragment(int fragmentIndex) {
+	// fragments.remove(fragmentIndex);
+	// this.notifyDataSetChanged();
+	// }
+	//
+	// @Override
+	// public void destroyItem(View collection, int position, Object view) {
+	// ((ViewPager) collection).removeView((View) view);
+	// }
 }

@@ -2,15 +2,25 @@
 <resources>
 
     <string name="app_name">Życzenia</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="menu_settings">Settings</string>
+    <string name="menu_settings">Ustawienia</string>
     <string name="title_activity_wishes">Życzenia</string>
     <string name="title_activity_main">MainActivity</string>
-    
     <string name="add_to_favorites">Dodaj do ulubionych</string>
     <string name="removed_from_favorites">Usuń z ulubionych</string>
-    
     <string name="progress_download_data">Pobieranie danych</string>
     <string name="progress_save_changes">Zapisywanie zmian</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_preferences">Ustawienia</string>
+    <string name="title_activity_preferences_old">Ustawienia</string>
+    <string name="title_activity_preferences_new">PreferencesNewActivity</string>
+    
+    
+    <string name="preference_title_replace">Polskie znaki</string>
+    <string name="preference_summary_replace">Podmiana polskich znaków przed wysłaniem treści</string>
+    
+    <string name="preference_title_add_signature">Dodaj podpis</string>
+    <string name="preference_summary_add_signature">Dodaje ustawiony podpis, do udostępnianej treści</string>
+    <string name="preference_title_signature">Podpis</string>
+    <string name="preference_default_signature">życzy: </string>
 
 </resources>

@@ -7,10 +7,10 @@
     <uses-sdk
         android:minSdkVersion="10"
         android:targetSdkVersion="16" />
-    
+
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.VIBRATE"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -19,7 +19,8 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="pl.netplus.wishesphone.RootActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,7 +29,14 @@
         </activity>
         <activity
             android:name="pl.netplus.wishesphone.WishesActivity"
-            android:label="@string/title_activity_wishes" >
+            android:label="@string/title_activity_wishes"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="pl.netplus.wishesphone.PreferencesOldActivity" >
+        </activity>
+        <activity
+            android:name="pl.netplus.wishesphone.PreferencesNewActivity" >
         </activity>
     </application>
 

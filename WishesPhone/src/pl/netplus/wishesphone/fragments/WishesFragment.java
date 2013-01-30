@@ -1,7 +1,5 @@
 package pl.netplus.wishesphone.fragments;
 
-import java.util.ArrayList;
-
 import pl.netplus.appbase.asynctask.ObjectsAsycnTask.AsyncTaskResult;
 import pl.netplus.appbase.entities.ContentObject;
 import pl.netplus.appbase.enums.ERepositoryTypes;
@@ -11,10 +9,7 @@ import pl.netplus.appbase.interfaces.IReadRepository;
 import pl.netplus.appbase.managers.ObjectManager;
 import pl.netplus.wishesphone.AppBaseActivity;
 import pl.netplus.wishesphone.R;
-import pl.netplus.wishesphone.WishesActivity;
-import pl.netplus.wishesphone.support.WishesGlobals;
 import android.graphics.drawable.Drawable;
-import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -23,59 +18,39 @@ import android.widget.TextView;
 public class WishesFragment extends BaseFragment<ContentObject> implements
 		IReadRepository {
 
-	private ContentObject item;
-	private int currentCategoryId;
+	private ContentObject contentObject;
 
-	private int actualWishId = 0;
-
-	private ArrayList<ContentObject> objects;
-	private TextView tv_actual;
 	private TextView tv_wish;
 	private TextView tv_rating;
-	private Button btn_next;
-	private Button btn_previous;
 	private Button btn_favorite;
 	private TextView tv_lenght;
+
+	public WishesFragment() {
+		super(R.layout.fragment_single_wish_layout, ERepositoryTypes.SingleWish);
+
+	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
-		reload();
-	}
+		linkViews(super.convertView);
+		reloadContent();
 
-	public WishesFragment() {
-		super(R.layout.fragment_single_wish_layout, ERepositoryTypes.SingleWish);
+		System.out.println("ContentObjectId: "
+				+ String.valueOf(contentObject.getId()));
 	}
 
 	@Override
 	public void linkViews(View convertView) {
-		tv_actual = (TextView) convertView
-				.findViewById(R.id.txtv_actual_element_number);
+		// tv_actual = (TextView) convertView
+		// .findViewById(R.id.txtv_actual_element_number);
 
 		tv_wish = (TextView) convertView.findViewById(R.id.txtv_wish);
 		tv_lenght = (TextView) convertView.findViewById(R.id.txtv_lenght);
 
 		tv_rating = (TextView) convertView.findViewById(R.id.txtv_rating);
 
-		btn_next = (Button) convertView.findViewById(R.id.btn_next);
-		btn_previous = (Button) convertView.findViewById(R.id.btn_previous);
 		btn_favorite = (Button) convertView.findViewById(R.id.btn_favorite);
-
-		btn_next.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View arg0) {
-				nextItem();
-			}
-		});
-
-		btn_previous.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View arg0) {
-				previousItem();
-			}
-		});
 
 		btn_favorite.setOnClickListener(new OnClickListener() {
 
@@ -87,47 +62,31 @@ public class WishesFragment extends BaseFragment<ContentObject> implements
 	}
 
 	protected void changeFavoriteState() {
-		if (objects != null && objects.size() > 0) {
-			ContentObject object = objects.get(actualWishId);
-			object.setFavorites(!object.isFavorites());
-
+		if (contentObject != null) {
+			contentObject.setFavorites(!contentObject.isFavorites());
 			ObjectManager manager = new ObjectManager();
-			manager.insertOrUpdate(this, ERepositoryTypes.Favorite, object);
-			reloadContent();
-		}
-	}
-
-	protected void previousItem() {
-		if (actualWishId > 0) {
-			actualWishId--;
-			reloadContent();
-		}
-	}
-
-	protected void nextItem() {
-		if (actualWishId < objects.size() - 1) {
-			actualWishId++;
+			manager.insertOrUpdate(this, ERepositoryTypes.Favorite,
+					contentObject);
 			reloadContent();
 		}
 	}
 
 	public void reloadContent() {
-		if (objects != null && objects.size() > 0) {
-			ContentObject object = objects.get(actualWishId);
+		if (contentObject != null) {
 
-			tv_actual.setText(String.format("%d/%d", actualWishId + 1,
-					objects.size()));
+			// tv_actual.setText(String.format("%d/%d", actualWishId + 1,
+			// contentObject.size()));
 
-			tv_lenght.setText(String.format("znaki: %d", object.getText()
-					.length()));
+			tv_lenght.setText(String.format("znaki: %d", contentObject
+					.getText().length()));
 
-			tv_wish.setText(object.getText());
+			tv_wish.setText(contentObject.getText());
 
-			tv_rating.setText(String.format("%.2f", object.getRating()));
+			tv_rating.setText(String.format("%.2f", contentObject.getRating()));
 
 			Drawable drawable = null;
 			String text = "";
-			if (object.isFavorites()) {
+			if (contentObject.isFavorites()) {
 				drawable = getResources().getDrawable(
 						R.drawable.cbx_star_enabled);
 				text = getString(R.string.removed_from_favorites);
@@ -144,16 +103,7 @@ public class WishesFragment extends BaseFragment<ContentObject> implements
 
 	@Override
 	public void reload() {
-		Bundle b = getArguments();
-		if (b != null) {
-			currentCategoryId = b.getInt(WishesActivity.BUNDLE_CATEGORY_ID);
 
-			objects = WishesGlobals.getInstance().getCategoriesContentObjects(
-					currentCategoryId);
-
-			if (objects != null)
-				reloadContent();
-		}
 	}
 
 	@Override
@@ -165,7 +115,6 @@ public class WishesFragment extends BaseFragment<ContentObject> implements
 	public void onTaskStart(String message) {
 		((AppBaseActivity) getActivity())
 				.onTaskStart(getString(R.string.progress_save_changes));
-
 	}
 
 	@Override
@@ -176,13 +125,19 @@ public class WishesFragment extends BaseFragment<ContentObject> implements
 	@Override
 	public void onTaskInvalidResponse(RepositoryException exception) {
 		((AppBaseActivity) getActivity()).onTaskInvalidResponse(exception);
-
 	}
 
 	@Override
 	public void onTaskProgressUpdate(int actualProgress) {
 		((AppBaseActivity) getActivity()).onTaskProgressUpdate(actualProgress);
+	}
 
+	public ContentObject getContentObject() {
+		return contentObject;
+	}
+
+	public void setContentObject(ContentObject contentObject) {
+		this.contentObject = contentObject;
 	}
 
 }

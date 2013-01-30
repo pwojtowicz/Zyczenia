@@ -88,7 +88,12 @@ public class ContentObjectRepository implements IBaseRepository<ContentObject> {
 		} catch (CommunicationException e) {
 			e.printStackTrace();
 		}
-		return new ArrayList<ContentObject>(Arrays.asList(content.items));
+		ArrayList<ContentObject> items = new ArrayList<ContentObject>(
+				Arrays.asList(content.items));
+		// for (ContentObject contentObject : items) {
+		// insertOrUpdate(contentObject);
+		// }
+		return items;
 	}
 
 }

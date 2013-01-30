@@ -57,14 +57,6 @@
             android:orientation="vertical" >
 
             <TextView
-                android:id="@+id/txtv_actual_element_number"
-                style="@style/Style_TextWithShadow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="(1/1)"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-
-            <TextView
                 android:id="@+id/txtv_lenght"
                 style="@style/Style_TextWithShadow"
                 android:layout_width="wrap_content"
@@ -98,49 +90,10 @@
         style="@style/Style_TextWithShadow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/llbottom"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:background="@color/btn_blue_selector"
         android:drawableLeft="@drawable/cbx_star_disabled"
         android:text="@string/add_to_favorites" />
-
-    <LinearLayout
-        android:id="@+id/llbottom"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:weightSum="1" >
-
-        <Button
-            android:id="@+id/btn_previous"
-            style="@style/Style_TextWithShadow"
-            android:layout_width="40dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.3"
-            android:background="@color/btn_blue_selector"
-            android:text="&lt;" />
-
-        <Button
-            android:id="@+id/btn_share"
-            style="@style/Style_TextWithShadow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.4"
-            android:background="@color/btn_blue_selector"
-            android:text="Podziel się" />
-
-        <Button
-            android:id="@+id/btn_next"
-            style="@style/Style_TextWithShadow"
-            android:layout_width="40dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_weight="0.3"
-            android:background="@color/btn_blue_selector"
-            android:text=">" />
-
-    </LinearLayout>
 
 </RelativeLayout>
