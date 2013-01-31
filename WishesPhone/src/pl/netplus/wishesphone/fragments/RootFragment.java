@@ -125,13 +125,14 @@ public class RootFragment extends BaseFragment<Object> implements
 
 		Category cat = (Category) view.getTag();
 		if (cat != null) {
-			startWishesIntent(cat.getId());
+			startWishesIntent(cat.getId(), cat.getName());
 		}
 	}
 
 	protected void showFavoritesWish() {
 		if (NetPlusAppGlobals.getInstance().getFavoritesCount() > 0)
-			startWishesIntent(NetPlusAppGlobals.ITEMS_FAVORITE);
+			startWishesIntent(NetPlusAppGlobals.ITEMS_FAVORITE,
+					getText(pl.netplus.appbase.R.string.favorites).toString());
 		else {
 			DialogHelper.createDialog(getActivity(), EDialogType.No_Favorites)
 					.show();
@@ -139,13 +140,15 @@ public class RootFragment extends BaseFragment<Object> implements
 	}
 
 	protected void showRandomWish() {
-		startWishesIntent(NetPlusAppGlobals.ITEMS_ALL);
+		startWishesIntent(NetPlusAppGlobals.ITEMS_ALL,
+				getText(pl.netplus.appbase.R.string.randomObjects).toString());
 	}
 
-	private void startWishesIntent(int categoryId) {
+	private void startWishesIntent(int categoryId, String title) {
 		Intent intent = new Intent(getActivity(), WishesActivity.class);
 		Bundle b = new Bundle();
 		b.putInt(WishesActivity.BUNDLE_CATEGORY_ID, categoryId);
+		b.putString(WishesActivity.BUNDLE_TITLE, title);
 		intent.putExtras(b);
 		startActivity(intent);
 	}

@@ -1,6 +1,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/LinearLayout1"
+      android:id="@+id/LinearLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/app_background_dark"
@@ -47,5 +47,6 @@
         android:layout_marginTop="20dp"
         android:background="@color/btn_blue_selector"
         android:text="@string/menu_search" />
+
 
 </LinearLayout>

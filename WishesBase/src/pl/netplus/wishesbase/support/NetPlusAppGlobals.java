@@ -18,6 +18,7 @@ public class NetPlusAppGlobals {
 	private ArrayList<Category> categories;
 	private ArrayList<Integer> favorites;
 	private HashMap<Integer, ArrayList<ContentObject>> objectsDictionary;
+	private boolean hideEmptyCategories;
 
 	public static NetPlusAppGlobals getInstance() {
 		if (instance == null) {
@@ -33,16 +34,25 @@ public class NetPlusAppGlobals {
 	private NetPlusAppGlobals() {
 	}
 
+	public void setHideEmptyCategories(boolean hideEmptyCategories) {
+		this.hideEmptyCategories = hideEmptyCategories;
+	}
+
 	public void setCategories(ArrayList<Category> categories) {
-		this.categories = new ArrayList<Category>();
-		for (Category category : categories) {
-			if (category.getCount() > 0)
-				this.categories.add(category);
-		}
+		this.categories = categories;
 	}
 
 	public ArrayList<Category> getCategories() {
-		return categories;
+		ArrayList<Category> items = new ArrayList<Category>();
+		if (hideEmptyCategories) {
+			for (Category category : categories) {
+				if (category.getCount() > 0)
+					items.add(category);
+			}
+		} else
+			items = this.categories;
+
+		return items;
 	}
 
 	public void setObjectsDictionary(int categoryId,

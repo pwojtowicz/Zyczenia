@@ -3,6 +3,7 @@ package pl.netplus.wishesphone;
 import pl.netplus.appbase.database.DataBaseManager;
 import pl.netplus.appbase.exception.RepositoryException;
 import pl.netplus.appbase.interfaces.IReadRepository;
+import pl.netplus.wishesbase.support.NetPlusAppGlobals;
 import pl.netplus.wishesbase.support.StringHelper;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -43,6 +44,9 @@ public abstract class AppBaseActivity extends FragmentActivity implements
 			pref_signature = "\n" + (prefs.getString("prop_signature", ""));
 		else
 			pref_signature = ("");
+
+		NetPlusAppGlobals.getInstance().setHideEmptyCategories(
+				prefs.getBoolean("prop_hide_empty", true));
 	}
 
 	@Override

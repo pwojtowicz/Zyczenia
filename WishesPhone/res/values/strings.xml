@@ -8,6 +8,10 @@
     <string name="title_activity_wishes">Życzenia</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_preferences">Ustawienia</string>
+        
+    <string name="preference_title_hide_empty">Ukryj puste kategorie</string>
+    <string name="preference_summary_hide_empty">Ukrywa z listy kategorii te które nie zawierają życzeń</string>
+    
     <string name="preference_title_replace">Polskie znaki</string>
     <string name="preference_summary_replace">Podmiana polskich znaków przed wysłaniem treści</string>
     <string name="preference_title_add_signature">Dodaj podpis</string>
@@ -18,7 +22,7 @@
     <string name="title_activity_about">O programie</string>
     <string name="title_activity_search">Wyszukaj życzenia</string>
     <string name="text_to_search">Treść do wyszukania</string>
-    
     <string name="optional_select_category">Wybierz kategorię aby zawięźić kategorie wyszukiwania</string>
+    <string name="title_activity_test">TestActivity</string>
 
 </resources>

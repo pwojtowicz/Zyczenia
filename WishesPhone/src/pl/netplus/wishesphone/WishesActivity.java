@@ -28,6 +28,7 @@ public class WishesActivity extends AppBaseActivity {
 
 	public static final String BUNDLE_CATEGORY_ID = "catId";
 	private static final String BUNGLE_ACTUAL_PAGE_ID = "actualPageId";
+	public static final String BUNDLE_TITLE = "title";
 
 	private ViewPager mViewPager;
 	private FragmentAdapter fAdapter;
@@ -38,6 +39,7 @@ public class WishesActivity extends AppBaseActivity {
 	private Button btn_next;
 	private Button btn_previous;
 	private Button btn_share;
+	private String title = "";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -110,8 +112,8 @@ public class WishesActivity extends AppBaseActivity {
 	}
 
 	protected void changeActivityTitle() {
-		this.setTitle(String.format("(%d/%d)", mViewPager.getCurrentItem() + 1,
-				allItemCount));
+		this.setTitle(String.format("%s (%d/%d)", title,
+				mViewPager.getCurrentItem() + 1, allItemCount));
 	}
 
 	@Override
@@ -130,6 +132,11 @@ public class WishesActivity extends AppBaseActivity {
 		super.onResume();
 
 		Bundle b = getIntent().getExtras();
+
+		if (b != null) {
+			title = b.getString(BUNDLE_TITLE);
+			setTitle(title);
+		}
 
 		ArrayList<ContentObject> items = NetPlusAppGlobals.getInstance()
 				.getCategoriesContentObjects(categoryId);
