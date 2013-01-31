@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
@@ -47,6 +48,13 @@ public class RootFragment extends BaseFragment<Object> implements
 
 		listView.setOnItemClickListener(this);
 
+		btn_favorite.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View view) {
+				showFavorites();
+			}
+		});
 	}
 
 	@Override
@@ -65,12 +73,21 @@ public class RootFragment extends BaseFragment<Object> implements
 
 		Category cat = (Category) view.getTag();
 		if (cat != null) {
-			Intent intent = new Intent(getActivity(), WishesActivity.class);
-			Bundle b = new Bundle();
-			b.putInt(WishesActivity.BUNDLE_CATEGORY_ID, cat.getId());
-			intent.putExtras(b);
-			startActivity(intent);
+			startWishesActiviti(cat.getId());
 		}
+	}
+
+	protected void showFavorites() {
+		startWishesActiviti(WishesActivity.BUNDLE_FAVORITES);
+
+	}
+
+	private void startWishesActiviti(int categoryId) {
+		Intent intent = new Intent(getActivity(), WishesActivity.class);
+		Bundle b = new Bundle();
+		b.putInt(WishesActivity.BUNDLE_CATEGORY_ID, categoryId);
+		intent.putExtras(b);
+		startActivity(intent);
 	}
 
 	public void setFavoritesCount(int totalCount) {

@@ -30,6 +30,11 @@ public class ObjectManager {
 		return repository;
 	}
 
+	public void getDataWithoutSendObject(IReadRepository listener,
+			ERepositoryTypes type, ERepositoryManagerMethods method) {
+		startTask(listener, getRepository(type), method, null);
+	}
+
 	public void readById(IReadRepository listener, ERepositoryTypes type,
 			ModelBase item) {
 		startTask(listener, getRepository(type),

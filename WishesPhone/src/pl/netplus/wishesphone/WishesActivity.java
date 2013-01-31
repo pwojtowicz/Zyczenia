@@ -7,6 +7,7 @@ import pl.netplus.appbase.asynctask.ObjectsAsycnTask.AsyncTaskResult;
 import pl.netplus.appbase.entities.ContentObject;
 import pl.netplus.appbase.entities.FragmentObject;
 import pl.netplus.appbase.entities.ModelBase;
+import pl.netplus.appbase.enums.ERepositoryManagerMethods;
 import pl.netplus.appbase.enums.ERepositoryTypes;
 import pl.netplus.appbase.managers.ObjectManager;
 import pl.netplus.wishesphone.fragments.WishesFragment;
@@ -26,6 +27,7 @@ public class WishesActivity extends AppBaseActivity {
 
 	public static final String BUNDLE_CATEGORY_ID = "catId";
 	private static final String BUNGLE_ACTUAL_PAGE_ID = "actualPageId";
+	public static final int BUNDLE_FAVORITES = -1;
 
 	private ViewPager mViewPager;
 	private FragmentAdapter fAdapter;
@@ -139,6 +141,10 @@ public class WishesActivity extends AppBaseActivity {
 			if (categoryId > 0) {
 				manager.readById(this, ERepositoryTypes.ContentObject,
 						new ModelBase(categoryId));
+			} else if (categoryId == -1) {
+				manager.getDataWithoutSendObject(this,
+						ERepositoryTypes.ContentObject,
+						ERepositoryManagerMethods.ReadFavorites);
 			}
 			// manager.readFromServer(this, ERepositoryTypes.ContentObject);
 		}
@@ -202,7 +208,8 @@ public class WishesActivity extends AppBaseActivity {
 			ArrayList<ContentObject> objects = (ArrayList<ContentObject>) response.bundle;
 			WishesGlobals.getInstance().setObjectsDictionary(categoryId,
 					objects);
-			ReloadAllItems(objects);
+			ReloadAllItems(WishesGlobals.getInstance()
+					.getCategoriesContentObjects(categoryId));
 		}
 
 	}
