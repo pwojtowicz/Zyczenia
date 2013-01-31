@@ -10,7 +10,13 @@ public interface IBaseRepository<T> {
 
 	public abstract T read(int id);
 
+	public abstract int readTotalCount();
+
+	public abstract ArrayList<T> readById(int value);
+
 	public abstract ArrayList<T> readAll();
+
+	public abstract boolean delete(T item);
 
 	public ArrayList<T> getFromServer(
 			IHttpRequestToAsyncTaskCommunication listener);

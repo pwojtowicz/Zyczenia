@@ -25,5 +25,7 @@
     <string name="preference_summary_add_signature">Dodaje ustawiony podpis, do udostępnianej treści</string>
     <string name="preference_title_signature">Podpis</string>
     <string name="preference_default_signature">życzy: </string>
+    
+    <string name="favorites">Ulubione</string>
 
 </resources>

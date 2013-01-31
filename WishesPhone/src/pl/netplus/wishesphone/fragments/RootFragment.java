@@ -16,12 +16,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.ListView;
 
 public class RootFragment extends BaseFragment<Object> implements
 		OnItemClickListener {
 
 	private ListView listView;
+	private Button btn_favorite;
 
 	public RootFragment() {
 		super(R.layout.fragment_root_layout, ERepositoryTypes.Categories);
@@ -35,6 +37,8 @@ public class RootFragment extends BaseFragment<Object> implements
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 		View header = layoutInflater.inflate(R.layout.root_header_layout, null);
+
+		btn_favorite = (Button) header.findViewById(R.id.button_favorite);
 
 		View footer = layoutInflater.inflate(R.layout.root_footer_layout, null);
 
@@ -67,6 +71,14 @@ public class RootFragment extends BaseFragment<Object> implements
 			intent.putExtras(b);
 			startActivity(intent);
 		}
+	}
+
+	public void setFavoritesCount(int totalCount) {
+		if (totalCount < 0)
+			totalCount = 0;
+		btn_favorite.setText(String.format("%s (%d)",
+				getText(R.string.favorites), totalCount));
+
 	}
 
 }

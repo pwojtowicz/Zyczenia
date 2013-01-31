@@ -30,6 +30,17 @@ public class ObjectManager {
 		return repository;
 	}
 
+	public void readById(IReadRepository listener, ERepositoryTypes type,
+			ModelBase item) {
+		startTask(listener, getRepository(type),
+				ERepositoryManagerMethods.ReadById, item);
+	}
+
+	public void readTotalCount(IReadRepository listener, ERepositoryTypes type) {
+		startTask(listener, getRepository(type),
+				ERepositoryManagerMethods.TotalCount, null);
+	}
+
 	public void readFromServer(IReadRepository listener, ERepositoryTypes type) {
 
 		startTask(listener, getRepository(type),

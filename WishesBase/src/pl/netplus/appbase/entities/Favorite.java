@@ -1,20 +1,25 @@
 package pl.netplus.appbase.entities;
 
 public class Favorite extends ModelBase {
-	
-	private String text="¯yczenia dla ka¿dego, uniwersalne i ponadczasowe wiersze i wierszyki – czyli ciep³e, mi³e s³owa, podnosz¹ce na duchu, ¿yczenia idealne dla ka¿dego i na ka¿d¹ okazjê.";
 
-	
-	public void setText(String text) {
-		this.text = text;
+	private int objectId;
+
+	private boolean isFavorite;
+
+	public int getObjectId() {
+		return objectId;
 	}
-	
-	public String getText() {
-		return text;
+
+	public void setObjectId(int objectId) {
+		this.objectId = objectId;
 	}
-	
-	public String getShortText() {
-		return String.format("%s (...)", text.substring(0, 50).toString());
+
+	public boolean isFavorite() {
+		return isFavorite;
+	}
+
+	public void setFavorite(boolean isFavorite) {
+		this.isFavorite = isFavorite;
 	}
 
 }

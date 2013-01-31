@@ -45,7 +45,6 @@ public class RootActivity extends AppBaseActivity {
 			ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
 			ft.commit();
 		}
-
 	}
 
 	@Override
@@ -59,9 +58,16 @@ public class RootActivity extends AppBaseActivity {
 		if (response.bundle instanceof ArrayList<?>) {
 			WishesGlobals.getInstance().setCategories(
 					(ArrayList<Category>) response.bundle);
-			details.reload();
 
 			setUpdateDates(1, new Date().getTime());
+
+			ObjectManager manager = new ObjectManager();
+			manager.readTotalCount(this, ERepositoryTypes.Favorite);
+		} else
+
+		if (response.bundle instanceof Integer) {
+			details.setFavoritesCount((Integer) response.bundle);
+			details.reload();
 		}
 	}
 }

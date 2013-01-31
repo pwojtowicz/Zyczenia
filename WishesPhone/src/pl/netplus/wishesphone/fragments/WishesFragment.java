@@ -2,6 +2,7 @@ package pl.netplus.wishesphone.fragments;
 
 import pl.netplus.appbase.asynctask.ObjectsAsycnTask.AsyncTaskResult;
 import pl.netplus.appbase.entities.ContentObject;
+import pl.netplus.appbase.entities.Favorite;
 import pl.netplus.appbase.enums.ERepositoryTypes;
 import pl.netplus.appbase.exception.RepositoryException;
 import pl.netplus.appbase.fragments.BaseFragment;
@@ -63,11 +64,11 @@ public class WishesFragment extends BaseFragment<ContentObject> implements
 
 	protected void changeFavoriteState() {
 		if (contentObject != null) {
-			contentObject.setFavorites(!contentObject.isFavorites());
 			ObjectManager manager = new ObjectManager();
-			manager.insertOrUpdate(this, ERepositoryTypes.Favorite,
-					contentObject);
-			reloadContent();
+			Favorite f = new Favorite();
+			f.setFavorite(!contentObject.isFavorites());
+			f.setObjectId(contentObject.getId());
+			manager.insertOrUpdate(this, ERepositoryTypes.Favorite, f);
 		}
 	}
 
@@ -119,6 +120,10 @@ public class WishesFragment extends BaseFragment<ContentObject> implements
 
 	@Override
 	public void onTaskResponse(AsyncTaskResult response) {
+		if (response.bundle instanceof Boolean) {
+			contentObject.setFavorites(!contentObject.isFavorites());
+			reloadContent();
+		}
 
 	}
 

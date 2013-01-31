@@ -36,7 +36,9 @@
                 android:layout_centerVertical="true"
                 android:text="7.2"
                 android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/black"
                 android:textStyle="bold" />
+
         </RelativeLayout>
 
         <TextView

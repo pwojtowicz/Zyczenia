@@ -12,6 +12,7 @@ import pl.netplus.appbase.httpconnection.IHttpRequestToAsyncTaskCommunication;
 import pl.netplus.appbase.httpconnection.Provider;
 import pl.netplus.appbase.interfaces.IBaseRepository;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteStatement;
 
 public class ContentObjectRepository implements IBaseRepository<ContentObject> {
@@ -28,11 +29,40 @@ public class ContentObjectRepository implements IBaseRepository<ContentObject> {
 	}
 
 	@Override
+	public ArrayList<ContentObject> readById(int value) {
+		ArrayList<ContentObject> list = new ArrayList<ContentObject>();
+		try {
+			dbm.checkIsOpen();
+
+			Cursor cursor = dbm.getDataBase().query(
+					DataBaseHelper.TABLE_OBJECTS,
+					new String[] { "ID,Content, Categories, Rating" },
+					"Categories LIKE ? ",
+					new String[] { "%(" + String.valueOf(value) + ")%" }, null,
+					null, "ID");
+			if (cursor.moveToFirst()) {
+				do {
+					ContentObject item = new ContentObject();
+					item.setId(cursor.getInt(0));
+					item.setText(cursor.getString(1));
+					item.setCategory(cursor.getString(2));
+					item.setRating(cursor.getDouble(3));
+					list.add(item);
+				} while (cursor.moveToNext());
+			}
+			if (cursor != null && !cursor.isClosed()) {
+				cursor.close();
+			}
+			dbm.close();
+		} catch (SQLException e) {
+			return list;
+		}
+
+		return list;
+	}
+
+	@Override
 	public ArrayList<ContentObject> readAll() {
-		// ArrayList<ContentObject> objects = getFromServer();
-		// for (ContentObject contentObject : objects) {
-		// insertOrUpdate(contentObject);
-		// }
 		dbm.checkIsOpen();
 		ArrayList<ContentObject> list = new ArrayList<ContentObject>();
 		Cursor cursor = dbm.getDataBase().query(DataBaseHelper.TABLE_OBJECTS,
@@ -90,10 +120,22 @@ public class ContentObjectRepository implements IBaseRepository<ContentObject> {
 		}
 		ArrayList<ContentObject> items = new ArrayList<ContentObject>(
 				Arrays.asList(content.items));
-		// for (ContentObject contentObject : items) {
-		// insertOrUpdate(contentObject);
-		// }
+		for (ContentObject contentObject : items) {
+			insertOrUpdate(contentObject);
+		}
 		return items;
+	}
+
+	@Override
+	public int readTotalCount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public boolean delete(ContentObject item) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

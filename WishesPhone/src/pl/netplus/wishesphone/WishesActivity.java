@@ -6,6 +6,7 @@ import pl.netplus.appbase.adapters.FragmentAdapter;
 import pl.netplus.appbase.asynctask.ObjectsAsycnTask.AsyncTaskResult;
 import pl.netplus.appbase.entities.ContentObject;
 import pl.netplus.appbase.entities.FragmentObject;
+import pl.netplus.appbase.entities.ModelBase;
 import pl.netplus.appbase.enums.ERepositoryTypes;
 import pl.netplus.appbase.managers.ObjectManager;
 import pl.netplus.wishesphone.fragments.WishesFragment;
@@ -134,8 +135,12 @@ public class WishesActivity extends AppBaseActivity {
 		if (items == null && b != null) {
 			categoryId = b.getInt(BUNDLE_CATEGORY_ID);
 			ObjectManager manager = new ObjectManager();
-			// manager.readAll(this, ERepositoryTypes.ContentObject);
-			manager.readFromServer(this, ERepositoryTypes.ContentObject);
+
+			if (categoryId > 0) {
+				manager.readById(this, ERepositoryTypes.ContentObject,
+						new ModelBase(categoryId));
+			}
+			// manager.readFromServer(this, ERepositoryTypes.ContentObject);
 		}
 
 		if (items != null) {

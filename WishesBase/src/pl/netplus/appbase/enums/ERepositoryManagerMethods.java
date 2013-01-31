@@ -1,5 +1,5 @@
 package pl.netplus.appbase.enums;
 
 public enum ERepositoryManagerMethods {
-	Read, ReadAll, ReadItemContainer, InsertOrUpdate, ReadFromServer
+	Read, ReadAll, ReadById, ReadItemContainer, InsertOrUpdate, ReadFromServer, TotalCount
 }

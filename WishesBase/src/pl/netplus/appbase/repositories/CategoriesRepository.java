@@ -20,7 +20,7 @@ public class CategoriesRepository implements IBaseRepository<Category> {
 
 	private final String INSERT_TO_CATEGORIES = "INSERT INTO "
 			+ DataBaseHelper.TABLE_CATEGORIES
-			+ "(Name, ItemCount)  Values(?,?)";
+			+ "(ID,Name, ItemCount)  Values(?,?,?)";
 
 	@Override
 	public Category read(int id) {
@@ -58,8 +58,9 @@ public class CategoriesRepository implements IBaseRepository<Category> {
 			dbm.checkIsOpen();
 			SQLiteStatement insertStmt = dbm.getDataBase().compileStatement(
 					INSERT_TO_CATEGORIES);
-			insertStmt.bindString(1, item.getName());
-			insertStmt.bindLong(2, item.getCount());
+			insertStmt.bindLong(1, item.getId());
+			insertStmt.bindString(2, item.getName());
+			insertStmt.bindLong(3, item.getCount());
 			long result = insertStmt.executeInsert();
 			dbm.close();
 			return result > 0 ? true : false;
@@ -91,5 +92,23 @@ public class CategoriesRepository implements IBaseRepository<Category> {
 			insertOrUpdate(category);
 		}
 		return items;
+	}
+
+	@Override
+	public int readTotalCount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public boolean delete(Category item) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public ArrayList<Category> readById(int value) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

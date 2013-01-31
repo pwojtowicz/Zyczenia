@@ -1,6 +1,7 @@
 package pl.netplus.appbase.database;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 public class DataBaseManager {
@@ -50,4 +51,21 @@ public class DataBaseManager {
 		}
 		openConnections--;
 	}
+
+	public int getItemCountInTable(String table) {
+		int result = -1;
+		checkIsOpen();
+		try {
+			Cursor c = db.rawQuery("Select Count(1) From " + table + ";", null);
+			c.moveToFirst();
+
+			result = c.getInt(0);
+		} catch (Exception e) {
+			result = -1;
+		}
+		close();
+
+		return result;
+	}
+
 }

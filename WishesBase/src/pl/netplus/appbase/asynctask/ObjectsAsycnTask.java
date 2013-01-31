@@ -44,11 +44,15 @@ public class ObjectsAsycnTask extends AsyncTask<Void, Void, Void> implements
 			switch (method) {
 			case InsertOrUpdate:
 				if (repository != null) {
-
 					response.bundle = repository.insertOrUpdate(item);
 				}
 				break;
 			case Read:
+				break;
+			case ReadById:
+				if (repository != null) {
+					response.bundle = repository.readById(item.getId());
+				}
 				break;
 			case ReadAll:
 				if (repository != null) {
@@ -63,6 +67,11 @@ public class ObjectsAsycnTask extends AsyncTask<Void, Void, Void> implements
 			case ReadItemContainer:
 				if (repositoryItemContainer != null) {
 					response.bundle = repositoryItemContainer.readAll();
+				}
+				break;
+			case TotalCount:
+				if (repository != null) {
+					response.bundle = repository.readTotalCount();
 				}
 				break;
 			default:

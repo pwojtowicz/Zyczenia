@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DataBaseHelper extends SQLiteOpenHelper {
 
 	private static final String DATABASE_NAME = "netpluswishes.db";
-	private static final int DATABASE_VERSION = 2;
+	private static final int DATABASE_VERSION = 1;
 
 	public static final String TABLE_CATEGORIES = "Category";
 	public static final String TABLE_OBJECTS = "Objects";
@@ -15,7 +15,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
 	private static final String CREATE_CATEGORIES = "create table "
 			+ TABLE_CATEGORIES
-			+ "(ID integer primary key autoincrement, Name text not null, ItemCount integer not null);";
+			+ "(ID integer primary key, Name text not null, ItemCount integer not null);";
 
 	private static final String CREATE_OBJECTS = "create table "
 			+ TABLE_OBJECTS
@@ -23,7 +23,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
 	private static final String CREATE_FAVORITES = "create table "
 			+ TABLE_FAVORITES
-			+ "(ID integer primary key autoincrement, ObjectId integer not null);";
+			+ "(ID integer primary key autoincrement, ObjectId integer);";
 
 	public DataBaseHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
