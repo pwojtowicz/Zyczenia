@@ -11,6 +11,7 @@ import pl.netplus.appbase.exception.CommunicationException;
 import pl.netplus.appbase.httpconnection.IHttpRequestToAsyncTaskCommunication;
 import pl.netplus.appbase.httpconnection.Provider;
 import pl.netplus.appbase.interfaces.IBaseRepository;
+import pl.netplus.wishesbase.support.NetPlusAppGlobals;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteStatement;
@@ -25,7 +26,50 @@ public class ContentObjectRepository implements IBaseRepository<ContentObject> {
 
 	@Override
 	public ContentObject read(int id) {
-		return null;
+		ContentObject item = null;
+		try {
+			dbm.checkIsOpen();
+
+			Cursor cursor = dbm.getDataBase().query(
+					DataBaseHelper.TABLE_OBJECTS,
+					new String[] { "ID,Content, Categories, Rating" },
+					"ID = ? ", new String[] { String.valueOf(id) }, null, null,
+					null);
+			if (cursor.moveToFirst()) {
+				do {
+					item = new ContentObject();
+					item.setId(cursor.getInt(0));
+					item.setText(cursor.getString(1));
+					item.setCategory(cursor.getString(2));
+					item.setRating(cursor.getDouble(3));
+					break;
+				} while (cursor.moveToNext());
+			}
+			if (cursor != null && !cursor.isClosed()) {
+				cursor.close();
+			}
+			dbm.close();
+		} catch (SQLException e) {
+
+		}
+		return item;
+	}
+
+	public ArrayList<ContentObject> readFavorites() {
+		ArrayList<ContentObject> list = new ArrayList<ContentObject>();
+
+		ArrayList<Integer> favorites = NetPlusAppGlobals.getInstance()
+				.getFavoritesId();
+
+		for (Integer integer : favorites) {
+			ContentObject co = read(integer);
+			if (co != null)
+				list.add(co);
+		}
+		NetPlusAppGlobals.getInstance().setObjectsDictionary(
+				NetPlusAppGlobals.ITEMS_FAVORITE, list);
+		return list;
+
 	}
 
 	@Override
@@ -57,7 +101,7 @@ public class ContentObjectRepository implements IBaseRepository<ContentObject> {
 		} catch (SQLException e) {
 			return list;
 		}
-
+		NetPlusAppGlobals.getInstance().setObjectsDictionary(value, list);
 		return list;
 	}
 
@@ -82,6 +126,8 @@ public class ContentObjectRepository implements IBaseRepository<ContentObject> {
 			cursor.close();
 		}
 		dbm.close();
+		NetPlusAppGlobals.getInstance().setObjectsDictionary(
+				NetPlusAppGlobals.ITEMS_ALL, list);
 		return list;
 	}
 
@@ -99,7 +145,6 @@ public class ContentObjectRepository implements IBaseRepository<ContentObject> {
 			dbm.close();
 			return result > 0 ? true : false;
 		}
-
 		return false;
 	}
 
@@ -127,15 +172,43 @@ public class ContentObjectRepository implements IBaseRepository<ContentObject> {
 	}
 
 	@Override
-	public int readTotalCount() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
 	public boolean delete(ContentObject item) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+	public ArrayList<ContentObject> searchObjects(int categoryId, String value) {
+		dbm.checkIsOpen();
+		ArrayList<ContentObject> list = new ArrayList<ContentObject>();
+
+		String query = "";
+
+		if (categoryId > 0) {
+			query += "Categories LIKE ? ";
+			String[] t = new String[] { "%(" + String.valueOf(value) + ")%" };
+		}
+
+		Cursor cursor = dbm.getDataBase().query(DataBaseHelper.TABLE_OBJECTS,
+				new String[] { "ID,Content, Categories, Rating" },
+				"Categories LIKE ? ",
+				new String[] { "%(" + String.valueOf(value) + ")%" }, null,
+				null, "ID");
+		if (cursor.moveToFirst()) {
+			do {
+				ContentObject item = new ContentObject();
+				item.setId(cursor.getInt(0));
+				item.setText(cursor.getString(1));
+				item.setCategory(cursor.getString(2));
+				item.setRating(cursor.getDouble(3));
+				list.add(item);
+			} while (cursor.moveToNext());
+		}
+		if (cursor != null && !cursor.isClosed()) {
+			cursor.close();
+		}
+		dbm.close();
+		NetPlusAppGlobals.getInstance().setObjectsDictionary(
+				NetPlusAppGlobals.ITEMS_SEARCH, list);
+		return list;
+	}
 }

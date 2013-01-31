@@ -4,11 +4,10 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import pl.netplus.appbase.asynctask.ObjectsAsycnTask.AsyncTaskResult;
-import pl.netplus.appbase.entities.Category;
 import pl.netplus.appbase.enums.ERepositoryTypes;
 import pl.netplus.appbase.managers.ObjectManager;
+import pl.netplus.wishesbase.support.NetPlusAppGlobals;
 import pl.netplus.wishesphone.fragments.RootFragment;
-import pl.netplus.wishesphone.support.WishesGlobals;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
@@ -56,17 +55,13 @@ public class RootActivity extends AppBaseActivity {
 	@Override
 	public void onTaskResponse(AsyncTaskResult response) {
 		if (response.bundle instanceof ArrayList<?>) {
-			WishesGlobals.getInstance().setCategories(
-					(ArrayList<Category>) response.bundle);
+			// WishesGlobals.getInstance().setCategories(
+			// (ArrayList<Category>) response.bundle);
 
 			setUpdateDates(1, new Date().getTime());
 
-			ObjectManager manager = new ObjectManager();
-			manager.readTotalCount(this, ERepositoryTypes.Favorite);
-		} else
-
-		if (response.bundle instanceof Integer) {
-			details.setFavoritesCount((Integer) response.bundle);
+			details.setFavoritesCount(NetPlusAppGlobals.getInstance()
+					.getFavoritesCount());
 			details.reload();
 		}
 	}

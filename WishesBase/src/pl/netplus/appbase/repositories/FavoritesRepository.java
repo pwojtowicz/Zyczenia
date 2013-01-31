@@ -7,6 +7,7 @@ import pl.netplus.appbase.database.DataBaseManager;
 import pl.netplus.appbase.entities.Favorite;
 import pl.netplus.appbase.httpconnection.IHttpRequestToAsyncTaskCommunication;
 import pl.netplus.appbase.interfaces.IBaseRepository;
+import pl.netplus.wishesbase.support.NetPlusAppGlobals;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteStatement;
 
@@ -41,6 +42,8 @@ public class FavoritesRepository implements IBaseRepository<Favorite> {
 			cursor.close();
 		}
 		dbm.close();
+
+		NetPlusAppGlobals.getInstance().setFavoritesId(list);
 		return list;
 	}
 
@@ -53,7 +56,13 @@ public class FavoritesRepository implements IBaseRepository<Favorite> {
 			insertStmt.bindLong(1, item.getObjectId());
 			long result = insertStmt.executeInsert();
 			dbm.close();
-			return result > 0 ? true : false;
+
+			if (result > 0) {
+				NetPlusAppGlobals.getInstance().addToFavorites(
+						item.getObjectId());
+				return true;
+			}
+			return false;
 		} else {
 			return delete(item);
 		}
@@ -63,13 +72,7 @@ public class FavoritesRepository implements IBaseRepository<Favorite> {
 	@Override
 	public ArrayList<Favorite> getFromServer(
 			IHttpRequestToAsyncTaskCommunication listener) {
-		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	public int readTotalCount() {
-		return dbm.getItemCountInTable(DataBaseHelper.TABLE_FAVORITES);
 	}
 
 	@Override
@@ -80,7 +83,13 @@ public class FavoritesRepository implements IBaseRepository<Favorite> {
 				"ObjectId = ?",
 				new String[] { String.valueOf(item.getObjectId()) });
 		dbm.close();
-		return result > 0 ? true : false;
+
+		if (result > 0) {
+			NetPlusAppGlobals.getInstance().removedFromFavorites(
+					item.getObjectId());
+			return true;
+		}
+		return false;
 	}
 
 	@Override

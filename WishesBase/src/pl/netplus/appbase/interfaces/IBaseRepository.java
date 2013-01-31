@@ -10,8 +10,6 @@ public interface IBaseRepository<T> {
 
 	public abstract T read(int id);
 
-	public abstract int readTotalCount();
-
 	public abstract ArrayList<T> readById(int value);
 
 	public abstract ArrayList<T> readAll();

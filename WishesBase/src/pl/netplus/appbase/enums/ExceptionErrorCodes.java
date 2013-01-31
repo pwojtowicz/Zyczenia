@@ -1,6 +1,6 @@
 package pl.netplus.appbase.enums;
 
 public enum ExceptionErrorCodes {
-	TheSameFile, WrongCredentials, File_Not_Found, WebServiceError, CommunicationProblems
+	CommunicationProblems, NoRepository, HTTP_NOT_FOUND, HTTP_INTERNAL_ERROR, InvalidRepository
 
 }

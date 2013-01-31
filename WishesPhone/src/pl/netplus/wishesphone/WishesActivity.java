@@ -1,16 +1,18 @@
 package pl.netplus.wishesphone;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import pl.netplus.appbase.adapters.FragmentAdapter;
 import pl.netplus.appbase.asynctask.ObjectsAsycnTask.AsyncTaskResult;
 import pl.netplus.appbase.entities.ContentObject;
 import pl.netplus.appbase.entities.FragmentObject;
 import pl.netplus.appbase.entities.ModelBase;
+import pl.netplus.appbase.enums.ERepositoryManagerMethods;
 import pl.netplus.appbase.enums.ERepositoryTypes;
 import pl.netplus.appbase.managers.ObjectManager;
+import pl.netplus.wishesbase.support.NetPlusAppGlobals;
 import pl.netplus.wishesphone.fragments.WishesFragment;
-import pl.netplus.wishesphone.support.WishesGlobals;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -129,21 +131,32 @@ public class WishesActivity extends AppBaseActivity {
 
 		Bundle b = getIntent().getExtras();
 
-		ArrayList<ContentObject> items = WishesGlobals.getInstance()
+		ArrayList<ContentObject> items = NetPlusAppGlobals.getInstance()
 				.getCategoriesContentObjects(categoryId);
 
 		if (items == null && b != null) {
 			categoryId = b.getInt(BUNDLE_CATEGORY_ID);
+
 			ObjectManager manager = new ObjectManager();
 
 			if (categoryId > 0) {
 				manager.readById(this, ERepositoryTypes.ContentObject,
 						new ModelBase(categoryId));
+			} else if (categoryId == NetPlusAppGlobals.ITEMS_FAVORITE) {
+				manager.readObjectsWithoutSendItem(this,
+						ERepositoryTypes.ContentObject,
+						ERepositoryManagerMethods.ReadFavorites);
+			} else if (categoryId == NetPlusAppGlobals.ITEMS_ALL) {
+				manager.readObjectsWithoutSendItem(this,
+						ERepositoryTypes.ContentObject,
+						ERepositoryManagerMethods.ReadAll);
 			}
 			// manager.readFromServer(this, ERepositoryTypes.ContentObject);
 		}
 
 		if (items != null) {
+			if (categoryId == NetPlusAppGlobals.ITEMS_ALL)
+				Collections.shuffle(items);
 			ReloadAllItems(items);
 		}
 
@@ -199,10 +212,13 @@ public class WishesActivity extends AppBaseActivity {
 	@Override
 	public void onTaskResponse(AsyncTaskResult response) {
 		if (response.bundle instanceof ArrayList<?>) {
-			ArrayList<ContentObject> objects = (ArrayList<ContentObject>) response.bundle;
-			WishesGlobals.getInstance().setObjectsDictionary(categoryId,
-					objects);
-			ReloadAllItems(objects);
+			// ArrayList<ContentObject> objects = (ArrayList<ContentObject>)
+			// response.bundle;
+			// WishesGlobals.getInstance().setObjectsDictionary(categoryId,
+			// objects);
+
+			ReloadAllItems(NetPlusAppGlobals.getInstance()
+					.getCategoriesContentObjects(categoryId));
 		}
 
 	}

@@ -45,18 +45,12 @@ public class Provider<T> {
 				T items;
 				items = mapper.readValue(value, classObject);
 				return items;
-			} else if (bundle.getStatusCode() == HttpsURLConnection.HTTP_NOT_MODIFIED) {
-				throw new CommunicationException("The same file on device",
-						ExceptionErrorCodes.TheSameFile);
-			} else if (bundle.getStatusCode() == HttpsURLConnection.HTTP_UNAUTHORIZED) {
-				throw new CommunicationException("",
-						ExceptionErrorCodes.WrongCredentials);
 			} else if (bundle.getStatusCode() == HttpsURLConnection.HTTP_NOT_FOUND) {
 				throw new CommunicationException("",
-						ExceptionErrorCodes.File_Not_Found);
+						ExceptionErrorCodes.HTTP_NOT_FOUND);
 			} else if (bundle.getStatusCode() == HttpsURLConnection.HTTP_INTERNAL_ERROR) {
 				throw new CommunicationException("",
-						ExceptionErrorCodes.WebServiceError);
+						ExceptionErrorCodes.HTTP_INTERNAL_ERROR);
 			} else {
 
 				throw new CommunicationException("",

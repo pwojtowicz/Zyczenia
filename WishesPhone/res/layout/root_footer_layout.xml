@@ -20,15 +20,17 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:background="@color/btn_blue_selector"
+        android:tag="http://www.zyczenia.tja.pl"
         android:text="www.zyczenia.tja.pl" />
 
     <Button
-        android:id="@+id/button_other"
+        android:id="@+id/btn_other"
         style="@style/Style_TextWithShadow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:background="@color/btn_blue_selector"
+        android:tag="http://www.wp.pl"
         android:text="Inne fajne życzenia" />
 
     <Button

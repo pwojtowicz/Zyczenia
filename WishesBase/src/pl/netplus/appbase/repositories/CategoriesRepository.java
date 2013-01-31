@@ -11,6 +11,7 @@ import pl.netplus.appbase.exception.CommunicationException;
 import pl.netplus.appbase.httpconnection.IHttpRequestToAsyncTaskCommunication;
 import pl.netplus.appbase.httpconnection.Provider;
 import pl.netplus.appbase.interfaces.IBaseRepository;
+import pl.netplus.wishesbase.support.NetPlusAppGlobals;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteStatement;
 
@@ -48,6 +49,10 @@ public class CategoriesRepository implements IBaseRepository<Category> {
 			cursor.close();
 		}
 		dbm.close();
+
+		NetPlusAppGlobals.getInstance().setCategories(list);
+
+		new FavoritesRepository().readAll();
 		return list;
 	}
 
@@ -92,12 +97,6 @@ public class CategoriesRepository implements IBaseRepository<Category> {
 			insertOrUpdate(category);
 		}
 		return items;
-	}
-
-	@Override
-	public int readTotalCount() {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 
 	@Override

@@ -30,15 +30,30 @@ public class ObjectManager {
 		return repository;
 	}
 
+	public void readObjectsWithoutSendItem(IReadRepository listener,
+			ERepositoryTypes type, ERepositoryManagerMethods method) {
+		startTask(listener, getRepository(type), method, null);
+	}
+
+	public void readObjectsWithSendItem(IReadRepository listener,
+			ERepositoryTypes type, ERepositoryManagerMethods method,
+			ModelBase item) {
+		startTask(listener, getRepository(type), method, item);
+	}
+
+	public void searchContentObjects(IReadRepository listener, int categoryId,
+			String value) {
+		ObjectsAsycnTask task;
+		task = new ObjectsAsycnTask(listener, ERepositoryManagerMethods.Search,
+				getRepository(ERepositoryTypes.ContentObject), categoryId,
+				value);
+		task.execute((Void) null);
+	}
+
 	public void readById(IReadRepository listener, ERepositoryTypes type,
 			ModelBase item) {
 		startTask(listener, getRepository(type),
 				ERepositoryManagerMethods.ReadById, item);
-	}
-
-	public void readTotalCount(IReadRepository listener, ERepositoryTypes type) {
-		startTask(listener, getRepository(type),
-				ERepositoryManagerMethods.TotalCount, null);
 	}
 
 	public void readFromServer(IReadRepository listener, ERepositoryTypes type) {

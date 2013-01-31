@@ -6,5 +6,24 @@
     <string name="categores">Kategorie:</string>
     <string name="aboutApp">O programie</string>
     <string name="randomObjects">Losowo</string>
-
+    
+    <string name="all_categories">wszystkie kategorie</string>    
+    
+    <string name="favorites">Ulubione</string>    
+    
+    <string name="dialog_title_error">Błąd</string>
+    <string name="dialog_title_info">Informacja</string>
+    <string name="dialog_message_no_favorites">Brak elementów dodanych do ulubionych</string>
+	<string name="dialog_message_connection_error">Błąd połączenia z serwerem, spróbuj ponownie</string>
+	
+	<string name="dialog_OK">OK</string>
+	<string name="dialog_Cancel">Anuluj</string>
+	<string name="dialog_Retry">Spróbuj ponownie</string>
+	
+	<string name="add_to_favorites">Dodaj do ulubionych</string>
+    <string name="removed_from_favorites">Usuń z ulubionych</string>
+    
+    <string name="progress_download_data">Pobieranie danych</string>
+    <string name="progress_save_changes">Zapisywanie zmian</string>
+	
 </resources>
