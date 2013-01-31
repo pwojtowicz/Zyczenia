@@ -22,6 +22,11 @@ public class DialogHelper {
 			dialog.setTitle(pl.netplus.appbase.R.string.dialog_title_error);
 			dialog.setNegativeButton(R.string.dialog_Cancel, null);
 			break;
+		case No_SearchResult:
+			dialog.setMessage(pl.netplus.appbase.R.string.dialog_message_no_searchresult);
+			dialog.setTitle(pl.netplus.appbase.R.string.dialog_title_info);
+			dialog.setPositiveButton(R.string.dialog_OK, null);
+			break;
 		default:
 			break;
 		}

@@ -5,9 +5,13 @@ import java.util.ArrayList;
 import pl.netplus.appbase.adapters.OwnSpinnerAdapter;
 import pl.netplus.appbase.asynctask.ObjectsAsycnTask.AsyncTaskResult;
 import pl.netplus.appbase.entities.Category;
+import pl.netplus.appbase.entities.ContentObject;
 import pl.netplus.appbase.entities.SpinnerObject;
+import pl.netplus.appbase.enums.EDialogType;
 import pl.netplus.appbase.managers.ObjectManager;
+import pl.netplus.wishesbase.support.DialogHelper;
 import pl.netplus.wishesbase.support.NetPlusAppGlobals;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -55,10 +59,11 @@ public class SearchActivity extends AppBaseActivity {
 
 		osp.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinner.setAdapter(osp);
-
 	}
 
 	protected void searchText() {
+		NetPlusAppGlobals.getInstance().setObjectsDictionary(
+				NetPlusAppGlobals.ITEMS_SEARCH, null);
 		SpinnerObject value = (SpinnerObject) spinner.getSelectedItem();
 		EditText edit_text = (EditText) findViewById(R.id.edt_search_text);
 
@@ -68,9 +73,27 @@ public class SearchActivity extends AppBaseActivity {
 	}
 
 	@Override
-	public void onTaskResponse(AsyncTaskResult response) {
-		// TODO Auto-generated method stub
+	public void onTaskStart(String message) {
+		super.onTaskStart(getString(R.string.progress_search));
+	}
 
+	@Override
+	public void onTaskResponse(AsyncTaskResult response) {
+		if (response.bundle instanceof ArrayList<?>) {
+			if (((ArrayList<ContentObject>) response.bundle).size() > 0)
+				startWishesIntent(NetPlusAppGlobals.ITEMS_SEARCH);
+			else
+				DialogHelper.createDialog(this, EDialogType.No_SearchResult)
+						.show();
+		}
+	}
+
+	private void startWishesIntent(int categoryId) {
+		Intent intent = new Intent(this, WishesActivity.class);
+		Bundle b = new Bundle();
+		b.putInt(WishesActivity.BUNDLE_CATEGORY_ID, categoryId);
+		intent.putExtras(b);
+		startActivity(intent);
 	}
 
 }

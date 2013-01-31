@@ -181,18 +181,18 @@ public class ContentObjectRepository implements IBaseRepository<ContentObject> {
 		dbm.checkIsOpen();
 		ArrayList<ContentObject> list = new ArrayList<ContentObject>();
 
-		String query = "";
+		String query = "Content LIKE ? ";
+		String[] wheareClause = new String[] { "%" + value + "%" };
 
 		if (categoryId > 0) {
-			query += "Categories LIKE ? ";
-			String[] t = new String[] { "%(" + String.valueOf(value) + ")%" };
+			query += " AND Categories LIKE ? ";
+			wheareClause = new String[] { "%" + value + "%",
+					"%(" + String.valueOf(categoryId) + ")%" };
 		}
 
 		Cursor cursor = dbm.getDataBase().query(DataBaseHelper.TABLE_OBJECTS,
-				new String[] { "ID,Content, Categories, Rating" },
-				"Categories LIKE ? ",
-				new String[] { "%(" + String.valueOf(value) + ")%" }, null,
-				null, "ID");
+				new String[] { "ID,Content, Categories, Rating" }, query,
+				wheareClause, null, null, "ID");
 		if (cursor.moveToFirst()) {
 			do {
 				ContentObject item = new ContentObject();

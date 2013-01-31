@@ -150,6 +150,9 @@ public class WishesActivity extends AppBaseActivity {
 				manager.readObjectsWithoutSendItem(this,
 						ERepositoryTypes.ContentObject,
 						ERepositoryManagerMethods.ReadAll);
+			} else if (categoryId == NetPlusAppGlobals.ITEMS_SEARCH) {
+				items = NetPlusAppGlobals.getInstance()
+						.getCategoriesContentObjects(categoryId);
 			}
 			// manager.readFromServer(this, ERepositoryTypes.ContentObject);
 		}
