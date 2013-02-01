@@ -1,6 +1,5 @@
 package pl.netplus.wishesphone.fragments;
 
-import pl.netplus.wishesphone.R;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
@@ -13,8 +12,9 @@ public class SettingsFragment extends PreferenceFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		addPreferencesFromResource(pl.netplus.appbase.R.xml.preferences);
-		addPreferencesFromResource(R.xml.preferences);
+
+		addPreferencesFromResource(pl.netplus.appbase.R.xml.base_preferences);
+		addPreferencesFromResource(pl.netplus.wishesphone.R.xml.preferences);
 
 		EditTextPreference lastDate = (EditTextPreference) getPreferenceScreen()
 				.findPreference("prop_last_update_date");

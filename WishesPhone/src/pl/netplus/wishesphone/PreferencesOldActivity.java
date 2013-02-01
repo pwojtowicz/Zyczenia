@@ -9,7 +9,9 @@ public class PreferencesOldActivity extends PreferenceActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		addPreferencesFromResource(R.xml.preferences);
+
+		addPreferencesFromResource(pl.netplus.appbase.R.xml.base_preferences);
+		addPreferencesFromResource(pl.netplus.wishesphone.R.xml.preferences);
 
 		EditTextPreference lastDate = (EditTextPreference) getPreferenceScreen()
 				.findPreference("prop_last_update_date");
