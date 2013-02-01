@@ -149,8 +149,9 @@ public class ContentObjectRepository implements IBaseRepository<ContentObject> {
 	}
 
 	@Override
-	public ArrayList<ContentObject> getFromServer(
-			IHttpRequestToAsyncTaskCommunication listener) {
+	public boolean getFromServer(IHttpRequestToAsyncTaskCommunication listener) {
+
+		boolean result = false;
 		Provider<WebContentObjectContainer> provider = new Provider<WebContentObjectContainer>(
 				WebContentObjectContainer.class);
 		WebContentObjectContainer content = new WebContentObjectContainer();
@@ -168,7 +169,8 @@ public class ContentObjectRepository implements IBaseRepository<ContentObject> {
 		for (ContentObject contentObject : items) {
 			insertOrUpdate(contentObject);
 		}
-		return items;
+		result = true;
+		return result;
 	}
 
 	@Override

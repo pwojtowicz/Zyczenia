@@ -16,7 +16,6 @@ public interface IBaseRepository<T> {
 
 	public abstract boolean delete(T item);
 
-	public ArrayList<T> getFromServer(
-			IHttpRequestToAsyncTaskCommunication listener);
+	public boolean getFromServer(IHttpRequestToAsyncTaskCommunication listener);
 
 }

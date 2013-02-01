@@ -1,6 +1,7 @@
 package pl.netplus.wishesphone;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import pl.netplus.appbase.asynctask.ObjectsAsycnTask.AsyncTaskResult;
@@ -22,13 +23,16 @@ public class RootActivity extends AppBaseActivity {
 	public void onResume() {
 		super.onResume();
 
-		int lastUpdate = getLast_update_date();
+		long nextUpdate = getNextUpdateDate();
+
+		long actualTime = Calendar.getInstance().getTimeInMillis();
 
 		ObjectManager manager = new ObjectManager();
-		// if (lastUpdate == 0)
-		manager.readFromServer(this, ERepositoryTypes.Categories);
-		// else
-		// manager.readAll(this, ERepositoryTypes.Categories);
+		if (nextUpdate < actualTime)
+			manager.updateData(this);
+		// manager.readFromServer(this, ERepositoryTypes.Categories);
+		else
+			manager.readAll(this, ERepositoryTypes.Categories);
 	}
 
 	@Override
@@ -56,13 +60,17 @@ public class RootActivity extends AppBaseActivity {
 
 	@Override
 	public void onTaskResponse(AsyncTaskResult response) {
-		if (response.bundle instanceof ArrayList<?>) {
-			setUpdateDates(1, new Date().getTime());
-
-			details.setFavoritesCount(NetPlusAppGlobals.getInstance()
-					.getFavoritesCount());
-			details.reload();
+		if (response.bundle instanceof Boolean) {
+			Calendar c = Calendar.getInstance();
+			c.setTime(new Date());
+			c.add(Calendar.DAY_OF_MONTH, 7);
+			setUpdateDates(c.getTimeInMillis(), 1);
 		}
+
+		details.setFavoritesCount(NetPlusAppGlobals.getInstance()
+				.getFavoritesCount());
+		details.reload();
+
 	}
 
 	@Override
@@ -71,11 +79,9 @@ public class RootActivity extends AppBaseActivity {
 
 		Category c = new Category(getString(R.string.get_data), 1);
 		c.setId(NetPlusAppGlobals.ITEMS_NEET_UPDATE);
-
 		ArrayList<Category> items = new ArrayList<Category>();
 		items.add(c);
 		NetPlusAppGlobals.getInstance().setCategories(items);
-
 		details.reload();
 	}
 

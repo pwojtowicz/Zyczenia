@@ -70,9 +70,8 @@ public class FavoritesRepository implements IBaseRepository<Favorite> {
 	}
 
 	@Override
-	public ArrayList<Favorite> getFromServer(
-			IHttpRequestToAsyncTaskCommunication listener) {
-		return null;
+	public boolean getFromServer(IHttpRequestToAsyncTaskCommunication listener) {
+		return false;
 	}
 
 	@Override

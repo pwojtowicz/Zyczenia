@@ -75,8 +75,8 @@ public class CategoriesRepository implements IBaseRepository<Category> {
 	}
 
 	@Override
-	public ArrayList<Category> getFromServer(
-			IHttpRequestToAsyncTaskCommunication listener) {
+	public boolean getFromServer(IHttpRequestToAsyncTaskCommunication listener) {
+		boolean result = false;
 		Provider<WebCategoryContainer> provider = new Provider<WebCategoryContainer>(
 				WebCategoryContainer.class);
 		WebCategoryContainer content = new WebCategoryContainer();
@@ -97,7 +97,8 @@ public class CategoriesRepository implements IBaseRepository<Category> {
 			insertOrUpdate(category);
 		}
 		NetPlusAppGlobals.getInstance().setCategories(items);
-		return items;
+		result = true;
+		return result;
 	}
 
 	@Override

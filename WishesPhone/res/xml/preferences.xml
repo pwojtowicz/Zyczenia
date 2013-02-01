@@ -20,8 +20,8 @@
             android:defaultValue="@string/preference_default_signature" />
     
     <EditTextPreference 
-        	android:title="prop_last_update_date"
-        	android:key="prop_last_update_date"
+        	android:title="prop_last_update_return_date"
+        	android:key="prop_last_update_return_date"
         	android:defaultValue="0"
         	/>
     <EditTextPreference 

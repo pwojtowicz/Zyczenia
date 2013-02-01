@@ -30,6 +30,18 @@ public class ObjectManager {
 		return repository;
 	}
 
+	public void updateData(IReadRepository listener) {
+		startTask(listener, ERepositoryManagerMethods.UpdateData);
+	}
+
+	private void startTask(IReadRepository listener,
+			ERepositoryManagerMethods method) {
+		ObjectsAsycnTask task;
+		task = new ObjectsAsycnTask(listener, method);
+		task.execute((Void) null);
+
+	}
+
 	public void readObjectsWithoutSendItem(IReadRepository listener,
 			ERepositoryTypes type, ERepositoryManagerMethods method) {
 		startTask(listener, getRepository(type), method, null);

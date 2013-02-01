@@ -24,7 +24,7 @@ public abstract class AppBaseActivity extends FragmentActivity implements
 	private final static String contentAddress = "http://zyczenia.tja.pl/api/android_bramka.php?co=lista_obekty&data=";
 
 	private ProgressDialog dialog;
-	private String pref_last_update_date;
+	private String prop_last_update_return_date;
 	private String pref_next_update_date;
 
 	private boolean pref_replaceChars;
@@ -39,7 +39,8 @@ public abstract class AppBaseActivity extends FragmentActivity implements
 		SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(this);
 
-		pref_last_update_date = prefs.getString("prop_last_update_date", "0");
+		prop_last_update_return_date = prefs.getString(
+				"prop_last_update_return_date", "0");
 		pref_next_update_date = prefs.getString("prop_next_update_date", "0");
 
 		pref_replaceChars = (prefs.getBoolean("prop_replace", false));
@@ -105,21 +106,23 @@ public abstract class AppBaseActivity extends FragmentActivity implements
 		return String.format(contentAddress + "%d", lastUpdateDate);
 	}
 
-	public int getLast_update_date() {
-		return Integer.parseInt(pref_last_update_date);
+	public long getNextUpdateDate() {
+		return Long.parseLong(pref_next_update_date);
 	}
 
 	public String getNext_update_date() {
 		return pref_next_update_date;
 	}
 
-	public void setUpdateDates(int date, long nextDate) {
+	public void setUpdateDates(long nextUpdateLongDate, long returnDate) {
 		SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(this);
 
 		SharedPreferences.Editor editor = prefs.edit();
-		editor.putString("prop_last_update_date", String.valueOf(date));
-		editor.putString("prop_next_update_date", String.valueOf(nextDate));
+		editor.putString("prop_last_update_return_date",
+				String.valueOf(returnDate));
+		editor.putString("prop_next_update_date",
+				String.valueOf(nextUpdateLongDate));
 		editor.commit();
 	}
 

@@ -9,6 +9,7 @@ import pl.netplus.appbase.exception.RepositoryException;
 import pl.netplus.appbase.httpconnection.IHttpRequestToAsyncTaskCommunication;
 import pl.netplus.appbase.interfaces.IBaseRepository;
 import pl.netplus.appbase.interfaces.IReadRepository;
+import pl.netplus.appbase.repositories.CategoriesRepository;
 import pl.netplus.appbase.repositories.ContentObjectRepository;
 import android.os.AsyncTask;
 
@@ -44,14 +45,32 @@ public class ObjectsAsycnTask extends AsyncTask<Void, Void, Void> implements
 		this.value = value;
 	}
 
+	public ObjectsAsycnTask(IReadRepository listener,
+			ERepositoryManagerMethods method) {
+		this.listener = listener;
+		this.method = method;
+	}
+
 	@Override
 	protected Void doInBackground(Void... params) {
 		response = new AsyncTaskResult();
 		try {
-			if (repository == null)
+			if (method != ERepositoryManagerMethods.UpdateData
+					&& repository == null)
 				throw new CommunicationException("",
 						ExceptionErrorCodes.NoRepository);
 			switch (method) {
+
+			case UpdateData: {
+				boolean results = false;
+				results = new CategoriesRepository().getFromServer(this);
+				results = new ContentObjectRepository().getFromServer(this);
+				if (!results)
+					throw new CommunicationException("",
+							ExceptionErrorCodes.UpdateError);
+				response.bundle = results;
+			}
+				break;
 			case InsertOrUpdate:
 				response.bundle = repository.insertOrUpdate(item);
 				break;
