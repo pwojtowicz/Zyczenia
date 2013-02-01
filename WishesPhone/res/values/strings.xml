@@ -25,5 +25,7 @@
     
     <string name="btn_footer_another">Inne fajne życzenia</string>
     
+    <string name="btn_footer_add_wishes">Dodaj życzenie</string>
+    
 
 </resources>

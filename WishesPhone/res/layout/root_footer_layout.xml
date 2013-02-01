@@ -24,13 +24,23 @@
         android:text="www.zyczenia.tja.pl" />
 
     <Button
+        android:id="@+id/btn_add_wish"
+        style="@style/Style_TextWithShadow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@color/btn_blue_selector"
+        android:tag="http://zyczenia.tja.pl/dodaj.html"
+        android:text="@string/btn_footer_add_wishes" />
+
+    <Button
         android:id="@+id/btn_other"
         style="@style/Style_TextWithShadow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:background="@color/btn_blue_selector"
-        android:tag="http://www.wp.pl"
+        android:tag="http://zyczenia.tja.pl/?ref=android"
         android:text="@string/btn_footer_another" />
 
     <Button

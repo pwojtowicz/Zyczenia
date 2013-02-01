@@ -52,6 +52,7 @@ public class RootFragment extends BaseFragment<Object> implements
 
 		Button btn_webpage = (Button) footer.findViewById(R.id.btn_web);
 		Button btn_otherpage = (Button) footer.findViewById(R.id.btn_other);
+		Button btn_add_wish = (Button) footer.findViewById(R.id.btn_add_wish);
 
 		Button btn_about = (Button) footer.findViewById(R.id.btn_about);
 
@@ -88,6 +89,7 @@ public class RootFragment extends BaseFragment<Object> implements
 
 		btn_otherpage.setOnClickListener(page);
 		btn_webpage.setOnClickListener(page);
+		btn_add_wish.setOnClickListener(page);
 
 		btn_about.setOnClickListener(new OnClickListener() {
 
