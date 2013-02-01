@@ -14,6 +14,7 @@ public class NetPlusAppGlobals {
 	public static final int ITEMS_ALL = -2;
 	public static final int ITEMS_FAVORITE = -1;
 	public static final int ITEMS_SEARCH = -3;
+	public static final int ITEMS_NEET_UPDATE = -4;
 
 	private static volatile NetPlusAppGlobals instance = null;
 

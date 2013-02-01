@@ -11,6 +11,7 @@ import pl.netplus.wishesbase.support.DialogHelper;
 import pl.netplus.wishesbase.support.NetPlusAppGlobals;
 import pl.netplus.wishesphone.AboutActivity;
 import pl.netplus.wishesphone.R;
+import pl.netplus.wishesphone.RootActivity;
 import pl.netplus.wishesphone.WishesActivity;
 import android.content.Context;
 import android.content.Intent;
@@ -125,7 +126,10 @@ public class RootFragment extends BaseFragment<Object> implements
 
 		Category cat = (Category) view.getTag();
 		if (cat != null) {
-			startWishesIntent(cat.getId(), cat.getName());
+			if (cat.getId() == NetPlusAppGlobals.ITEMS_NEET_UPDATE)
+				((RootActivity) getActivity()).retryLastAction();
+			else
+				startWishesIntent(cat.getId(), cat.getName());
 		}
 	}
 

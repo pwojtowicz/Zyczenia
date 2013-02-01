@@ -105,4 +105,10 @@ public class SearchActivity extends AppBaseActivity {
 		startActivity(intent);
 	}
 
+	@Override
+	public void retryLastAction() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

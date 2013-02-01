@@ -1,11 +1,15 @@
 package pl.netplus.wishesphone;
 
 import pl.netplus.appbase.database.DataBaseManager;
+import pl.netplus.appbase.enums.EDialogType;
 import pl.netplus.appbase.exception.RepositoryException;
 import pl.netplus.appbase.interfaces.IReadRepository;
+import pl.netplus.wishesbase.support.DialogHelper;
 import pl.netplus.wishesbase.support.NetPlusAppGlobals;
 import pl.netplus.wishesbase.support.StringHelper;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -71,9 +75,20 @@ public abstract class AppBaseActivity extends FragmentActivity implements
 
 	@Override
 	public void onTaskInvalidResponse(RepositoryException exception) {
-		// TODO Auto-generated method stub
+		OnClickListener dialogPositiveListener = new OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				retryLastAction();
+			}
+		};
+
+		DialogHelper.createErrorDialog(this, EDialogType.Connection_Error,
+				dialogPositiveListener).show();
 
 	}
+
+	public abstract void retryLastAction();
 
 	@Override
 	public void onTaskProgressUpdate(int actualProgress) {

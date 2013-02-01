@@ -50,9 +50,9 @@ public class HTTPRequestProvider {
 
 			ByteArrayOutputStream byteArray = readInpdutStream(in, fileSize,
 					listener);
+
 			try {
 				response = byteArray.toString("ISO-8859-2");
-
 			} catch (Exception e) {
 
 			}

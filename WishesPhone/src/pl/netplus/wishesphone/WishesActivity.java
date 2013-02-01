@@ -233,4 +233,10 @@ public class WishesActivity extends AppBaseActivity {
 
 	}
 
+	@Override
+	public void retryLastAction() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

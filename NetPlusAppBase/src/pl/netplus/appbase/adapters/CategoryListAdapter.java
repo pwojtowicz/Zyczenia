@@ -21,8 +21,10 @@ public class CategoryListAdapter extends BaseListAdapter<Category> {
 		TextView name = (TextView) convertView.findViewById(R.id.itemName);
 		if (item != null) {
 			Category cat = (Category) item;
-			name.setText(cat.getName() + " (" + String.valueOf(cat.getCount())
-					+ ")");
+
+			name.setText(cat.getName()
+					+ (cat.getId() > 0 ? " (" + String.valueOf(cat.getCount())
+							+ ")" : ""));
 
 			convertView.setTag(cat);
 		}

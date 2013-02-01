@@ -31,7 +31,7 @@
         android:layout_marginTop="5dp"
         android:background="@color/btn_blue_selector"
         android:tag="http://www.wp.pl"
-        android:text="Inne fajne życzenia" />
+        android:text="@string/btn_footer_another" />
 
     <Button
         android:id="@+id/btn_about"
