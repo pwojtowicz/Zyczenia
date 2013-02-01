@@ -1,5 +1,5 @@
 package pl.netplus.appbase.enums;
 
 public enum EDialogType {
-	No_Favorites, Connection_Error, No_SearchResult
+	No_Favorites, Connection_Error, No_SearchResult, Information
 }

@@ -24,11 +24,15 @@ public class SearchActivity extends AppBaseActivity {
 	private Spinner spinner;
 
 	@Override
+	public void onResume() {
+		super.onResume();
+		reloadSpinner();
+	}
+
+	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_search);
-
-		reloadSpinner();
 
 		Button btn_search = (Button) findViewById(R.id.btn_search);
 		btn_search.setOnClickListener(new OnClickListener() {
@@ -67,9 +71,14 @@ public class SearchActivity extends AppBaseActivity {
 		SpinnerObject value = (SpinnerObject) spinner.getSelectedItem();
 		EditText edit_text = (EditText) findViewById(R.id.edt_search_text);
 
-		ObjectManager manager = new ObjectManager();
-		manager.searchContentObjects(this, value.id, edit_text.getText()
-				.toString());
+		if (edit_text.getText().toString().length() == 0)
+			DialogHelper.createDialog(this, EDialogType.Information,
+					"Nie podano kryterium wyszukiwania").show();
+		else {
+			ObjectManager manager = new ObjectManager();
+			manager.searchContentObjects(this, value.id, edit_text.getText()
+					.toString());
+		}
 	}
 
 	@Override

@@ -1,6 +1,8 @@
 package pl.netplus.wishesbase.support;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 
 import pl.netplus.appbase.entities.Category;
@@ -51,6 +53,16 @@ public class NetPlusAppGlobals {
 			}
 		} else
 			items = this.categories;
+
+		Collections.sort(items, new Comparator<Category>() {
+			@Override
+			public int compare(Category c1, Category c2) {
+
+				return c1.getName().compareToIgnoreCase(c2.getName());
+
+				// return s1.compareToIgnoreCase(s2);
+			}
+		});
 
 		return items;
 	}

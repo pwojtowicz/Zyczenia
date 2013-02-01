@@ -34,4 +34,17 @@ public class DialogHelper {
 		return dialog.create();
 	}
 
+	public static Dialog createDialog(Context context, EDialogType type,
+			String message) {
+		Builder dialog = new AlertDialog.Builder(context);
+		switch (type) {
+		case Information:
+			dialog.setMessage(message);
+			dialog.setTitle(pl.netplus.appbase.R.string.dialog_title_info);
+			dialog.setPositiveButton(R.string.dialog_OK, null);
+			break;
+		}
+		return dialog.create();
+	}
+
 }
