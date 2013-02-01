@@ -27,5 +27,9 @@
     
     <string name="btn_footer_add_wishes">Dodaj życzenie</string>
     
+    <string name="btn_update">Aktualizacji danych</string>
+    
+    <string name="update_question">Czy chcesz dokonać aktualizacji życzeń?</string>
+    
 
 </resources>

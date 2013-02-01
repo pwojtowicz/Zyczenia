@@ -44,16 +44,23 @@ public class DialogHelper {
 		return dialog.create();
 	}
 
-	public static Dialog createDialog(Context context, EDialogType type,
-			String message) {
+	public static Dialog createInfoDialog(Context context, String message) {
 		Builder dialog = new AlertDialog.Builder(context);
-		switch (type) {
-		case Information:
-			dialog.setMessage(message);
-			dialog.setTitle(pl.netplus.appbase.R.string.dialog_title_info);
-			dialog.setPositiveButton(R.string.dialog_OK, null);
-			break;
-		}
+
+		dialog.setMessage(message);
+		dialog.setTitle(pl.netplus.appbase.R.string.dialog_title_info);
+		dialog.setPositiveButton(R.string.dialog_OK, null);
+
+		return dialog.create();
+	}
+
+	public static Dialog createQuestionDialog(Context context, String message,
+			OnClickListener positiveListener) {
+		Builder dialog = new AlertDialog.Builder(context);
+		dialog.setMessage(message);
+		dialog.setTitle(pl.netplus.appbase.R.string.dialog_title_info);
+		dialog.setNegativeButton(R.string.dialog_Cancel, null);
+		dialog.setPositiveButton(R.string.dialog_Retry, positiveListener);
 		return dialog.create();
 	}
 

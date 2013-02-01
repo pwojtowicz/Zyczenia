@@ -42,6 +42,15 @@
         android:background="@color/btn_blue_selector"
         android:tag="http://zyczenia.tja.pl/?ref=android"
         android:text="@string/btn_footer_another" />
+    
+    <Button
+        android:id="@+id/btn_update"
+        style="@style/Style_TextWithShadow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@color/btn_blue_selector"
+        android:text="@string/btn_update" />
 
     <Button
         android:id="@+id/btn_about"

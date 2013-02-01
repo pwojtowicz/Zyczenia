@@ -72,7 +72,7 @@ public class SearchActivity extends AppBaseActivity {
 		EditText edit_text = (EditText) findViewById(R.id.edt_search_text);
 
 		if (edit_text.getText().toString().length() == 0)
-			DialogHelper.createDialog(this, EDialogType.Information,
+			DialogHelper.createInfoDialog(this,
 					"Nie podano kryterium wyszukiwania").show();
 		else {
 			ObjectManager manager = new ObjectManager();

@@ -9,8 +9,11 @@ import pl.netplus.appbase.entities.Category;
 import pl.netplus.appbase.enums.ERepositoryTypes;
 import pl.netplus.appbase.exception.RepositoryException;
 import pl.netplus.appbase.managers.ObjectManager;
+import pl.netplus.wishesbase.support.DialogHelper;
 import pl.netplus.wishesbase.support.NetPlusAppGlobals;
 import pl.netplus.wishesphone.fragments.RootFragment;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
@@ -27,12 +30,35 @@ public class RootActivity extends AppBaseActivity {
 
 		long actualTime = Calendar.getInstance().getTimeInMillis();
 
-		ObjectManager manager = new ObjectManager();
-		if (nextUpdate < actualTime)
-			manager.updateData(this);
-		// manager.readFromServer(this, ERepositoryTypes.Categories);
-		else
+		if (nextUpdate < actualTime) {
+			update(nextUpdate == 0 ? false : true);
+		} else {
+			ObjectManager manager = new ObjectManager();
 			manager.readAll(this, ERepositoryTypes.Categories);
+		}
+	}
+
+	private void update(boolean showQuestion) {
+		if (showQuestion) {
+			OnClickListener positiveListener = new OnClickListener() {
+
+				@Override
+				public void onClick(DialogInterface arg0, int arg1) {
+					getUpdate();
+				}
+			};
+
+			DialogHelper.createQuestionDialog(this,
+					getString(R.string.update_question), positiveListener)
+					.show();
+		} else
+			getUpdate();
+
+	}
+
+	private void getUpdate() {
+		ObjectManager manager = new ObjectManager();
+		manager.updateData(this);
 	}
 
 	@Override
