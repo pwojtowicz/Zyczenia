@@ -30,5 +30,8 @@
     <string name="progress_save_changes">Zapisywanie zmian</string>
     <string name="progress_search">Wyszukiwanie</string>
     
+    <string name="preference_title_hide_empty">Ukryj puste kategorie</string>
+    <string name="preference_summary_hide_empty">Ukrywa z listy kategorii te które nie zawierają życzeń</string>
+    
 	
 </resources>

@@ -13,6 +13,7 @@ public class SettingsFragment extends PreferenceFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		addPreferencesFromResource(pl.netplus.appbase.R.xml.preferences);
 		addPreferencesFromResource(R.xml.preferences);
 
 		EditTextPreference lastDate = (EditTextPreference) getPreferenceScreen()

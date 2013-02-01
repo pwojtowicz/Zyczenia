@@ -96,6 +96,7 @@ public class CategoriesRepository implements IBaseRepository<Category> {
 		for (Category category : items) {
 			insertOrUpdate(category);
 		}
+		NetPlusAppGlobals.getInstance().setCategories(items);
 		return items;
 	}
 

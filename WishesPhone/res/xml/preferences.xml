@@ -1,12 +1,6 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" android:title="...">
     
     <CheckBoxPreference
-            android:key="prop_hide_empty"
-            android:defaultValue="true"
-            android:title="@string/preference_title_hide_empty" 
-            android:summary="@string/preference_summary_hide_empty"/>
-    
-    <CheckBoxPreference
             android:key="prop_replace"
             android:defaultValue="false"
             android:title="@string/preference_title_replace" 
