@@ -27,7 +27,6 @@ public class RootActivity extends AppBaseActivity {
 		super.onResume();
 
 		long nextUpdate = getNextUpdateDate();
-
 		long actualTime = Calendar.getInstance().getTimeInMillis();
 
 		if (nextUpdate < actualTime) {
@@ -38,7 +37,7 @@ public class RootActivity extends AppBaseActivity {
 		}
 	}
 
-	private void update(boolean showQuestion) {
+	public void update(boolean showQuestion) {
 		if (showQuestion) {
 			OnClickListener positiveListener = new OnClickListener() {
 
@@ -53,7 +52,11 @@ public class RootActivity extends AppBaseActivity {
 					.show();
 		} else
 			getUpdate();
+	}
 
+	@Override
+	public void retryLastAction() {
+		update(false);
 	}
 
 	private void getUpdate() {
@@ -111,10 +114,4 @@ public class RootActivity extends AppBaseActivity {
 		details.reload();
 	}
 
-	@Override
-	public void retryLastAction() {
-		ObjectManager manager = new ObjectManager();
-		manager.readFromServer(this, ERepositoryTypes.Categories);
-
-	}
 }

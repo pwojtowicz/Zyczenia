@@ -48,7 +48,7 @@ public class FavoritesRepository implements IBaseRepository<Favorite> {
 	}
 
 	@Override
-	public boolean insertOrUpdate(Favorite item) {
+	public boolean insertOrUpdate(Favorite item, DataBaseManager dbManager) {
 		if (item.isFavorite()) {
 			dbm.checkIsOpen();
 			SQLiteStatement insertStmt = dbm.getDataBase().compileStatement(
@@ -70,7 +70,8 @@ public class FavoritesRepository implements IBaseRepository<Favorite> {
 	}
 
 	@Override
-	public boolean getFromServer(IHttpRequestToAsyncTaskCommunication listener) {
+	public boolean getFromServer(IHttpRequestToAsyncTaskCommunication listener,
+			DataBaseManager dbManager) {
 		return false;
 	}
 
@@ -93,6 +94,12 @@ public class FavoritesRepository implements IBaseRepository<Favorite> {
 
 	@Override
 	public ArrayList<Favorite> readById(int value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Favorite read(int id, DataBaseManager dbManager) {
 		// TODO Auto-generated method stub
 		return null;
 	}

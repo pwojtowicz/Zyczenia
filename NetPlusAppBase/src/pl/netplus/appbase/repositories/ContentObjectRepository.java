@@ -22,7 +22,7 @@ public class ContentObjectRepository implements IBaseRepository<ContentObject> {
 
 	private final String INSERT_TO_OBJECTS = "INSERT INTO "
 			+ DataBaseHelper.TABLE_OBJECTS
-			+ "(Content, Categories, Rating)  Values(?,?,?)";
+			+ "(ID, Content, Categories, Rating)  Values(?,?,?,?)";
 
 	@Override
 	public ContentObject read(int id) {
@@ -51,6 +51,29 @@ public class ContentObjectRepository implements IBaseRepository<ContentObject> {
 			dbm.close();
 		} catch (SQLException e) {
 
+		}
+		return item;
+	}
+
+	@Override
+	public ContentObject read(int id, DataBaseManager dbManager) {
+		ContentObject item = null;
+		Cursor cursor = dbManager.getDataBase().query(
+				DataBaseHelper.TABLE_OBJECTS,
+				new String[] { "ID,Content, Categories, Rating" }, "ID = ? ",
+				new String[] { String.valueOf(id) }, null, null, null);
+		if (cursor.moveToFirst()) {
+			do {
+				item = new ContentObject();
+				item.setId(cursor.getInt(0));
+				item.setText(cursor.getString(1));
+				item.setCategory(cursor.getString(2));
+				item.setRating(cursor.getDouble(3));
+				break;
+			} while (cursor.moveToNext());
+		}
+		if (cursor != null && !cursor.isClosed()) {
+			cursor.close();
 		}
 		return item;
 	}
@@ -132,24 +155,30 @@ public class ContentObjectRepository implements IBaseRepository<ContentObject> {
 	}
 
 	@Override
-	public boolean insertOrUpdate(ContentObject item) {
-		ContentObject oldItem = read(item.getId());
-		if (oldItem == null) {
-			dbm.checkIsOpen();
-			SQLiteStatement insertStmt = dbm.getDataBase().compileStatement(
-					INSERT_TO_OBJECTS);
-			insertStmt.bindString(1, item.getText());
-			insertStmt.bindString(2, item.getCategory());
-			insertStmt.bindDouble(3, item.getRating());
-			long result = insertStmt.executeInsert();
-			dbm.close();
-			return result > 0 ? true : false;
+	public boolean insertOrUpdate(ContentObject item, DataBaseManager dbManager) {
+		try {
+			ContentObject oldItem = read(item.getId(), dbManager);
+			if (oldItem == null) {
+				SQLiteStatement insertStmt = dbManager.getDataBase()
+						.compileStatement(INSERT_TO_OBJECTS);
+				insertStmt.bindLong(1, item.getId());
+				insertStmt.bindString(2, item.getText());
+				insertStmt.bindString(3, item.getCategory());
+				insertStmt.bindDouble(4, item.getRating());
+				long result = insertStmt.executeInsert();
+
+				return result > 0 ? true : false;
+			}
+			return true;
+		} catch (Exception e) {
+
 		}
 		return false;
 	}
 
 	@Override
-	public boolean getFromServer(IHttpRequestToAsyncTaskCommunication listener) {
+	public boolean getFromServer(IHttpRequestToAsyncTaskCommunication listener,
+			DataBaseManager dbManager) {
 
 		boolean result = false;
 		Provider<WebContentObjectContainer> provider = new Provider<WebContentObjectContainer>(
@@ -166,8 +195,12 @@ public class ContentObjectRepository implements IBaseRepository<ContentObject> {
 		}
 		ArrayList<ContentObject> items = new ArrayList<ContentObject>(
 				Arrays.asList(content.items));
+		boolean insertResult = true;
 		for (ContentObject contentObject : items) {
-			insertOrUpdate(contentObject);
+			insertResult = insertOrUpdate(contentObject, dbManager);
+			if (!insertResult) {
+				return false;
+			}
 		}
 		result = true;
 		return result;
@@ -213,4 +246,5 @@ public class ContentObjectRepository implements IBaseRepository<ContentObject> {
 				NetPlusAppGlobals.ITEMS_SEARCH, list);
 		return list;
 	}
+
 }

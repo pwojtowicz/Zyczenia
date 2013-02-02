@@ -29,6 +29,28 @@ public class CategoriesRepository implements IBaseRepository<Category> {
 	}
 
 	@Override
+	public Category read(int id, DataBaseManager dbManager) {
+		Category item = null;
+		Cursor cursor = dbm.getDataBase().query(
+				DataBaseHelper.TABLE_CATEGORIES,
+				new String[] { "ID,Name, ItemCount" }, "ID = ? ",
+				new String[] { String.valueOf(id) }, null, null, "ID");
+		if (cursor.moveToFirst()) {
+			do {
+				item = new Category();
+				item.setId(cursor.getInt(0));
+				item.setName(cursor.getString(1));
+				item.setCount(cursor.getInt(2));
+				break;
+			} while (cursor.moveToNext());
+		}
+		if (cursor != null && !cursor.isClosed()) {
+			cursor.close();
+		}
+		return item;
+	}
+
+	@Override
 	public ArrayList<Category> readAll() {
 		dbm.checkIsOpen();
 		ArrayList<Category> list = new ArrayList<Category>();
@@ -57,25 +79,29 @@ public class CategoriesRepository implements IBaseRepository<Category> {
 	}
 
 	@Override
-	public boolean insertOrUpdate(Category item) {
-		Category oldItem = read(item.getId());
-		if (oldItem == null) {
-			dbm.checkIsOpen();
-			SQLiteStatement insertStmt = dbm.getDataBase().compileStatement(
-					INSERT_TO_CATEGORIES);
-			insertStmt.bindLong(1, item.getId());
-			insertStmt.bindString(2, item.getName());
-			insertStmt.bindLong(3, item.getCount());
-			long result = insertStmt.executeInsert();
-			dbm.close();
-			return result > 0 ? true : false;
-		}
+	public boolean insertOrUpdate(Category item, DataBaseManager dbManager) {
+		try {
+			Category oldItem = read(item.getId(), dbManager);
+			if (oldItem == null) {
+				SQLiteStatement insertStmt = dbManager.getDataBase()
+						.compileStatement(INSERT_TO_CATEGORIES);
+				insertStmt.bindLong(1, item.getId());
+				insertStmt.bindString(2, item.getName());
+				insertStmt.bindLong(3, item.getCount());
+				long result = insertStmt.executeInsert();
 
+				return result > 0 ? true : false;
+			}
+			return true;
+		} catch (Exception e) {
+
+		}
 		return false;
 	}
 
 	@Override
-	public boolean getFromServer(IHttpRequestToAsyncTaskCommunication listener) {
+	public boolean getFromServer(IHttpRequestToAsyncTaskCommunication listener,
+			DataBaseManager dbManager) {
 		boolean result = false;
 		Provider<WebCategoryContainer> provider = new Provider<WebCategoryContainer>(
 				WebCategoryContainer.class);
@@ -93,10 +119,14 @@ public class CategoriesRepository implements IBaseRepository<Category> {
 		ArrayList<Category> items = new ArrayList<Category>(
 				Arrays.asList(content.items));
 
+		boolean insertResult = true;
 		for (Category category : items) {
-			insertOrUpdate(category);
+			insertResult = insertOrUpdate(category, dbManager);
+			if (!insertResult) {
+				return false;
+			}
 		}
-		NetPlusAppGlobals.getInstance().setCategories(items);
+		// NetPlusAppGlobals.getInstance().setCategories(items);
 		result = true;
 		return result;
 	}
@@ -111,5 +141,15 @@ public class CategoriesRepository implements IBaseRepository<Category> {
 	public ArrayList<Category> readById(int value) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public boolean deleteAll(DataBaseManager otherDbm) {
+		if (otherDbm != null) {
+			int result = otherDbm.getDataBase().delete(
+					DataBaseHelper.TABLE_CATEGORIES, null, null);
+			return result > 0 ? true : false;
+		}
+		return false;
+
 	}
 }

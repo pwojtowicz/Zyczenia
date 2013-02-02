@@ -68,12 +68,6 @@ public class ObjectManager {
 				ERepositoryManagerMethods.ReadById, item);
 	}
 
-	public void readFromServer(IReadRepository listener, ERepositoryTypes type) {
-
-		startTask(listener, getRepository(type),
-				ERepositoryManagerMethods.ReadFromServer, null);
-	}
-
 	public void readAll(IReadRepository listener, ERepositoryTypes type) {
 
 		startTask(listener, getRepository(type),

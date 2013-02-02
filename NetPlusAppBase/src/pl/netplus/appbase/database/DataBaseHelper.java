@@ -19,7 +19,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
 	private static final String CREATE_OBJECTS = "create table "
 			+ TABLE_OBJECTS
-			+ "(ID integer primary key autoincrement, Content text not null, Categories text, Rating REAL);";
+			+ "(ID integer primary key, Content text not null, Categories text, Rating REAL);";
 
 	private static final String CREATE_FAVORITES = "create table "
 			+ TABLE_FAVORITES

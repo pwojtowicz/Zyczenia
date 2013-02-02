@@ -26,7 +26,7 @@ import android.widget.Button;
 import android.widget.ListView;
 
 public class RootFragment extends BaseFragment<Object> implements
-		OnItemClickListener {
+		OnItemClickListener, OnClickListener {
 
 	private ListView listView;
 	private Button btn_favorite;
@@ -48,68 +48,33 @@ public class RootFragment extends BaseFragment<Object> implements
 
 		View footer = layoutInflater.inflate(R.layout.root_footer_layout, null);
 
-		Button btn_random = (Button) footer.findViewById(R.id.btn_random);
-
-		Button btn_webpage = (Button) footer.findViewById(R.id.btn_web);
-		Button btn_otherpage = (Button) footer.findViewById(R.id.btn_other);
-		Button btn_add_wish = (Button) footer.findViewById(R.id.btn_add_wish);
-
-		Button btn_about = (Button) footer.findViewById(R.id.btn_about);
-
 		listView.addHeaderView(header);
 		listView.addFooterView(footer);
 
 		listView.setOnItemClickListener(this);
 
-		btn_favorite.setOnClickListener(new OnClickListener() {
+		Button btn_random = (Button) footer.findViewById(R.id.btn_random);
+		Button btn_webpage = (Button) footer.findViewById(R.id.btn_web);
+		Button btn_otherpage = (Button) footer.findViewById(R.id.btn_other);
+		Button btn_add_wish = (Button) footer.findViewById(R.id.btn_add_wish);
+		Button btn_about = (Button) footer.findViewById(R.id.btn_about);
+		Button btn_update = (Button) footer.findViewById(R.id.btn_update);
 
-			@Override
-			public void onClick(View arg0) {
-				showFavoritesWish();
-			}
-		});
+		btn_favorite.setTag(EButtonType.Favorite);
+		btn_favorite.setOnClickListener(this);
 
-		btn_random.setOnClickListener(new OnClickListener() {
+		btn_random.setTag(EButtonType.Random);
+		btn_random.setOnClickListener(this);
 
-			@Override
-			public void onClick(View arg0) {
-				showRandomWish();
-			}
-		});
+		btn_update.setTag(EButtonType.Update);
+		btn_update.setOnClickListener(this);
 
-		OnClickListener page = new OnClickListener() {
+		btn_about.setTag(EButtonType.About);
+		btn_about.setOnClickListener(this);
 
-			@Override
-			public void onClick(View view) {
-				String url = (String) view.getTag();
-
-				showWebPage(url);
-			}
-		};
-
-		btn_otherpage.setOnClickListener(page);
-		btn_webpage.setOnClickListener(page);
-		btn_add_wish.setOnClickListener(page);
-
-		btn_about.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View arg0) {
-				showAboutPage();
-			}
-		});
-
-	}
-
-	protected void showAboutPage() {
-		Intent intent = new Intent(getActivity(), AboutActivity.class);
-		startActivity(intent);
-	}
-
-	protected void showWebPage(String url) {
-		Intent i = new Intent(Intent.ACTION_VIEW);
-		i.setData(Uri.parse(url));
-		startActivity(i);
+		btn_otherpage.setOnClickListener(this);
+		btn_webpage.setOnClickListener(this);
+		btn_add_wish.setOnClickListener(this);
 	}
 
 	@Override
@@ -135,21 +100,6 @@ public class RootFragment extends BaseFragment<Object> implements
 		}
 	}
 
-	protected void showFavoritesWish() {
-		if (NetPlusAppGlobals.getInstance().getFavoritesCount() > 0)
-			startWishesIntent(NetPlusAppGlobals.ITEMS_FAVORITE,
-					getText(pl.netplus.appbase.R.string.favorites).toString());
-		else {
-			DialogHelper.createDialog(getActivity(), EDialogType.No_Favorites)
-					.show();
-		}
-	}
-
-	protected void showRandomWish() {
-		startWishesIntent(NetPlusAppGlobals.ITEMS_ALL,
-				getText(pl.netplus.appbase.R.string.randomObjects).toString());
-	}
-
 	private void startWishesIntent(int categoryId, String title) {
 		Intent intent = new Intent(getActivity(), WishesActivity.class);
 		Bundle b = new Bundle();
@@ -165,6 +115,65 @@ public class RootFragment extends BaseFragment<Object> implements
 		btn_favorite.setText(String.format("%s (%d)",
 				getText(R.string.favorites), totalCount));
 
+	}
+
+	@Override
+	public void onClick(View view) {
+		Object o = view.getTag();
+		if (o instanceof EButtonType) {
+			switch ((EButtonType) o) {
+			case Favorite:
+				showFavoritesWish();
+				break;
+			case Random:
+				showRandomWish();
+				break;
+			case Update:
+				upddate();
+				break;
+			case About:
+				showAboutPage();
+				break;
+			default:
+				break;
+			}
+		} else if (o instanceof String) {
+			showWebPage((String) o);
+		}
+	}
+
+	protected void showAboutPage() {
+		Intent intent = new Intent(getActivity(), AboutActivity.class);
+		startActivity(intent);
+	}
+
+	protected void upddate() {
+		((RootActivity) getActivity()).update(true);
+	}
+
+	protected void showFavoritesWish() {
+		if (NetPlusAppGlobals.getInstance().getFavoritesCount() > 0)
+			startWishesIntent(NetPlusAppGlobals.ITEMS_FAVORITE,
+					getText(pl.netplus.appbase.R.string.favorites).toString());
+		else {
+			DialogHelper.createDialog(getActivity(), EDialogType.No_Favorites)
+					.show();
+		}
+	}
+
+	protected void showRandomWish() {
+		startWishesIntent(NetPlusAppGlobals.ITEMS_ALL,
+				getText(pl.netplus.appbase.R.string.randomObjects).toString());
+	}
+
+	protected void showWebPage(String url) {
+		Intent i = new Intent(Intent.ACTION_VIEW);
+		i.setData(Uri.parse(url));
+		startActivity(i);
+	}
+
+	private enum EButtonType {
+		Favorite, Update, About, Random
 	}
 
 }

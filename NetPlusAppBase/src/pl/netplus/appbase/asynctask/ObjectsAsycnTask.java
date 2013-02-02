@@ -1,5 +1,6 @@
 package pl.netplus.appbase.asynctask;
 
+import pl.netplus.appbase.database.DataBaseManager;
 import pl.netplus.appbase.entities.ModelBase;
 import pl.netplus.appbase.enums.ERepositoryException;
 import pl.netplus.appbase.enums.ERepositoryManagerMethods;
@@ -63,8 +64,29 @@ public class ObjectsAsycnTask extends AsyncTask<Void, Void, Void> implements
 
 			case UpdateData: {
 				boolean results = false;
-				results = new CategoriesRepository().getFromServer(this);
-				results = new ContentObjectRepository().getFromServer(this);
+				DataBaseManager dbm = DataBaseManager.getInstance();
+				dbm.checkIsOpen();
+				dbm.getDataBase().beginTransaction();
+				try {
+					CategoriesRepository catrep = new CategoriesRepository();
+					ContentObjectRepository objrep = new ContentObjectRepository();
+
+					results = catrep.getFromServer(this, dbm);
+					results = objrep.getFromServer(this, dbm);
+					// TODO: dokoñczyæ robienie tego w transakcji
+
+					dbm.getDataBase().setTransactionSuccessful();
+				} catch (Exception e) {
+					throw new CommunicationException("",
+							ExceptionErrorCodes.UpdateError);
+				} finally {
+					dbm.getDataBase().endTransaction();
+
+				}
+				dbm.close();
+
+				new CategoriesRepository().readAll();
+
 				if (!results)
 					throw new CommunicationException("",
 							ExceptionErrorCodes.UpdateError);
@@ -72,7 +94,7 @@ public class ObjectsAsycnTask extends AsyncTask<Void, Void, Void> implements
 			}
 				break;
 			case InsertOrUpdate:
-				response.bundle = repository.insertOrUpdate(item);
+				response.bundle = repository.insertOrUpdate(item, null);
 				break;
 			case Read:
 				break;
@@ -89,9 +111,6 @@ public class ObjectsAsycnTask extends AsyncTask<Void, Void, Void> implements
 				break;
 			case ReadAll:
 				response.bundle = repository.readAll();
-				break;
-			case ReadFromServer:
-				response.bundle = repository.getFromServer(this);
 				break;
 			case ReadFavorites:
 				if (repository instanceof ContentObjectRepository) {
