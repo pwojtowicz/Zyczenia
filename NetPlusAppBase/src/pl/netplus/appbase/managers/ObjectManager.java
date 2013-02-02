@@ -9,6 +9,7 @@ import pl.netplus.appbase.interfaces.IReadRepository;
 import pl.netplus.appbase.repositories.CategoriesRepository;
 import pl.netplus.appbase.repositories.ContentObjectRepository;
 import pl.netplus.appbase.repositories.FavoritesRepository;
+import android.os.Bundle;
 
 public class ObjectManager {
 
@@ -30,8 +31,15 @@ public class ObjectManager {
 		return repository;
 	}
 
-	public void updateData(IReadRepository listener) {
-		startTask(listener, ERepositoryManagerMethods.UpdateData);
+	public void updateData(Bundle b, IReadRepository listener) {
+		startTask(listener, ERepositoryManagerMethods.UpdateData, b);
+	}
+
+	private void startTask(IReadRepository listener,
+			ERepositoryManagerMethods method, Bundle b) {
+		ObjectsAsycnTask task;
+		task = new ObjectsAsycnTask(listener, method, b);
+		task.execute((Void) null);
 	}
 
 	private void startTask(IReadRepository listener,

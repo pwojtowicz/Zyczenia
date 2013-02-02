@@ -70,9 +70,9 @@ public class FavoritesRepository implements IBaseRepository<Favorite> {
 	}
 
 	@Override
-	public boolean getFromServer(IHttpRequestToAsyncTaskCommunication listener,
-			DataBaseManager dbManager) {
-		return false;
+	public long getFromServer(DataBaseManager dbManager, String urlAddress,
+			IHttpRequestToAsyncTaskCommunication listener) {
+		return -1;
 	}
 
 	@Override

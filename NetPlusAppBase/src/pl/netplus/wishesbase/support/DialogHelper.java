@@ -60,7 +60,7 @@ public class DialogHelper {
 		dialog.setMessage(message);
 		dialog.setTitle(pl.netplus.appbase.R.string.dialog_title_info);
 		dialog.setNegativeButton(R.string.dialog_Cancel, null);
-		dialog.setPositiveButton(R.string.dialog_Retry, positiveListener);
+		dialog.setPositiveButton(R.string.dialog_OK, positiveListener);
 		return dialog.create();
 	}
 

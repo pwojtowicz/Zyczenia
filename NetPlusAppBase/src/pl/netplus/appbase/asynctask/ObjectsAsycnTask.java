@@ -13,6 +13,7 @@ import pl.netplus.appbase.interfaces.IReadRepository;
 import pl.netplus.appbase.repositories.CategoriesRepository;
 import pl.netplus.appbase.repositories.ContentObjectRepository;
 import android.os.AsyncTask;
+import android.os.Bundle;
 
 public class ObjectsAsycnTask extends AsyncTask<Void, Void, Void> implements
 		IHttpRequestToAsyncTaskCommunication {
@@ -25,6 +26,7 @@ public class ObjectsAsycnTask extends AsyncTask<Void, Void, Void> implements
 	private ModelBase item;
 	private int categoryId;
 	private String value;
+	private Bundle bundle;
 
 	public ObjectsAsycnTask(IReadRepository listener,
 			ERepositoryManagerMethods method, IBaseRepository repository,
@@ -52,6 +54,13 @@ public class ObjectsAsycnTask extends AsyncTask<Void, Void, Void> implements
 		this.method = method;
 	}
 
+	public ObjectsAsycnTask(IReadRepository listener,
+			ERepositoryManagerMethods method, Bundle bundle) {
+		this.listener = listener;
+		this.method = method;
+		this.bundle = bundle;
+	}
+
 	@Override
 	protected Void doInBackground(Void... params) {
 		response = new AsyncTaskResult();
@@ -63,16 +72,20 @@ public class ObjectsAsycnTask extends AsyncTask<Void, Void, Void> implements
 			switch (method) {
 
 			case UpdateData: {
-				boolean results = false;
+				long results = -1;
 				DataBaseManager dbm = DataBaseManager.getInstance();
 				dbm.checkIsOpen();
 				dbm.getDataBase().beginTransaction();
 				try {
+
+					String addressCategory = bundle.getString("CategoryLink");
+					String addressObjects = bundle.getString("ObjectsLink");
+
 					CategoriesRepository catrep = new CategoriesRepository();
 					ContentObjectRepository objrep = new ContentObjectRepository();
 
-					results = catrep.getFromServer(this, dbm);
-					results = objrep.getFromServer(this, dbm);
+					results = catrep.getFromServer(dbm, addressCategory, this);
+					results = objrep.getFromServer(dbm, addressObjects, this);
 					// TODO: dokoñczyæ robienie tego w transakcji
 
 					dbm.getDataBase().setTransactionSuccessful();
@@ -87,7 +100,7 @@ public class ObjectsAsycnTask extends AsyncTask<Void, Void, Void> implements
 
 				new CategoriesRepository().readAll();
 
-				if (!results)
+				if (results == -1)
 					throw new CommunicationException("",
 							ExceptionErrorCodes.UpdateError);
 				response.bundle = results;

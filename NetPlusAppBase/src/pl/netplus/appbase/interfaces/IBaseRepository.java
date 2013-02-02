@@ -19,7 +19,7 @@ public interface IBaseRepository<T> {
 
 	public abstract boolean delete(T item);
 
-	public boolean getFromServer(IHttpRequestToAsyncTaskCommunication listener,
-			DataBaseManager dbManager);
+	public long getFromServer(DataBaseManager dbManager, String urlAddress,
+			IHttpRequestToAsyncTaskCommunication listener);
 
 }

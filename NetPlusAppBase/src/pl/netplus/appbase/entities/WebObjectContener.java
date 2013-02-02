@@ -13,6 +13,6 @@ public class WebObjectContener {
 	public String connection;
 
 	@JsonProperty("utime_serwera")
-	public int serverTime;
+	public long serverTime;
 
 }

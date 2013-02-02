@@ -177,18 +177,15 @@ public class ContentObjectRepository implements IBaseRepository<ContentObject> {
 	}
 
 	@Override
-	public boolean getFromServer(IHttpRequestToAsyncTaskCommunication listener,
-			DataBaseManager dbManager) {
+	public long getFromServer(DataBaseManager dbManager, String urlAddress,
+			IHttpRequestToAsyncTaskCommunication listener) {
 
 		boolean result = false;
 		Provider<WebContentObjectContainer> provider = new Provider<WebContentObjectContainer>(
 				WebContentObjectContainer.class);
 		WebContentObjectContainer content = new WebContentObjectContainer();
 		try {
-			content = provider
-					.getObjects(
-							"http://zyczenia.tja.pl/api/android_bramka.php?co=lista_obekty&data=0",
-							null);
+			content = provider.getObjects(urlAddress, null);
 
 		} catch (CommunicationException e) {
 			e.printStackTrace();
@@ -199,11 +196,11 @@ public class ContentObjectRepository implements IBaseRepository<ContentObject> {
 		for (ContentObject contentObject : items) {
 			insertResult = insertOrUpdate(contentObject, dbManager);
 			if (!insertResult) {
-				return false;
+				return -1;
 			}
 		}
 		result = true;
-		return result;
+		return content != null ? content.serverTime : -1;
 	}
 
 	@Override

@@ -100,17 +100,14 @@ public class CategoriesRepository implements IBaseRepository<Category> {
 	}
 
 	@Override
-	public boolean getFromServer(IHttpRequestToAsyncTaskCommunication listener,
-			DataBaseManager dbManager) {
+	public long getFromServer(DataBaseManager dbManager, String urlAddress,
+			IHttpRequestToAsyncTaskCommunication listener) {
 		boolean result = false;
 		Provider<WebCategoryContainer> provider = new Provider<WebCategoryContainer>(
 				WebCategoryContainer.class);
 		WebCategoryContainer content = new WebCategoryContainer();
 		try {
-			content = provider
-					.getObjects(
-							"http://zyczenia.tja.pl/api/android_bramka.php?co=lista_kategorii",
-							listener);
+			content = provider.getObjects(urlAddress, listener);
 
 		} catch (CommunicationException e) {
 			e.printStackTrace();
@@ -123,12 +120,12 @@ public class CategoriesRepository implements IBaseRepository<Category> {
 		for (Category category : items) {
 			insertResult = insertOrUpdate(category, dbManager);
 			if (!insertResult) {
-				return false;
+				return -1;
 			}
 		}
 		// NetPlusAppGlobals.getInstance().setCategories(items);
 		result = true;
-		return result;
+		return result ? 1 : -1;
 	}
 
 	@Override

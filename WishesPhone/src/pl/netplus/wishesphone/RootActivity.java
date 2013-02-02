@@ -60,8 +60,12 @@ public class RootActivity extends AppBaseActivity {
 	}
 
 	private void getUpdate() {
+		Bundle b = new Bundle();
+		b.putString("CategoryLink", super.getCategoryAddress());
+		b.putString("ObjectsLink", getContentAddress());
+
 		ObjectManager manager = new ObjectManager();
-		manager.updateData(this);
+		manager.updateData(b, this);
 	}
 
 	@Override
@@ -89,11 +93,14 @@ public class RootActivity extends AppBaseActivity {
 
 	@Override
 	public void onTaskResponse(AsyncTaskResult response) {
-		if (response.bundle instanceof Boolean) {
-			Calendar c = Calendar.getInstance();
-			c.setTime(new Date());
-			c.add(Calendar.DAY_OF_MONTH, 7);
-			setUpdateDates(c.getTimeInMillis(), 1);
+		if (response.bundle instanceof Long) {
+			long returnFromServerTime = (Long) response.bundle;
+			if (returnFromServerTime > 0) {
+				Calendar c = Calendar.getInstance();
+				c.setTime(new Date());
+				c.add(Calendar.DAY_OF_MONTH, 7);
+				setUpdateDates(c.getTimeInMillis(), returnFromServerTime);
+			}
 		}
 
 		details.setFavoritesCount(NetPlusAppGlobals.getInstance()
@@ -105,12 +112,13 @@ public class RootActivity extends AppBaseActivity {
 	@Override
 	public void onTaskInvalidResponse(RepositoryException exception) {
 		super.onTaskInvalidResponse(exception);
-
-		Category c = new Category(getString(R.string.get_data), 1);
-		c.setId(NetPlusAppGlobals.ITEMS_NEET_UPDATE);
-		ArrayList<Category> items = new ArrayList<Category>();
-		items.add(c);
-		NetPlusAppGlobals.getInstance().setCategories(items);
+		if (NetPlusAppGlobals.getInstance().getCategories().size() == 0) {
+			Category c = new Category(getString(R.string.get_data), 1);
+			c.setId(NetPlusAppGlobals.ITEMS_NEET_UPDATE);
+			ArrayList<Category> items = new ArrayList<Category>();
+			items.add(c);
+			NetPlusAppGlobals.getInstance().setCategories(items);
+		}
 		details.reload();
 	}
 
