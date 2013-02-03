@@ -14,7 +14,7 @@ public class PreferencesOldActivity extends PreferenceActivity {
 		addPreferencesFromResource(pl.netplus.wishesphone.R.xml.preferences);
 
 		EditTextPreference lastDate = (EditTextPreference) getPreferenceScreen()
-				.findPreference("prop_last_update_date");
+				.findPreference("prop_last_update_return_date");
 		EditTextPreference nextDate = (EditTextPreference) getPreferenceScreen()
 				.findPreference("prop_next_update_date");
 		this.getPreferenceScreen().removePreference(lastDate);
