@@ -80,26 +80,29 @@ public class ObjectsAsycnTask extends AsyncTask<Void, Void, Void> implements
 
 					String addressCategory = bundle.getString("CategoryLink");
 					String addressObjects = bundle.getString("ObjectsLink");
-
+					System.out.println("Start Download");
 					CategoriesRepository catrep = new CategoriesRepository();
 					ContentObjectRepository objrep = new ContentObjectRepository();
 
 					results = catrep.getFromServer(dbm, addressCategory, this);
+					System.out.println("Categories Downloaded");
 					results = objrep.getFromServer(dbm, addressObjects, this);
 					// TODO: dokoñczyæ robienie tego w transakcji
 
+					System.out.println("Objects Downlaoded");
 					dbm.getDataBase().setTransactionSuccessful();
 				} catch (Exception e) {
 					throw new CommunicationException("",
 							ExceptionErrorCodes.UpdateError);
 				} finally {
+					System.out.println("Finish actions");
 					dbm.getDataBase().endTransaction();
 
 				}
 				dbm.close();
-
+				System.out.println("After close");
 				new CategoriesRepository().readAll();
-
+				System.out.println("After readALL");
 				if (results == -1)
 					throw new CommunicationException("",
 							ExceptionErrorCodes.UpdateError);

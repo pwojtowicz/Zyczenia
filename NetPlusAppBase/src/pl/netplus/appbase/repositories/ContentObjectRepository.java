@@ -179,7 +179,7 @@ public class ContentObjectRepository implements IBaseRepository<ContentObject> {
 	@Override
 	public long getFromServer(DataBaseManager dbManager, String urlAddress,
 			IHttpRequestToAsyncTaskCommunication listener) {
-
+		dbm.getDataBase().setLockingEnabled(false);
 		boolean result = false;
 		Provider<WebContentObjectContainer> provider = new Provider<WebContentObjectContainer>(
 				WebContentObjectContainer.class);

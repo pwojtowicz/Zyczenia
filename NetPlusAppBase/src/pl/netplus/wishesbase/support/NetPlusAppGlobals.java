@@ -47,24 +47,24 @@ public class NetPlusAppGlobals {
 
 	public ArrayList<Category> getCategories() {
 		ArrayList<Category> items = new ArrayList<Category>();
-		if (hideEmptyCategories) {
-			for (Category category : categories) {
-				if (category.getCount() > 0)
-					items.add(category);
-			}
-		} else
-			items = this.categories;
+		if (categories != null) {
+			if (hideEmptyCategories) {
+				for (Category category : categories) {
+					if (category.getCount() > 0)
+						items.add(category);
+				}
+			} else
+				items = this.categories;
 
-		Collections.sort(items, new Comparator<Category>() {
-			@Override
-			public int compare(Category c1, Category c2) {
+			Collections.sort(items, new Comparator<Category>() {
+				@Override
+				public int compare(Category c1, Category c2) {
 
-				return c1.getName().compareToIgnoreCase(c2.getName());
+					return c1.getName().compareToIgnoreCase(c2.getName());
 
-				// return s1.compareToIgnoreCase(s2);
-			}
-		});
-
+				}
+			});
+		}
 		return items;
 	}
 
