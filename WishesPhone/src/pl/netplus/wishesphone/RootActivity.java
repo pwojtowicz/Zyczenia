@@ -5,7 +5,6 @@ import java.util.Date;
 
 import pl.netplus.appbase.asynctask.ObjectsAsycnTask.AsyncTaskResult;
 import pl.netplus.appbase.entities.Category;
-import pl.netplus.appbase.entities.Favorite;
 import pl.netplus.appbase.enums.ERepositoryTypes;
 import pl.netplus.appbase.managers.ObjectManager;
 import pl.netplus.wishesphone.fragments.RootFragment;
@@ -16,10 +15,6 @@ import android.view.Menu;
 
 public class RootActivity extends AppBaseActivity {
 
-	private static final int READ_CATEGORIES = 1;
-	private static final int READ_FAVORITES = 2;
-	private int state;
-
 	private RootFragment details;
 
 	@Override
@@ -29,7 +24,6 @@ public class RootActivity extends AppBaseActivity {
 		int lastUpdate = getLast_update_date();
 
 		ObjectManager manager = new ObjectManager();
-		state = READ_CATEGORIES;
 		if (lastUpdate == 0)
 			manager.readFromServer(this, ERepositoryTypes.Categories);
 		else
@@ -62,21 +56,18 @@ public class RootActivity extends AppBaseActivity {
 	@Override
 	public void onTaskResponse(AsyncTaskResult response) {
 		if (response.bundle instanceof ArrayList<?>) {
-			if (state == READ_CATEGORIES) {
-				WishesGlobals.getInstance().setCategories(
-						(ArrayList<Category>) response.bundle);
-				setUpdateDates(1, new Date().getTime());
+			WishesGlobals.getInstance().setCategories(
+					(ArrayList<Category>) response.bundle);
 
-				ObjectManager manager = new ObjectManager();
-				state = READ_FAVORITES;
-				manager.readAll(this, ERepositoryTypes.Favorite);
-			} else if (state == READ_FAVORITES) {
-				ArrayList<Favorite> items = (ArrayList<Favorite>) response.bundle;
-				WishesGlobals.getInstance().setFavorites(items);
+			setUpdateDates(1, new Date().getTime());
 
-				details.setFavoritesCount(items.size());
-				details.reload();
-			}
+			ObjectManager manager = new ObjectManager();
+			manager.readTotalCount(this, ERepositoryTypes.Favorite);
+		} else
+
+		if (response.bundle instanceof Integer) {
+			details.setFavoritesCount((Integer) response.bundle);
+			details.reload();
 		}
 	}
 }

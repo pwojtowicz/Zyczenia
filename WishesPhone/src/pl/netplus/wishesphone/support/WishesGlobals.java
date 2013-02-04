@@ -5,14 +5,12 @@ import java.util.HashMap;
 
 import pl.netplus.appbase.entities.Category;
 import pl.netplus.appbase.entities.ContentObject;
-import pl.netplus.appbase.entities.Favorite;
 
 public class WishesGlobals {
 
 	private static volatile WishesGlobals instance = null;
 
 	private ArrayList<Category> categories;
-	private ArrayList<Integer> favorites;
 	private HashMap<Integer, ArrayList<ContentObject>> objectsDictionary;
 
 	public static WishesGlobals getInstance() {
@@ -55,28 +53,11 @@ public class WishesGlobals {
 
 	public ArrayList<ContentObject> getCategoriesContentObjects(int categoryId) {
 		if (this.objectsDictionary != null) {
-			if (this.objectsDictionary.containsKey(categoryId)) {
-				ArrayList<ContentObject> tmp = this.objectsDictionary
-						.get(categoryId);
-
-				for (ContentObject contentObject : tmp) {
-					if (favorites.contains(contentObject.getId()))
-						contentObject.setFavorites(true);
-				}
-
-				return tmp;
-			}
-
+			if (this.objectsDictionary.containsKey(categoryId))
+				return this.objectsDictionary.get(categoryId);
 		}
 		return null;
 
-	}
-
-	public void setFavorites(ArrayList<Favorite> favorites) {
-		this.favorites = new ArrayList<Integer>();
-		for (Favorite favorite : favorites) {
-			this.favorites.add(favorite.getObjectId());
-		}
 	}
 
 }

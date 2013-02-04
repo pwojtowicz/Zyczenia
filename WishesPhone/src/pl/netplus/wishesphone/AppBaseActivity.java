@@ -52,7 +52,7 @@ public abstract class AppBaseActivity extends FragmentActivity implements
 		if (message.length() == 0)
 			message = getString(R.string.progress_download_data);
 		dialog.setMessage(message);
-		dialog.setIndeterminate(true);
+		// dialog.setIndeterminate(true);
 		dialog.setCancelable(false);
 		dialog.show();
 	}

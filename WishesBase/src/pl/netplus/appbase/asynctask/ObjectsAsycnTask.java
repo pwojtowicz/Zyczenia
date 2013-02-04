@@ -3,13 +3,10 @@ package pl.netplus.appbase.asynctask;
 import pl.netplus.appbase.entities.ModelBase;
 import pl.netplus.appbase.enums.ERepositoryException;
 import pl.netplus.appbase.enums.ERepositoryManagerMethods;
-import pl.netplus.appbase.enums.ExceptionErrorCodes;
-import pl.netplus.appbase.exception.CommunicationException;
 import pl.netplus.appbase.exception.RepositoryException;
 import pl.netplus.appbase.httpconnection.IHttpRequestToAsyncTaskCommunication;
 import pl.netplus.appbase.interfaces.IBaseRepository;
 import pl.netplus.appbase.interfaces.IReadRepository;
-import pl.netplus.appbase.repositories.ContentObjectRepository;
 import pl.netplus.appbase.repositories.ReadAllDataRepository;
 import android.os.AsyncTask;
 
@@ -60,17 +57,6 @@ public class ObjectsAsycnTask extends AsyncTask<Void, Void, Void> implements
 			case ReadAll:
 				if (repository != null) {
 					response.bundle = repository.readAll();
-				}
-				break;
-			case ReadFavorites:
-				if (repository != null) {
-					if (repository instanceof ContentObjectRepository) {
-						response.bundle = ((ContentObjectRepository) repository)
-								.readFavorites();
-					} else
-						throw new CommunicationException("",
-								ExceptionErrorCodes.InvalidRepository);
-
 				}
 				break;
 			case ReadFromServer:

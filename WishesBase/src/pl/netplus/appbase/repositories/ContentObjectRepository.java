@@ -6,7 +6,6 @@ import java.util.Arrays;
 import pl.netplus.appbase.database.DataBaseHelper;
 import pl.netplus.appbase.database.DataBaseManager;
 import pl.netplus.appbase.entities.ContentObject;
-import pl.netplus.appbase.entities.Favorite;
 import pl.netplus.appbase.entities.WebContentObjectContainer;
 import pl.netplus.appbase.exception.CommunicationException;
 import pl.netplus.appbase.httpconnection.IHttpRequestToAsyncTaskCommunication;
@@ -26,47 +25,7 @@ public class ContentObjectRepository implements IBaseRepository<ContentObject> {
 
 	@Override
 	public ContentObject read(int id) {
-		ContentObject item = null;
-		try {
-			dbm.checkIsOpen();
-			Cursor cursor = dbm.getDataBase().query(
-					DataBaseHelper.TABLE_OBJECTS,
-					new String[] { "ID,Content, Categories, Rating" },
-					"ID = ? ", new String[] { String.valueOf(id) }, null, null,
-					null);
-			if (cursor.moveToFirst()) {
-				do {
-					item = new ContentObject();
-					item.setId(cursor.getInt(0));
-					item.setText(cursor.getString(1));
-					item.setCategory(cursor.getString(2));
-					item.setRating(cursor.getDouble(3));
-					break;
-				} while (cursor.moveToNext());
-			}
-			if (cursor != null && !cursor.isClosed()) {
-				cursor.close();
-			}
-			dbm.close();
-		} catch (SQLException e) {
-
-		}
-		return item;
-	}
-
-	public ArrayList<ContentObject> readFavorites() {
-		ArrayList<ContentObject> list = new ArrayList<ContentObject>();
-
-		ArrayList<Favorite> favorites = new FavoritesRepository().readAll();
-		if (favorites != null) {
-			for (Favorite favorite : favorites) {
-				ContentObject co = read(favorite.getObjectId());
-				co.setFavorites(true);
-				list.add(co);
-			}
-		}
-
-		return list;
+		return null;
 	}
 
 	@Override
