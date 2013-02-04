@@ -62,7 +62,8 @@ public class RootActivity extends AppBaseActivity {
 	private void getUpdate() {
 		Bundle b = new Bundle();
 		b.putString("CategoryLink", super.getCategoryAddress());
-		b.putString("ObjectsLink", getContentAddress());
+		b.putString("ObjectsLink", super.getContentAddress());
+		b.putString("ObjectsToDeleteLink", super.getContentToDeleteAddress());
 
 		ObjectManager manager = new ObjectManager();
 		manager.updateData(b, this);

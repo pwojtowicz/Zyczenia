@@ -12,6 +12,7 @@ import pl.netplus.appbase.httpconnection.IHttpRequestToAsyncTaskCommunication;
 import pl.netplus.appbase.httpconnection.Provider;
 import pl.netplus.appbase.interfaces.IBaseRepository;
 import pl.netplus.wishesbase.support.NetPlusAppGlobals;
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteStatement;
@@ -156,30 +157,13 @@ public class ContentObjectRepository implements IBaseRepository<ContentObject> {
 
 	@Override
 	public boolean insertOrUpdate(ContentObject item, DataBaseManager dbManager) {
-		try {
-			ContentObject oldItem = read(item.getId(), dbManager);
-			if (oldItem == null) {
-				SQLiteStatement insertStmt = dbManager.getDataBase()
-						.compileStatement(INSERT_TO_OBJECTS);
-				insertStmt.bindLong(1, item.getId());
-				insertStmt.bindString(2, item.getText());
-				insertStmt.bindString(3, item.getCategory());
-				insertStmt.bindDouble(4, item.getRating());
-				long result = insertStmt.executeInsert();
-
-				return result > 0 ? true : false;
-			}
-			return true;
-		} catch (Exception e) {
-
-		}
 		return false;
 	}
 
 	@Override
 	public long getFromServer(DataBaseManager dbManager, String urlAddress,
 			IHttpRequestToAsyncTaskCommunication listener) {
-		dbm.getDataBase().setLockingEnabled(false);
+		dbManager.getDataBase().setLockingEnabled(false);
 		boolean result = false;
 		Provider<WebContentObjectContainer> provider = new Provider<WebContentObjectContainer>(
 				WebContentObjectContainer.class);
@@ -190,17 +174,66 @@ public class ContentObjectRepository implements IBaseRepository<ContentObject> {
 		} catch (CommunicationException e) {
 			e.printStackTrace();
 		}
+
 		ArrayList<ContentObject> items = new ArrayList<ContentObject>(
 				Arrays.asList(content.items));
+
+		ArrayList<Integer> itemsIds = readAllId(dbManager);
+
 		boolean insertResult = true;
 		for (ContentObject contentObject : items) {
-			insertResult = insertOrUpdate(contentObject, dbManager);
+
+			boolean shouldUpdate = itemsIds.contains(contentObject.getId());
+
+			insertResult = insertOrUpdate(contentObject, shouldUpdate,
+					dbManager);
 			if (!insertResult) {
 				return -1;
 			}
 		}
 		result = true;
 		return content != null ? content.serverTime : -1;
+	}
+
+	private boolean insertOrUpdate(ContentObject item, boolean shouldUpdate,
+			DataBaseManager dbManager) {
+
+		if (!shouldUpdate) {
+			SQLiteStatement insertStmt = dbManager.getDataBase()
+					.compileStatement(INSERT_TO_OBJECTS);
+			insertStmt.bindLong(1, item.getId());
+			insertStmt.bindString(2, item.getText());
+			insertStmt.bindString(3, item.getCategory());
+			insertStmt.bindDouble(4, item.getRating());
+			return insertStmt.executeInsert() > 0;
+		} else {
+			ContentValues dataToInsert = new ContentValues();
+			dataToInsert.put("Content", item.getText());
+			dataToInsert.put("Categories", item.getCategory());
+			dataToInsert.put("Rating", item.getRating());
+			return dbManager.getDataBase().update(DataBaseHelper.TABLE_OBJECTS,
+					dataToInsert, "ID = ?",
+					new String[] { String.valueOf(item.getId()) }) > 0;
+
+		}
+	}
+
+	private ArrayList<Integer> readAllId(DataBaseManager dbManager) {
+
+		ArrayList<Integer> list = new ArrayList<Integer>();
+		Cursor cursor = dbManager.getDataBase().query(
+				DataBaseHelper.TABLE_OBJECTS, new String[] { "ID" }, null,
+				null, null, null, "ID");
+		if (cursor.moveToFirst()) {
+			do {
+				list.add(cursor.getInt(0));
+			} while (cursor.moveToNext());
+		}
+		if (cursor != null && !cursor.isClosed()) {
+			cursor.close();
+		}
+
+		return list;
 	}
 
 	@Override
@@ -242,6 +275,35 @@ public class ContentObjectRepository implements IBaseRepository<ContentObject> {
 		NetPlusAppGlobals.getInstance().setObjectsDictionary(
 				NetPlusAppGlobals.ITEMS_SEARCH, list);
 		return list;
+	}
+
+	public long getObjectsToDeleteFromServer(DataBaseManager dbManager,
+			String urlAddress, IHttpRequestToAsyncTaskCommunication listener) {
+
+		Provider<WebContentObjectContainer> provider = new Provider<WebContentObjectContainer>(
+				WebContentObjectContainer.class);
+		WebContentObjectContainer content = new WebContentObjectContainer();
+		try {
+			content = provider.getObjects(urlAddress, null);
+
+		} catch (CommunicationException e) {
+			e.printStackTrace();
+		}
+		ArrayList<ContentObject> items = new ArrayList<ContentObject>(
+				Arrays.asList(content.items));
+
+		ArrayList<Integer> itemsIds = readAllId(dbManager);
+		for (ContentObject item : items) {
+			itemsIds.remove((Integer) item.getId());
+		}
+		if (itemsIds.size() > 0) {
+			for (Integer integer : itemsIds) {
+				dbManager.getDataBase().delete(DataBaseHelper.TABLE_OBJECTS,
+						"ID = " + String.valueOf(integer), null);
+			}
+		}
+
+		return 0;
 	}
 
 }

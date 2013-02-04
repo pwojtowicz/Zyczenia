@@ -80,23 +80,22 @@ public class CategoriesRepository implements IBaseRepository<Category> {
 
 	@Override
 	public boolean insertOrUpdate(Category item, DataBaseManager dbManager) {
-		try {
-			Category oldItem = read(item.getId(), dbManager);
-			if (oldItem == null) {
-				SQLiteStatement insertStmt = dbManager.getDataBase()
-						.compileStatement(INSERT_TO_CATEGORIES);
-				insertStmt.bindLong(1, item.getId());
-				insertStmt.bindString(2, item.getName());
-				insertStmt.bindLong(3, item.getCount());
-				long result = insertStmt.executeInsert();
 
-				return result > 0 ? true : false;
-			}
-			return true;
-		} catch (Exception e) {
+		Category oldItem = null;// read(item.getId(), dbManager);
+		if (oldItem == null) {
+			SQLiteStatement insertStmt = dbManager.getDataBase()
+					.compileStatement(INSERT_TO_CATEGORIES);
+			insertStmt.bindLong(1, item.getId());
+			insertStmt.bindString(2, item.getName());
+			insertStmt.bindLong(3, item.getCount());
+			long result = insertStmt.executeInsert();
+
+			return result > 0;
+		} else {
 
 		}
 		return false;
+
 	}
 
 	@Override
@@ -144,7 +143,7 @@ public class CategoriesRepository implements IBaseRepository<Category> {
 		if (otherDbm != null) {
 			int result = otherDbm.getDataBase().delete(
 					DataBaseHelper.TABLE_CATEGORIES, null, null);
-			return result > 0 ? true : false;
+			return result > 0;
 		}
 		return false;
 

@@ -22,6 +22,7 @@ public abstract class AppBaseActivity extends FragmentActivity implements
 
 	private final static String categoryAddress = "http://zyczenia.tja.pl/api/android_bramka.php?co=lista_kategorii";
 	private final static String contentAddress = "http://zyczenia.tja.pl/api/android_bramka.php?co=lista_obekty&data=";
+	private final static String contentToDeleteAddress = "http://zyczenia.tja.pl/api/android_bramka.php?co=lista_obekty_id";
 
 	private ProgressDialog dialog;
 	private String pref_next_update_date;
@@ -104,6 +105,10 @@ public abstract class AppBaseActivity extends FragmentActivity implements
 				.getDefaultSharedPreferences(this);
 		return String.format("%s%s", contentAddress,
 				prefs.getString("prop_last_update_return_date", "0"));
+	}
+
+	public String getContentToDeleteAddress() {
+		return contentToDeleteAddress;
 	}
 
 	public long getNextUpdateDate() {
