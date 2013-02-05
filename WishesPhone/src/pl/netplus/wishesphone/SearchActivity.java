@@ -101,6 +101,8 @@ public class SearchActivity extends AppBaseActivity {
 		Intent intent = new Intent(this, WishesActivity.class);
 		Bundle b = new Bundle();
 		b.putInt(WishesActivity.BUNDLE_CATEGORY_ID, categoryId);
+		b.putString(WishesActivity.BUNDLE_TITLE,
+				getString(pl.netplus.appbase.R.string.title_search));
 		intent.putExtras(b);
 		startActivity(intent);
 	}

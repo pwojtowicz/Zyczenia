@@ -33,5 +33,7 @@
     <string name="preference_title_hide_empty">Ukryj puste kategorie</string>
     <string name="preference_summary_hide_empty">Ukrywa z listy kategorii te które nie zawierają życzeń</string>
     
+    <string name="title_search">Wyszukane</string>
+    
 	
 </resources>

@@ -34,7 +34,7 @@ public class WishesFragment extends BaseFragment<ContentObject> implements
 	@Override
 	public void onResume() {
 		super.onResume();
-		linkViews(super.convertView);
+		// linkViews(super.convertView);
 		reloadContent();
 
 		System.out.println("ContentObjectId: "

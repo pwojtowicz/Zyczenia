@@ -13,6 +13,7 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.view.MenuItem;
@@ -25,21 +26,29 @@ public abstract class AppBaseActivity extends FragmentActivity implements
 	private final static String contentToDeleteAddress = "http://zyczenia.tja.pl/api/android_bramka.php?co=lista_obekty_id";
 
 	private ProgressDialog dialog;
-	private String pref_next_update_date;
 
 	private boolean pref_replaceChars;
 	private boolean pref_addSignature;
 	private String pref_signature;
 
 	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
+		DataBaseManager.inicjalizeInstance(this);
+	}
+
+	@Override
 	public void onResume() {
 		super.onResume();
-		DataBaseManager.inicjalizeInstance(this);
+		System.out.println("onResume");
 
 		SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(this);
-
-		pref_next_update_date = prefs.getString("prop_next_update_date", "0");
 
 		pref_replaceChars = (prefs.getBoolean("prop_replace", false));
 		pref_addSignature = prefs.getBoolean("prop_add_signature", false);
@@ -112,16 +121,21 @@ public abstract class AppBaseActivity extends FragmentActivity implements
 	}
 
 	public long getNextUpdateDate() {
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(this);
+		String pref_next_update_date = prefs.getString("prop_next_update_date",
+				"0");
+
 		return Long.parseLong(pref_next_update_date);
 	}
-
-	// public long getLastUpdateReturnTime() {
-	// return Long.parseLong(prop_last_update_return_date);
-	// }
 
 	public void setUpdateDates(long nextUpdateLongDate, long returnDate) {
 		SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(this);
+
+		System.out.println(String.format(
+				"prop_next_update_date:%d | prop_last_update_return_date:%d",
+				nextUpdateLongDate, returnDate));
 
 		SharedPreferences.Editor editor = prefs.edit();
 		editor.putString("prop_last_update_return_date",

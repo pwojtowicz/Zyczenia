@@ -21,20 +21,37 @@ import android.view.Menu;
 public class RootActivity extends AppBaseActivity {
 
 	private RootFragment details;
+	private boolean isFirstTime = true;
 
 	@Override
-	public void onResume() {
-		super.onResume();
-
+	public void onStart() {
+		super.onStart();
 		long nextUpdate = getNextUpdateDate();
 		long actualTime = Calendar.getInstance().getTimeInMillis();
 
 		if (nextUpdate < actualTime) {
 			update(nextUpdate == 0 ? false : true);
-		} else {
+		} else if (isFirstTime) {
 			ObjectManager manager = new ObjectManager();
 			manager.readAll(this, ERepositoryTypes.Categories);
 		}
+
+		if (details != null) {
+			details.setFavoritesCount(NetPlusAppGlobals.getInstance()
+					.getFavoritesCount());
+		}
+	}
+
+	@Override
+	public void onRestart() {
+		super.onRestart();
+		isFirstTime = false;
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+
 	}
 
 	public void update(boolean showQuestion) {

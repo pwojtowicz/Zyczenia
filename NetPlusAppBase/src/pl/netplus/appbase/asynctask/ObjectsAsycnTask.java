@@ -91,11 +91,18 @@ public class ObjectsAsycnTask extends AsyncTask<Void, Void, Void> implements
 
 					results = catrep.getFromServer(dbm, addressCategory, this);
 					System.out.println("Categories Downloaded");
+					if (results < 0)
+						throw new Exception();
+
 					results = objrep.getFromServer(dbm, addressObjects, this);
 					System.out.println("Objects Downlaoded");
+					if (results < 0)
+						throw new Exception();
 
-					results = objrep.getObjectsToDeleteFromServer(dbm,
+					long tmpResult = objrep.getObjectsToDeleteFromServer(dbm,
 							toDeleteObjects, this);
+					if (tmpResult < 0)
+						throw new Exception();
 					System.out.println("ObjectsToDelete Downlaoded");
 
 					dbm.getDataBase().setTransactionSuccessful();
