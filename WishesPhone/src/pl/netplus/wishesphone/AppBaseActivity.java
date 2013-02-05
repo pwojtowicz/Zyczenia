@@ -165,9 +165,6 @@ public abstract class AppBaseActivity extends FragmentActivity implements
 				startActivity(new Intent(this, PreferencesNewActivity.class));
 			}
 			break;
-		case R.id.menu_search:
-			startActivity(new Intent(this, SearchActivity.class));
-			break;
 		case R.id.menu_share:
 			break;
 		}

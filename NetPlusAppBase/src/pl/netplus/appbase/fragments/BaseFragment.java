@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 public abstract class BaseFragment<T> extends Fragment {
 
 	private int resources;
-	private ERepositoryTypes repositoryType;
+	protected ERepositoryTypes repositoryType;
 	protected View convertView;
 
 	public BaseFragment(int resources, ERepositoryTypes repositoryType) {

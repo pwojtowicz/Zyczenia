@@ -36,14 +36,14 @@ public class FragmentAdapter extends FragmentPagerAdapter {
 		return FragmentPagerAdapter.POSITION_NONE;
 	}
 
-	// @Override
-	// public CharSequence getPageTitle(int position) {
-	// FragmentObject fo = fragments.get(position);
-	// if (fo != null) {
-	// return fo.getTitle();
-	// }
-	// return "";
-	// }
+	@Override
+	public CharSequence getPageTitle(int position) {
+		FragmentObject fo = fragments.get(position);
+		if (fo != null) {
+			return fo.getTitle();
+		}
+		return "";
+	}
 
 	// public void addFragment(FragmentObject newFragment) {
 	// fragments.add(newFragment);

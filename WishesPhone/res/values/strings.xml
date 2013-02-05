@@ -4,32 +4,28 @@
     <string name="app_name">Życzenia</string>
     <string name="menu_search">Wyszukaj</string>
     <string name="menu_settings">Ustawienia</string>
-    <string name="menu_share">Podziel się</string>
+    <string name="menu_share">Wyślij</string>
     <string name="title_activity_wishes">Życzenia</string>
-    <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_preferences">Ustawienia</string>
-     
     <string name="preference_title_replace">Polskie znaki</string>
     <string name="preference_summary_replace">Podmiana polskich znaków przed wysłaniem treści</string>
     <string name="preference_title_add_signature">Dodaj podpis</string>
     <string name="preference_summary_add_signature">Dodaje ustawiony podpis, do udostępnianej treści</string>
     <string name="preference_title_signature">Podpis</string>
     <string name="preference_default_signature">życzy: </string>
-    <string name="hello_world">Hello world!</string>
     <string name="title_activity_about">O programie</string>
-    <string name="title_activity_search">Wyszukaj życzenia</string>
+    
     <string name="text_to_search">Treść do wyszukania</string>
     <string name="optional_select_category">Wybierz kategorię aby zawęzić kategorie wyszukiwania</string>
-    
     <string name="get_data">Aktualizacja danych</string>
-    
     <string name="btn_footer_another">Inne fajne życzenia</string>
-    
     <string name="btn_footer_add_wishes">Dodaj życzenie</string>
-    
-    <string name="btn_update">Aktualizacji danych</string>
-    
+    <string name="btn_update">Aktualizacja danych</string>
     <string name="update_question">Czy chcesz dokonać aktualizacji życzeń?</string>
     
+    <string name="title_fragment_search">Wyszukaj życzenia</string>
+    <string name="title_fragment_start">Start</string>
+    <string name="title_fragment_categories">Kategorie</string>
+
 
 </resources>

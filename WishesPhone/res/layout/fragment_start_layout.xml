@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <Button
+        android:id="@+id/button_favorite"
+        style="@style/Style_TextWithShadow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@color/btn_blue_selector"
+        android:text="@string/favorites" />
+
+    <Button
+        android:id="@+id/btn_random"
+        style="@style/Style_TextWithShadow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@color/btn_blue_selector"
+        android:text="@string/randomObjects" />
+
+    <Button
+        android:id="@+id/btn_web"
+        style="@style/Style_TextWithShadow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@color/btn_blue_selector"
+        android:tag="http://www.zyczenia.tja.pl"
+        android:text="www.zyczenia.tja.pl" />
+
+    <Button
+        android:id="@+id/btn_add_wish"
+        style="@style/Style_TextWithShadow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@color/btn_blue_selector"
+        android:tag="http://zyczenia.tja.pl/dodaj.html"
+        android:text="@string/btn_footer_add_wishes" />
+
+    <Button
+        android:id="@+id/btn_other"
+        style="@style/Style_TextWithShadow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@color/btn_blue_selector"
+        android:tag="http://zyczenia.tja.pl/?ref=android"
+        android:text="@string/btn_footer_another" />
+
+    <Button
+        android:id="@+id/btn_update"
+        style="@style/Style_TextWithShadow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@color/btn_blue_selector"
+        android:text="@string/btn_update" />
+
+    <Button
+        android:id="@+id/btn_about"
+        style="@style/Style_TextWithShadow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@color/btn_blue_selector"
+        android:text="@string/aboutApp" />
+
+</LinearLayout>
