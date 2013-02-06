@@ -287,7 +287,9 @@ public class ContentObjectRepository implements IBaseRepository<ContentObject> {
 			content = provider.getObjects(urlAddress, null);
 
 		} catch (CommunicationException e) {
+			System.out.println(e.getErrorCode());
 			e.printStackTrace();
+			return -1;
 		}
 		ArrayList<ContentObject> items = new ArrayList<ContentObject>(
 				Arrays.asList(content.items));

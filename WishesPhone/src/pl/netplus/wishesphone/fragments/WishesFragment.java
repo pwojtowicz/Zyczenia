@@ -37,8 +37,8 @@ public class WishesFragment extends BaseFragment<ContentObject> implements
 		// linkViews(super.convertView);
 		reloadContent();
 
-		System.out.println("ContentObjectId: "
-				+ String.valueOf(contentObject.getId()));
+		// System.out.println("ContentObjectId: "
+		// + String.valueOf(contentObject.getId()));
 	}
 
 	@Override

@@ -10,6 +10,7 @@ import pl.netplus.appbase.fragments.BaseFragment;
 import pl.netplus.wishesbase.support.DialogHelper;
 import pl.netplus.wishesbase.support.NetPlusAppGlobals;
 import pl.netplus.wishesphone.AboutActivity;
+import pl.netplus.wishesphone.MainActivity;
 import pl.netplus.wishesphone.R;
 import pl.netplus.wishesphone.RootActivity;
 import pl.netplus.wishesphone.WishesActivity;
@@ -82,6 +83,12 @@ public class RootFragment extends BaseFragment<Object> implements
 		ArrayList<Category> categories = NetPlusAppGlobals.getInstance()
 				.getCategories();
 
+		if (categories.size() == 0) {
+			Category c = new Category(getString(R.string.get_data), 1);
+			c.setId(NetPlusAppGlobals.ITEMS_NEET_UPDATE);
+			categories.add(c);
+		}
+
 		CategoryListAdapter adapter = new CategoryListAdapter(getActivity(),
 				categories, R.layout.row_category_layout);
 		listView.setAdapter(adapter);
@@ -94,7 +101,7 @@ public class RootFragment extends BaseFragment<Object> implements
 		Category cat = (Category) view.getTag();
 		if (cat != null) {
 			if (cat.getId() == NetPlusAppGlobals.ITEMS_NEET_UPDATE)
-				((RootActivity) getActivity()).retryLastAction();
+				((MainActivity) getActivity()).retryLastAction();
 			else
 				startWishesIntent(cat.getId(), cat.getName());
 		}

@@ -161,7 +161,6 @@ public class WishesActivity extends AppBaseActivity {
 				items = NetPlusAppGlobals.getInstance()
 						.getCategoriesContentObjects(categoryId);
 			}
-			// manager.readFromServer(this, ERepositoryTypes.ContentObject);
 		}
 
 		if (items != null) {
@@ -222,11 +221,6 @@ public class WishesActivity extends AppBaseActivity {
 	@Override
 	public void onTaskResponse(AsyncTaskResult response) {
 		if (response.bundle instanceof ArrayList<?>) {
-			// ArrayList<ContentObject> objects = (ArrayList<ContentObject>)
-			// response.bundle;
-			// WishesGlobals.getInstance().setObjectsDictionary(categoryId,
-			// objects);
-
 			ReloadAllItems(NetPlusAppGlobals.getInstance()
 					.getCategoriesContentObjects(categoryId));
 		}

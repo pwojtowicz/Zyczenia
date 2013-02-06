@@ -19,7 +19,7 @@
             style="@style/Style_TextWithShadow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Treści zamieszczone w aplikacji są własnością strony www.tja.pl"
+            android:text="Treści zamieszczone w aplikacji są własnością strony www.tja.pl"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView

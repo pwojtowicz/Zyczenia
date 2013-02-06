@@ -8,10 +8,13 @@ import pl.netplus.wishesbase.support.DialogHelper;
 import pl.netplus.wishesbase.support.NetPlusAppGlobals;
 import pl.netplus.wishesbase.support.StringHelper;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -45,7 +48,6 @@ public abstract class AppBaseActivity extends FragmentActivity implements
 	@Override
 	public void onResume() {
 		super.onResume();
-		System.out.println("onResume");
 
 		SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(this);
@@ -133,9 +135,9 @@ public abstract class AppBaseActivity extends FragmentActivity implements
 		SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(this);
 
-		System.out.println(String.format(
-				"prop_next_update_date:%d | prop_last_update_return_date:%d",
-				nextUpdateLongDate, returnDate));
+		// System.out.println(String.format(
+		// "prop_next_update_date:%d | prop_last_update_return_date:%d",
+		// nextUpdateLongDate, returnDate));
 
 		SharedPreferences.Editor editor = prefs.edit();
 		editor.putString("prop_last_update_return_date",
@@ -165,10 +167,16 @@ public abstract class AppBaseActivity extends FragmentActivity implements
 				startActivity(new Intent(this, PreferencesNewActivity.class));
 			}
 			break;
-		case R.id.menu_share:
-			break;
 		}
 		return true;
 	}
 
+	public boolean checkIsOnline() {
+		ConnectivityManager conMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+		if (conMgr.getNetworkInfo(0).getState() == NetworkInfo.State.CONNECTED
+				|| conMgr.getNetworkInfo(1).getState() == NetworkInfo.State.CONNECTING)
+			return true;
+		return false;
+	}
 }

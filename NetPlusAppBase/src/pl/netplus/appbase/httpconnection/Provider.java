@@ -28,7 +28,6 @@ public class Provider<T> {
 		HTTPRequestBundle bundle = HTTPRequestProvider.sendRequest(url,
 				listener);
 		try {
-
 			if (bundle.getStatusCode() == HttpsURLConnection.HTTP_OK
 					|| bundle.getStatusCode() == 2000) {
 
@@ -52,9 +51,8 @@ public class Provider<T> {
 				throw new CommunicationException("",
 						ExceptionErrorCodes.HTTP_INTERNAL_ERROR);
 			} else {
-
 				throw new CommunicationException("",
-						ExceptionErrorCodes.CommunicationProblems);
+						ExceptionErrorCodes.UnexpectedResponseStatusCode);
 			}
 		} catch (JsonParseException e) {
 			e.printStackTrace();

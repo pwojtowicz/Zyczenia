@@ -6,11 +6,14 @@ import java.util.Date;
 
 import pl.netplus.appbase.adapters.FragmentAdapter;
 import pl.netplus.appbase.asynctask.ObjectsAsycnTask.AsyncTaskResult;
+import pl.netplus.appbase.entities.Category;
 import pl.netplus.appbase.entities.FragmentObject;
 import pl.netplus.appbase.enums.ERepositoryTypes;
+import pl.netplus.appbase.exception.RepositoryException;
 import pl.netplus.appbase.interfaces.IReadRepository;
 import pl.netplus.appbase.managers.ObjectManager;
 import pl.netplus.wishesbase.support.DialogHelper;
+import pl.netplus.wishesbase.support.NetPlusAppGlobals;
 import pl.netplus.wishesphone.fragments.CategoryFragment;
 import pl.netplus.wishesphone.fragments.SearchFragment;
 import pl.netplus.wishesphone.fragments.StartFragment;
@@ -66,13 +69,19 @@ public class MainActivity extends AppBaseActivity implements IReadRepository {
 	}
 
 	private void getUpdate() {
-		Bundle b = new Bundle();
-		b.putString("CategoryLink", super.getCategoryAddress());
-		b.putString("ObjectsLink", super.getContentAddress());
-		b.putString("ObjectsToDeleteLink", super.getContentToDeleteAddress());
+		if (super.checkIsOnline()) {
+			Bundle b = new Bundle();
+			b.putString("CategoryLink", super.getCategoryAddress());
+			b.putString("ObjectsLink", super.getContentAddress());
+			b.putString("ObjectsToDeleteLink",
+					super.getContentToDeleteAddress());
 
-		ObjectManager manager = new ObjectManager();
-		manager.updateData(b, this);
+			ObjectManager manager = new ObjectManager();
+			manager.updateData(b, this);
+		} else {
+			DialogHelper.createInfoDialog(this,
+					getString(R.string.dialog_no_internet_connection)).show();
+		}
 	}
 
 	@Override
@@ -128,18 +137,27 @@ public class MainActivity extends AppBaseActivity implements IReadRepository {
 			}
 		}
 
-		// details.setFavoritesCount(NetPlusAppGlobals.getInstance()
-		// .getFavoritesCount());
-		// details.reload();
 		fr_categories.reload();
 		fr_search.reload();
 		fr_start.reload();
 	}
 
 	@Override
-	public void retryLastAction() {
-		// TODO Auto-generated method stub
+	public void onTaskInvalidResponse(RepositoryException exception) {
+		super.onTaskInvalidResponse(exception);
+		if (NetPlusAppGlobals.getInstance().getCategories().size() == 0) {
+			Category c = new Category(getString(R.string.get_data), 1);
+			c.setId(NetPlusAppGlobals.ITEMS_NEET_UPDATE);
+			ArrayList<Category> items = new ArrayList<Category>();
+			items.add(c);
+			NetPlusAppGlobals.getInstance().setCategories(items);
+		}
+		fr_categories.reload();
+	}
 
+	@Override
+	public void retryLastAction() {
+		update(false);
 	}
 
 }

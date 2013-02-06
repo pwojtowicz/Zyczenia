@@ -35,5 +35,8 @@
     
     <string name="title_search">Wyszukane</string>
     
+    
+    <string name="dialog_no_internet_connection">Brak połączenia z internetem, nie można wykonać aktualizacji.</string>
+    
 	
 </resources>

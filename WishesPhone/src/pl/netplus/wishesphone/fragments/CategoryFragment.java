@@ -7,8 +7,8 @@ import pl.netplus.appbase.entities.Category;
 import pl.netplus.appbase.enums.ERepositoryTypes;
 import pl.netplus.appbase.fragments.BaseFragment;
 import pl.netplus.wishesbase.support.NetPlusAppGlobals;
+import pl.netplus.wishesphone.MainActivity;
 import pl.netplus.wishesphone.R;
-import pl.netplus.wishesphone.RootActivity;
 import pl.netplus.wishesphone.WishesActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -47,7 +47,7 @@ public class CategoryFragment extends BaseFragment<Category> implements
 		Category cat = (Category) view.getTag();
 		if (cat != null) {
 			if (cat.getId() == NetPlusAppGlobals.ITEMS_NEET_UPDATE)
-				((RootActivity) getActivity()).retryLastAction();
+				((MainActivity) getActivity()).retryLastAction();
 			else
 				startWishesIntent(cat.getId(), cat.getName());
 		}

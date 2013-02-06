@@ -5,8 +5,8 @@ import pl.netplus.appbase.fragments.BaseFragment;
 import pl.netplus.wishesbase.support.DialogHelper;
 import pl.netplus.wishesbase.support.NetPlusAppGlobals;
 import pl.netplus.wishesphone.AboutActivity;
+import pl.netplus.wishesphone.MainActivity;
 import pl.netplus.wishesphone.R;
-import pl.netplus.wishesphone.RootActivity;
 import pl.netplus.wishesphone.WishesActivity;
 import android.content.Intent;
 import android.net.Uri;
@@ -36,6 +36,8 @@ public class StartFragment extends BaseFragment<Object> implements
 				.findViewById(R.id.btn_add_wish);
 		Button btn_about = (Button) convertView.findViewById(R.id.btn_about);
 		Button btn_update = (Button) convertView.findViewById(R.id.btn_update);
+		Button btn_facebook = (Button) convertView
+				.findViewById(R.id.btn_facebook);
 
 		btn_favorite.setTag(EButtonType.Favorite);
 		btn_favorite.setOnClickListener(this);
@@ -52,6 +54,7 @@ public class StartFragment extends BaseFragment<Object> implements
 		btn_otherpage.setOnClickListener(this);
 		btn_webpage.setOnClickListener(this);
 		btn_add_wish.setOnClickListener(this);
+		btn_facebook.setOnClickListener(this);
 
 	}
 
@@ -96,6 +99,7 @@ public class StartFragment extends BaseFragment<Object> implements
 			}
 		} else if (o instanceof String) {
 			showWebPage((String) o);
+
 		}
 	}
 
@@ -105,7 +109,7 @@ public class StartFragment extends BaseFragment<Object> implements
 	}
 
 	protected void upddate() {
-		((RootActivity) getActivity()).update(true);
+		((MainActivity) getActivity()).update(true);
 	}
 
 	protected void showFavoritesWish() {

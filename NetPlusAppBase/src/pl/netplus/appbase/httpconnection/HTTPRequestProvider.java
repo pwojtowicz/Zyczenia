@@ -7,10 +7,12 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.zip.GZIPInputStream;
 
+import android.util.Log;
+
 public class HTTPRequestProvider {
 
 	/**
-	 * Timeout po³¹czenia
+	 * Timeout poï¿½ï¿½czenia
 	 */
 	public static final int CONNECTION_TIMEOUT = 30000;
 	/**
@@ -28,13 +30,13 @@ public class HTTPRequestProvider {
 
 	private static HTTPRequestBundle getRequest(String address,
 			IHttpRequestToAsyncTaskCommunication listener) {
-		System.out.println("CONNECTION address: " + address);
+
+		Log.i("WishUrlAddress", address);
 		HttpURLConnection connection = null;
 		String response = null;
 		byte[] rawResponse = null;
 		address = address.replace(" ", "%20");
 		int responseCode = 0;
-
 		try {
 			connection = getConnection(address);
 			connection.setRequestMethod("GET");
@@ -54,7 +56,7 @@ public class HTTPRequestProvider {
 			try {
 				response = byteArray.toString("ISO-8859-2");
 			} catch (Exception e) {
-
+				response = "ConvertToStringProblem";
 			}
 			connection.disconnect();
 			connection = null;

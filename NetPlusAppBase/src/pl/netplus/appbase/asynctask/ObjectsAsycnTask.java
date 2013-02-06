@@ -83,19 +83,16 @@ public class ObjectsAsycnTask extends AsyncTask<Void, Void, Void> implements
 					String toDeleteObjects = bundle
 							.getString("ObjectsToDeleteLink");
 
-					System.out.println("Start Download");
 					CategoriesRepository catrep = new CategoriesRepository();
 					ContentObjectRepository objrep = new ContentObjectRepository();
 
 					catrep.deleteAll(dbm);
 
 					results = catrep.getFromServer(dbm, addressCategory, this);
-					System.out.println("Categories Downloaded");
 					if (results < 0)
 						throw new Exception();
 
 					results = objrep.getFromServer(dbm, addressObjects, this);
-					System.out.println("Objects Downlaoded");
 					if (results < 0)
 						throw new Exception();
 
@@ -103,21 +100,16 @@ public class ObjectsAsycnTask extends AsyncTask<Void, Void, Void> implements
 							toDeleteObjects, this);
 					if (tmpResult < 0)
 						throw new Exception();
-					System.out.println("ObjectsToDelete Downlaoded");
 
 					dbm.getDataBase().setTransactionSuccessful();
 				} catch (Exception e) {
 					throw new CommunicationException("",
 							ExceptionErrorCodes.UpdateError);
 				} finally {
-					System.out.println("Finish actions");
 					dbm.getDataBase().endTransaction();
-
 				}
 				dbm.close();
-				System.out.println("After close");
 				new CategoriesRepository().readAll();
-				System.out.println("After readALL");
 				if (results == -1)
 					throw new CommunicationException("",
 							ExceptionErrorCodes.UpdateError);
