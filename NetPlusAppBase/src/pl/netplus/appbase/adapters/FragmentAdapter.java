@@ -6,8 +6,9 @@ import pl.netplus.appbase.entities.FragmentObject;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
-public class FragmentAdapter extends FragmentPagerAdapter {
+public class FragmentAdapter extends FragmentStatePagerAdapter {
 
 	protected ArrayList<FragmentObject> fragments = new ArrayList<FragmentObject>();
 

@@ -10,6 +10,7 @@ import pl.netplus.appbase.entities.Category;
 import pl.netplus.appbase.entities.FragmentObject;
 import pl.netplus.appbase.enums.ERepositoryTypes;
 import pl.netplus.appbase.exception.RepositoryException;
+import pl.netplus.appbase.fragments.BaseFragment;
 import pl.netplus.appbase.interfaces.IReadRepository;
 import pl.netplus.appbase.managers.ObjectManager;
 import pl.netplus.wishesbase.support.DialogHelper;
@@ -37,6 +38,7 @@ public class MainActivity extends AppBaseActivity implements IReadRepository {
 	@Override
 	public void onStart() {
 		super.onStart();
+		System.out.println("onStart MainActivity");
 		long nextUpdate = getNextUpdateDate();
 		long actualTime = Calendar.getInstance().getTimeInMillis();
 
@@ -47,8 +49,13 @@ public class MainActivity extends AppBaseActivity implements IReadRepository {
 			manager.readAll(this, ERepositoryTypes.Categories);
 		}
 
-		if (fr_start != null)
-			fr_start.reload();
+		// if (fr_start != null)
+		// fr_start.reload();
+		if (mPageAdapter != null && mViewPager != null) {
+			BaseFragment fragment = (BaseFragment) mPageAdapter
+					.getItem(mViewPager.getCurrentItem());
+			fragment.reload();
+		}
 	}
 
 	public void update(boolean showQuestion) {
@@ -87,6 +94,7 @@ public class MainActivity extends AppBaseActivity implements IReadRepository {
 	@Override
 	public void onRestart() {
 		super.onRestart();
+		System.out.println("onRestart MainActivity");
 		isFirstTime = false;
 	}
 
@@ -94,6 +102,7 @@ public class MainActivity extends AppBaseActivity implements IReadRepository {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		System.out.println("onCreate MainActivity");
 
 		pages = new ArrayList<FragmentObject>();
 

@@ -65,11 +65,11 @@ public class StartFragment extends BaseFragment<Object> implements
 	}
 
 	public void setFavoritesCount(int totalCount) {
-		if (totalCount < 0)
-			totalCount = 0;
-		if (btn_favorite != null)
-			btn_favorite.setText(String.format("%s (%d)",
-					getText(R.string.favorites), totalCount));
+		// if (totalCount < 0)
+		// totalCount = 0;
+		// if (btn_favorite != null)
+		// btn_favorite.setText(String.format("%s (%d)",
+		// getText(R.string.favorites), totalCount));
 
 	}
 

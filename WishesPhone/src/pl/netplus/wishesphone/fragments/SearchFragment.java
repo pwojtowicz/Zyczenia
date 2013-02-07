@@ -56,23 +56,24 @@ public class SearchFragment extends BaseFragment<Object> implements
 
 	@Override
 	public void reload() {
+		if (getActivity() != null) {
+			ArrayList<Category> categories = NetPlusAppGlobals.getInstance()
+					.getCategories();
+			SpinnerObject[] content = new SpinnerObject[categories.size() + 1];
 
-		ArrayList<Category> categories = NetPlusAppGlobals.getInstance()
-				.getCategories();
-		SpinnerObject[] content = new SpinnerObject[categories.size() + 1];
+			content[0] = new SpinnerObject(0,
+					getString(pl.netplus.appbase.R.string.all_categories));
+			for (int i = 0; i < categories.size(); i++) {
+				Category c = categories.get(i);
+				content[i + 1] = new SpinnerObject(c.getId(), c.getName());
+			}
 
-		content[0] = new SpinnerObject(0,
-				getString(pl.netplus.appbase.R.string.all_categories));
-		for (int i = 0; i < categories.size(); i++) {
-			Category c = categories.get(i);
-			content[i + 1] = new SpinnerObject(c.getId(), c.getName());
+			OwnSpinnerAdapter osp = new OwnSpinnerAdapter(getActivity(),
+					android.R.layout.simple_spinner_item, content);
+
+			osp.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			spinner.setAdapter(osp);
 		}
-
-		OwnSpinnerAdapter osp = new OwnSpinnerAdapter(getActivity(),
-				android.R.layout.simple_spinner_item, content);
-
-		osp.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		spinner.setAdapter(osp);
 	}
 
 	protected void searchText() {
