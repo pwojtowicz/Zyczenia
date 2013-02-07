@@ -9,7 +9,6 @@ import pl.netplus.appbase.entities.ContentObject;
 import pl.netplus.appbase.entities.SpinnerObject;
 import pl.netplus.appbase.enums.EDialogType;
 import pl.netplus.appbase.exception.RepositoryException;
-import pl.netplus.appbase.fragments.BaseFragment;
 import pl.netplus.appbase.interfaces.IReadRepository;
 import pl.netplus.appbase.managers.ObjectManager;
 import pl.netplus.wishesbase.support.DialogHelper;
@@ -19,26 +18,39 @@ import pl.netplus.wishesphone.R;
 import pl.netplus.wishesphone.WishesActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-public class SearchFragment extends BaseFragment<Object> implements
-		IReadRepository {
+public class SearchFragment extends Fragment implements IReadRepository {
 
 	private Spinner spinner;
+	private EditText textToSearch;
 
-	public SearchFragment() {
-		super(R.layout.fragment_search, null);
+	public static SearchFragment newInstance() {
+		SearchFragment f = new SearchFragment();
+		return f;
 	}
 
 	@Override
-	public void linkViews(View convertView) {
-		spinner = (Spinner) convertView.findViewById(R.id.spinner_category);
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+	}
 
-		Button btn_search = (Button) convertView.findViewById(R.id.btn_search);
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		View v = inflater.inflate(R.layout.fragment_search, container, false);
+		spinner = (Spinner) v.findViewById(R.id.spinner_category);
+
+		textToSearch = (EditText) v.findViewById(R.id.edt_search_text);
+
+		Button btn_search = (Button) v.findViewById(R.id.btn_search);
 		btn_search.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -46,15 +58,17 @@ public class SearchFragment extends BaseFragment<Object> implements
 				searchText();
 			}
 		});
+
+		return v;
 	}
 
 	@Override
-	public void onResume() {
-		super.onResume();
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+
 		reload();
 	}
 
-	@Override
 	public void reload() {
 		if (getActivity() != null) {
 			ArrayList<Category> categories = NetPlusAppGlobals.getInstance()
@@ -80,16 +94,15 @@ public class SearchFragment extends BaseFragment<Object> implements
 		NetPlusAppGlobals.getInstance().setObjectsDictionary(
 				NetPlusAppGlobals.ITEMS_SEARCH, null);
 		SpinnerObject value = (SpinnerObject) spinner.getSelectedItem();
-		EditText edit_text = (EditText) convertView
-				.findViewById(R.id.edt_search_text);
 
-		if (edit_text.getText().toString().length() == 0)
+		String text = textToSearch.getText().toString().trim();
+
+		if (text.length() == 0)
 			DialogHelper.createInfoDialog(getActivity(),
 					"Nie podano kryterium wyszukiwania").show();
 		else {
 			ObjectManager manager = new ObjectManager();
-			manager.searchContentObjects(this, value.id, edit_text.getText()
-					.toString());
+			manager.searchContentObjects(this, value.id, text);
 		}
 	}
 

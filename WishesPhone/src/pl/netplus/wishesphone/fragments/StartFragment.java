@@ -20,6 +20,11 @@ public class StartFragment extends BaseFragment<Object> implements
 
 	private Button btn_favorite;
 
+	public static StartFragment newInstance() {
+		StartFragment f = new StartFragment();
+		return f;
+	}
+
 	public StartFragment() {
 		super(R.layout.fragment_start_layout, null);
 	}

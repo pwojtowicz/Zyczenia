@@ -8,10 +8,13 @@ import pl.netplus.wishesbase.support.DialogHelper;
 import pl.netplus.wishesbase.support.NetPlusAppGlobals;
 import pl.netplus.wishesbase.support.StringHelper;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -169,14 +172,11 @@ public abstract class AppBaseActivity extends FragmentActivity implements
 	}
 
 	public boolean checkIsOnline() {
-		// ConnectivityManager conMgr = (ConnectivityManager)
-		// getSystemService(Context.CONNECTIVITY_SERVICE);
-		//
-		// if (conMgr.getNetworkInfo(0).getState() ==
-		// NetworkInfo.State.CONNECTED
-		// || conMgr.getNetworkInfo(1).getState() ==
-		// NetworkInfo.State.CONNECTING)
-		return true;
-		// return false;
+		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo netInfo = cm.getActiveNetworkInfo();
+		if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+			return true;
+		}
+		return false;
 	}
 }

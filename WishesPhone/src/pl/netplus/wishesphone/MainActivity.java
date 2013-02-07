@@ -4,18 +4,17 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-import pl.netplus.appbase.adapters.FragmentAdapter;
 import pl.netplus.appbase.asynctask.ObjectsAsycnTask.AsyncTaskResult;
 import pl.netplus.appbase.entities.Category;
 import pl.netplus.appbase.entities.FragmentObject;
 import pl.netplus.appbase.enums.ERepositoryTypes;
 import pl.netplus.appbase.exception.RepositoryException;
-import pl.netplus.appbase.fragments.BaseFragment;
 import pl.netplus.appbase.interfaces.IReadRepository;
 import pl.netplus.appbase.managers.ObjectManager;
 import pl.netplus.wishesbase.support.DialogHelper;
 import pl.netplus.wishesbase.support.NetPlusAppGlobals;
-import pl.netplus.wishesphone.fragments.CategoryFragment;
+import pl.netplus.wishesphone.adapters.StartActivityFragmentAdapter;
+import pl.netplus.wishesphone.fragments.CategoryListFragment;
 import pl.netplus.wishesphone.fragments.SearchFragment;
 import pl.netplus.wishesphone.fragments.StartFragment;
 import android.content.DialogInterface;
@@ -27,13 +26,10 @@ import android.view.Menu;
 public class MainActivity extends AppBaseActivity implements IReadRepository {
 
 	ViewPager mViewPager;
-	private FragmentAdapter mPageAdapter;
+	private StartActivityFragmentAdapter mPageAdapter;
 	private ArrayList<FragmentObject> pages;
 
 	private boolean isFirstTime = true;
-	private CategoryFragment fr_categories;
-	private SearchFragment fr_search;
-	private StartFragment fr_start;
 
 	@Override
 	public void onStart() {
@@ -47,14 +43,6 @@ public class MainActivity extends AppBaseActivity implements IReadRepository {
 		} else if (isFirstTime) {
 			ObjectManager manager = new ObjectManager();
 			manager.readAll(this, ERepositoryTypes.Categories);
-		}
-
-		// if (fr_start != null)
-		// fr_start.reload();
-		if (mPageAdapter != null && mViewPager != null) {
-			BaseFragment fragment = (BaseFragment) mPageAdapter
-					.getItem(mViewPager.getCurrentItem());
-			fragment.reload();
 		}
 	}
 
@@ -94,7 +82,6 @@ public class MainActivity extends AppBaseActivity implements IReadRepository {
 	@Override
 	public void onRestart() {
 		super.onRestart();
-		System.out.println("onRestart MainActivity");
 		isFirstTime = false;
 	}
 
@@ -102,25 +89,11 @@ public class MainActivity extends AppBaseActivity implements IReadRepository {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		System.out.println("onCreate MainActivity");
 
 		pages = new ArrayList<FragmentObject>();
 
-		fr_categories = new CategoryFragment();
-
-		fr_search = new SearchFragment();
-
-		fr_start = new StartFragment();
-
-		pages.add(new FragmentObject(fr_search,
-				getString(R.string.title_fragment_search)));
-		pages.add(new FragmentObject(fr_start,
-				getString(R.string.title_fragment_start)));
-		pages.add(new FragmentObject(fr_categories,
-				getString(R.string.title_fragment_categories)));
-
-		mPageAdapter = new FragmentAdapter(getSupportFragmentManager(), pages,
-				1);
+		mPageAdapter = new StartActivityFragmentAdapter(
+				getSupportFragmentManager());
 
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		mViewPager.setAdapter(mPageAdapter);
@@ -145,10 +118,12 @@ public class MainActivity extends AppBaseActivity implements IReadRepository {
 				setUpdateDates(c.getTimeInMillis(), returnFromServerTime);
 			}
 		}
+		System.out.println("MainActivity onTaskResponse");
+		((SearchFragment) mPageAdapter.getItem(0)).reload();
+		((StartFragment) mPageAdapter.getItem(1)).reload();
+		((CategoryListFragment) mPageAdapter.getItem(2)).reload();
+		mPageAdapter.notifyDataSetChanged();
 
-		fr_categories.reload();
-		fr_search.reload();
-		fr_start.reload();
 	}
 
 	@Override
@@ -161,7 +136,6 @@ public class MainActivity extends AppBaseActivity implements IReadRepository {
 			items.add(c);
 			NetPlusAppGlobals.getInstance().setCategories(items);
 		}
-		fr_categories.reload();
 	}
 
 	@Override
