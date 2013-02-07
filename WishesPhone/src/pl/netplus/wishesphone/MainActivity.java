@@ -93,7 +93,10 @@ public class MainActivity extends AppBaseActivity implements IReadRepository {
 		pages = new ArrayList<FragmentObject>();
 
 		mPageAdapter = new StartActivityFragmentAdapter(
-				getSupportFragmentManager());
+				getSupportFragmentManager(),
+				getString(R.string.title_fragment_search),
+				getString(R.string.title_fragment_start),
+				getString(R.string.title_fragment_categories));
 
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		mViewPager.setAdapter(mPageAdapter);

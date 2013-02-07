@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import pl.netplus.wishesphone.fragments.CategoryListFragment;
 import pl.netplus.wishesphone.fragments.SearchFragment;
 import pl.netplus.wishesphone.fragments.StartFragment;
+import android.content.res.Resources;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -15,8 +16,18 @@ public class StartActivityFragmentAdapter extends FragmentStatePagerAdapter {
 
 	ArrayList<Fragment> fragments = new ArrayList<Fragment>();
 
-	public StartActivityFragmentAdapter(FragmentManager fm) {
+	private String titleSearch;
+
+	private String titleStart;
+
+	private String titleCategories;
+
+	public StartActivityFragmentAdapter(FragmentManager fm, String titleSearch,
+			String titleStart, String titleCategories) {
 		super(fm);
+		this.titleSearch = titleSearch;
+		this.titleStart = titleStart;
+		this.titleCategories = titleCategories;
 		fragments.add(SearchFragment.newInstance());
 		fragments.add(StartFragment.newInstance());
 		fragments.add(CategoryListFragment.newInstance());
@@ -34,13 +45,14 @@ public class StartActivityFragmentAdapter extends FragmentStatePagerAdapter {
 
 	@Override
 	public CharSequence getPageTitle(int position) {
+		Resources res = Resources.getSystem();
 		switch (position) {
 		case 0:
-			return "Wyszukiwanie";
+			return titleSearch;
 		case 1:
-			return "Start";
+			return titleStart;
 		case 2:
-			return "Kategorie";
+			return titleCategories;
 		default:
 			return "";
 		}
