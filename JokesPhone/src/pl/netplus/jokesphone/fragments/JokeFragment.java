@@ -1,4 +1,6 @@
-package pl.netplus.wishesphone.fragments;
+package pl.netplus.jokesphone.fragments;
+
+import java.util.Date;
 
 import pl.netplus.appbase.asynctask.ObjectsAsycnTask.AsyncTaskResult;
 import pl.netplus.appbase.entities.ContentObject;
@@ -8,15 +10,15 @@ import pl.netplus.appbase.exception.RepositoryException;
 import pl.netplus.appbase.fragments.BaseFragment;
 import pl.netplus.appbase.interfaces.IReadRepository;
 import pl.netplus.appbase.managers.ObjectManager;
-import pl.netplus.wishesphone.AppBaseActivity;
-import pl.netplus.wishesphone.R;
+import pl.netplus.jokesphone.AppBaseActivity;
+import pl.netplus.jokesphone.R;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class WishesFragment extends BaseFragment<ContentObject> implements
+public class JokeFragment extends BaseFragment<ContentObject> implements
 		IReadRepository {
 
 	private ContentObject contentObject;
@@ -25,8 +27,9 @@ public class WishesFragment extends BaseFragment<ContentObject> implements
 	private TextView tv_rating;
 	private Button btn_favorite;
 	private TextView tv_lenght;
+	private TextView tv_addDate;
 
-	public WishesFragment() {
+	public JokeFragment() {
 		super(R.layout.fragment_single_wish_layout, ERepositoryTypes.SingleWish);
 
 	}
@@ -48,6 +51,8 @@ public class WishesFragment extends BaseFragment<ContentObject> implements
 
 		tv_wish = (TextView) convertView.findViewById(R.id.txtv_wish);
 		tv_lenght = (TextView) convertView.findViewById(R.id.txtv_lenght);
+
+		tv_addDate = (TextView) convertView.findViewById(R.id.txtv_addTime);
 
 		tv_rating = (TextView) convertView.findViewById(R.id.txtv_rating);
 
@@ -80,6 +85,10 @@ public class WishesFragment extends BaseFragment<ContentObject> implements
 
 			tv_lenght.setText(String.format("znaki: %d", contentObject
 					.getText().length()));
+
+			Date t = new Date(contentObject.getUploadDate());
+
+			tv_addDate.setText(t.toLocaleString());
 
 			tv_wish.setText(contentObject.getText());
 

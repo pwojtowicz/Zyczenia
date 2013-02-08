@@ -19,6 +19,9 @@ public class ContentObject extends ModelBase {
 	@JsonProperty("Rating")
 	private double rating;
 
+	@JsonProperty("udate")
+	public long uploadDate;
+
 	public ContentObject() {
 
 	}
@@ -61,6 +64,14 @@ public class ContentObject extends ModelBase {
 
 	public void setCategory(String category) {
 		this.category = category;
+	}
+
+	public long getUploadDate() {
+		return uploadDate;
+	}
+
+	public void setUploadDate(long uploadDate) {
+		this.uploadDate = uploadDate;
 	}
 
 }

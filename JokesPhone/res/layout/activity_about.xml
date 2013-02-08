@@ -1,0 +1,63 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/app_background_dark"
+    tools:context=".AboutActivity" >
+
+    <LinearLayout
+        android:id="@+id/ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageView1"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="30dp"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/TextView02"
+            style="@style/Style_TextWithShadow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Treści zamieszczone w aplikacji są własnością strony www.tja.pl"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/TextView01"
+            style="@style/Style_TextWithShadow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Wszystkie prawa zastrzeżone."
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/textView2"
+            style="@style/Style_TextWithShadow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="W przypadku kradzieży bazy wystąpimy na drogę sądową."
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView1"
+        style="@style/Style_TextWithShadow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/ll"
+        android:layout_marginBottom="40dp"
+        android:text="wersja: 1.0"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="40dp"
+        android:layout_marginTop="38dp"
+        android:src="@drawable/zyczeniaikona" />
+
+</RelativeLayout>

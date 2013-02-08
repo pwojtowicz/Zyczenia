@@ -23,7 +23,7 @@ public class ContentObjectRepository implements IBaseRepository<ContentObject> {
 
 	private final String INSERT_TO_OBJECTS = "INSERT INTO "
 			+ DataBaseHelper.TABLE_OBJECTS
-			+ "(ID, Content, Categories, Rating)  Values(?,?,?,?)";
+			+ "(ID, Content, Categories, Rating, udate)  Values(?,?,?,?,?)";
 
 	@Override
 	public ContentObject read(int id) {
@@ -33,7 +33,7 @@ public class ContentObjectRepository implements IBaseRepository<ContentObject> {
 
 			Cursor cursor = dbm.getDataBase().query(
 					DataBaseHelper.TABLE_OBJECTS,
-					new String[] { "ID,Content, Categories, Rating" },
+					new String[] { "ID,Content, Categories, Rating, udate" },
 					"ID = ? ", new String[] { String.valueOf(id) }, null, null,
 					null);
 			if (cursor.moveToFirst()) {
@@ -43,6 +43,7 @@ public class ContentObjectRepository implements IBaseRepository<ContentObject> {
 					item.setText(cursor.getString(1));
 					item.setCategory(cursor.getString(2));
 					item.setRating(cursor.getDouble(3));
+					item.setUploadDate(cursor.getLong(4));
 					break;
 				} while (cursor.moveToNext());
 			}
@@ -61,8 +62,9 @@ public class ContentObjectRepository implements IBaseRepository<ContentObject> {
 		ContentObject item = null;
 		Cursor cursor = dbManager.getDataBase().query(
 				DataBaseHelper.TABLE_OBJECTS,
-				new String[] { "ID,Content, Categories, Rating" }, "ID = ? ",
-				new String[] { String.valueOf(id) }, null, null, null);
+				new String[] { "ID,Content, Categories, Rating, udate" },
+				"ID = ? ", new String[] { String.valueOf(id) }, null, null,
+				null);
 		if (cursor.moveToFirst()) {
 			do {
 				item = new ContentObject();
@@ -70,6 +72,7 @@ public class ContentObjectRepository implements IBaseRepository<ContentObject> {
 				item.setText(cursor.getString(1));
 				item.setCategory(cursor.getString(2));
 				item.setRating(cursor.getDouble(3));
+				item.setUploadDate(cursor.getLong(4));
 				break;
 			} while (cursor.moveToNext());
 		}
@@ -104,7 +107,7 @@ public class ContentObjectRepository implements IBaseRepository<ContentObject> {
 
 			Cursor cursor = dbm.getDataBase().query(
 					DataBaseHelper.TABLE_OBJECTS,
-					new String[] { "ID,Content, Categories, Rating" },
+					new String[] { "ID,Content, Categories, Rating, udate" },
 					"Categories LIKE ? ",
 					new String[] { "%(" + String.valueOf(value) + ")%" }, null,
 					null, "ID");
@@ -115,6 +118,7 @@ public class ContentObjectRepository implements IBaseRepository<ContentObject> {
 					item.setText(cursor.getString(1));
 					item.setCategory(cursor.getString(2));
 					item.setRating(cursor.getDouble(3));
+					item.setUploadDate(cursor.getLong(4));
 					list.add(item);
 				} while (cursor.moveToNext());
 			}
@@ -134,8 +138,8 @@ public class ContentObjectRepository implements IBaseRepository<ContentObject> {
 		dbm.checkIsOpen();
 		ArrayList<ContentObject> list = new ArrayList<ContentObject>();
 		Cursor cursor = dbm.getDataBase().query(DataBaseHelper.TABLE_OBJECTS,
-				new String[] { "ID,Content, Categories, Rating" }, null, null,
-				null, null, "ID");
+				new String[] { "ID,Content, Categories, Rating, udate" }, null,
+				null, null, null, "ID");
 		if (cursor.moveToFirst()) {
 			do {
 				ContentObject item = new ContentObject();
@@ -143,6 +147,7 @@ public class ContentObjectRepository implements IBaseRepository<ContentObject> {
 				item.setText(cursor.getString(1));
 				item.setCategory(cursor.getString(2));
 				item.setRating(cursor.getDouble(3));
+				item.setUploadDate(cursor.getLong(4));
 				list.add(item);
 			} while (cursor.moveToNext());
 		}
@@ -169,7 +174,7 @@ public class ContentObjectRepository implements IBaseRepository<ContentObject> {
 				WebContentObjectContainer.class);
 		WebContentObjectContainer content = new WebContentObjectContainer();
 		try {
-			content = provider.getObjects(urlAddress, null);
+			content = provider.getObjects(urlAddress, listener);
 
 		} catch (CommunicationException e) {
 			e.printStackTrace();
@@ -198,6 +203,7 @@ public class ContentObjectRepository implements IBaseRepository<ContentObject> {
 	private boolean insertOrUpdate(ContentObject item, boolean shouldUpdate,
 			DataBaseManager dbManager) {
 
+		item.setText(item.getText().replace("<br>", "\n"));
 		if (!shouldUpdate) {
 			SQLiteStatement insertStmt = dbManager.getDataBase()
 					.compileStatement(INSERT_TO_OBJECTS);
@@ -205,9 +211,11 @@ public class ContentObjectRepository implements IBaseRepository<ContentObject> {
 			insertStmt.bindString(2, item.getText());
 			insertStmt.bindString(3, item.getCategory());
 			insertStmt.bindDouble(4, item.getRating());
+			insertStmt.bindLong(5, item.getUploadDate());
 			return insertStmt.executeInsert() > 0;
 		} else {
 			ContentValues dataToInsert = new ContentValues();
+			dataToInsert.put("udate", item.getUploadDate());
 			dataToInsert.put("Content", item.getText());
 			dataToInsert.put("Categories", item.getCategory());
 			dataToInsert.put("Rating", item.getRating());
@@ -284,7 +292,7 @@ public class ContentObjectRepository implements IBaseRepository<ContentObject> {
 				WebContentObjectContainer.class);
 		WebContentObjectContainer content = new WebContentObjectContainer();
 		try {
-			content = provider.getObjects(urlAddress, null);
+			content = provider.getObjects(urlAddress, listener);
 
 		} catch (CommunicationException e) {
 			System.out.println(e.getErrorCode());

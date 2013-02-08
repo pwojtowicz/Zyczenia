@@ -35,7 +35,8 @@ public class Provider<T> {
 
 				String p = url.substring(url.length() - 1, url.length());
 
-				value = value.replace('\'', '\"');
+				// value = value.replace("\"", "[=]");
+				// value = value.replace('\'', '\"');
 
 				ObjectMapper mapper = new ObjectMapper();
 				mapper.configure(

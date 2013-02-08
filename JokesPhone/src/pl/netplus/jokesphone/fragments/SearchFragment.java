@@ -1,4 +1,4 @@
-package pl.netplus.wishesphone.fragments;
+package pl.netplus.jokesphone.fragments;
 
 import java.util.ArrayList;
 
@@ -11,11 +11,11 @@ import pl.netplus.appbase.enums.EDialogType;
 import pl.netplus.appbase.exception.RepositoryException;
 import pl.netplus.appbase.interfaces.IReadRepository;
 import pl.netplus.appbase.managers.ObjectManager;
+import pl.netplus.jokesphone.AppBaseActivity;
+import pl.netplus.jokesphone.JokesActivity;
+import pl.netplus.jokesphone.R;
 import pl.netplus.wishesbase.support.DialogHelper;
 import pl.netplus.wishesbase.support.NetPlusAppGlobals;
-import pl.netplus.wishesphone.AppBaseActivity;
-import pl.netplus.wishesphone.R;
-import pl.netplus.wishesphone.WishesActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -118,10 +118,10 @@ public class SearchFragment extends Fragment implements IReadRepository {
 	}
 
 	private void startWishesIntent(int categoryId) {
-		Intent intent = new Intent(getActivity(), WishesActivity.class);
+		Intent intent = new Intent(getActivity(), JokesActivity.class);
 		Bundle b = new Bundle();
-		b.putInt(WishesActivity.BUNDLE_CATEGORY_ID, categoryId);
-		b.putString(WishesActivity.BUNDLE_TITLE,
+		b.putInt(JokesActivity.BUNDLE_CATEGORY_ID, categoryId);
+		b.putString(JokesActivity.BUNDLE_TITLE,
 				getString(pl.netplus.appbase.R.string.title_search));
 		intent.putExtras(b);
 		startActivity(intent);

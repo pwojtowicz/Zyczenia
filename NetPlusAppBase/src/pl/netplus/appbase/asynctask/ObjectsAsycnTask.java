@@ -22,11 +22,15 @@ public class ObjectsAsycnTask extends AsyncTask<Void, Void, Void> implements
 	private IReadRepository listener;
 	private ERepositoryManagerMethods method;
 	private IBaseRepository repository;
-	// private ReadAllDataRepository repositoryItemContainer;
+
+	private int elementCount = 3;
+	private int downloadElementCount = 0;
+
 	private ModelBase item;
 	private int categoryId;
 	private String value;
 	private Bundle bundle;
+	private boolean showProgress = false;
 
 	public ObjectsAsycnTask(IReadRepository listener,
 			ERepositoryManagerMethods method, IBaseRepository repository,
@@ -59,6 +63,7 @@ public class ObjectsAsycnTask extends AsyncTask<Void, Void, Void> implements
 		this.listener = listener;
 		this.method = method;
 		this.bundle = bundle;
+		this.showProgress = true;
 	}
 
 	@Override
@@ -72,12 +77,13 @@ public class ObjectsAsycnTask extends AsyncTask<Void, Void, Void> implements
 			switch (method) {
 
 			case UpdateData: {
+
 				long results = -1;
 				DataBaseManager dbm = DataBaseManager.getInstance();
 				dbm.checkIsOpen();
 				dbm.getDataBase().beginTransaction();
 				try {
-
+					downloadElementCount = 0;
 					String addressCategory = bundle.getString("CategoryLink");
 					String addressObjects = bundle.getString("ObjectsLink");
 					String toDeleteObjects = bundle
@@ -91,16 +97,17 @@ public class ObjectsAsycnTask extends AsyncTask<Void, Void, Void> implements
 					results = catrep.getFromServer(dbm, addressCategory, this);
 					if (results < 0)
 						throw new Exception();
+					downloadElementCount++;
 
 					results = objrep.getFromServer(dbm, addressObjects, this);
 					if (results < 0)
 						throw new Exception();
-
+					downloadElementCount++;
 					long tmpResult = objrep.getObjectsToDeleteFromServer(dbm,
 							toDeleteObjects, this);
 					if (tmpResult < 0)
 						throw new Exception();
-
+					downloadElementCount++;
 					dbm.getDataBase().setTransactionSuccessful();
 				} catch (Exception e) {
 					throw new CommunicationException("",
@@ -170,7 +177,7 @@ public class ObjectsAsycnTask extends AsyncTask<Void, Void, Void> implements
 	public void onPreExecute() {
 		super.onPreExecute();
 		if (listener != null) {
-			listener.onTaskStart("");
+			listener.onTaskStart("", showProgress);
 		}
 	}
 
@@ -189,9 +196,12 @@ public class ObjectsAsycnTask extends AsyncTask<Void, Void, Void> implements
 	@Override
 	public void onObjectsProgressUpdate(int progressPercent) {
 		if (listener != null) {
-			int actualProgress = 100 / progressPercent;
-			actualProgress = actualProgress + progressPercent / 1;
-			listener.onTaskProgressUpdate(actualProgress);
+			if (progressPercent > 0) {
+				int actualProgress = 100 / elementCount * downloadElementCount;
+				actualProgress = actualProgress + progressPercent
+						/ elementCount;
+				listener.onTaskProgressUpdate(actualProgress);
+			}
 		}
 
 	}

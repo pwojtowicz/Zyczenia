@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/ll_our_rating"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:background="@color/darkGreen" >
+
+        <RelativeLayout
+            android:id="@+id/rl1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="10dp" >
+
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:src="@drawable/cbx_star_enabled" />
+
+            <TextView
+                android:id="@+id/txtv_rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:text="7.2"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/textView1"
+            style="@style/Style_TextWithShadow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/rl1"
+            android:text="@string/our_rating"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/txtv_addTime"
+                style="@style/Style_TextWithShadow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            <TextView
+                android:id="@+id/txtv_lenght"
+                style="@style/Style_TextWithShadow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:id="@+id/sv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/btn_favorite"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/ll_our_rating"
+        android:layout_margin="10dp" >
+
+        <TextView
+            android:id="@+id/txtv_wish"
+            style="@style/Style_TextWithShadow"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Życzenia bożonarodzeniowe, ciepłe, serdeczne, pełne miłości i radości – czyli teksty idealnie oddające atomsferę towarzyszącą Świętom Bożego Narodzenia, pasujące zarówno do wpisów na kartki świąteczne, jak i do wiadomości SMS"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btn_favorite"
+        style="@style/Style_TextWithShadow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:background="@color/btn_blue_selector"
+        android:drawableLeft="@drawable/cbx_star_disabled"
+        android:text="@string/add_to_favorites" />
+
+</RelativeLayout>

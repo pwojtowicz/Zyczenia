@@ -50,11 +50,15 @@ public class HTTPRequestProvider {
 
 			InputStream in = getConnectionInputStream(connection);
 
+			fileSize = 3091858;
 			ByteArrayOutputStream byteArray = readInpdutStream(in, fileSize,
 					listener);
 
+			System.out.println("Content Size: " + String.valueOf(fileSize)
+					+ " byteArray Size: " + String.valueOf(byteArray.size()));
+
 			try {
-				response = byteArray.toString("ISO-8859-2");
+				response = byteArray.toString();// ("ISO-8859-2");
 			} catch (Exception e) {
 				response = "ConvertToStringProblem";
 			}
@@ -103,7 +107,7 @@ public class HTTPRequestProvider {
 
 		int ret = 0;
 		long downloadedSize = 0;
-
+		int lastProgressValue = -1;
 		ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
 		while ((ret = inputStream.read(buf)) > 0) {
 			byteArray.write(buf, 0, ret);
@@ -113,13 +117,17 @@ public class HTTPRequestProvider {
 			if (fileSize != 0)
 				progressPercent = (int) (downloadedSize * 100) / fileSize;
 
-			if ((progressPercent % 5) == 0) {
+			if ((progressPercent % 5) == 0
+					&& lastProgressValue < progressPercent) {
+				System.out.println("Progress: "
+						+ String.valueOf(progressPercent));
 				if (listener != null) {
 					listener.onObjectsProgressUpdate(progressPercent);
 					if (listener.checkIsTaskCancled()) {
 						break;
 					}
 				}
+				lastProgressValue = progressPercent;
 			}
 		}
 		return byteArray;

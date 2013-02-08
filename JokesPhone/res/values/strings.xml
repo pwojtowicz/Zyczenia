@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Dowcipy</string>
+    <string name="menu_search">Wyszukaj</string>
+    <string name="menu_settings">Ustawienia</string>
+    <string name="menu_share">Wyślij</string>
+    <string name="title_activity_wishes">Dowcipy</string>
+    <string name="title_activity_preferences">Ustawienia</string>
+    <string name="preference_title_replace">Polskie znaki</string>
+    <string name="preference_summary_replace">Podmiana polskich znaków przed wysłaniem treści</string>
+    
+    <string name="title_activity_about">O programie</string>
+    
+    <string name="text_to_search">Treść do wyszukania</string>
+    <string name="optional_select_category">Szukaj w:</string>
+    <string name="get_data">Aktualizacja danych</string>
+    <string name="btn_footer_another">Więcej dowcipów</string>
+    <string name="btn_footer_add_wishes">Dodaj dowcip</string>
+    <string name="btn_update">Aktualizacja danych</string>
+    <string name="update_question">Czy chcesz dokonać aktualizacji dowcipów?</string>
+    
+    <string name="title_fragment_search">Wyszukaj dowcip</string>
+    <string name="title_fragment_start">Start</string>
+    <string name="title_fragment_categories">Kategorie</string>
+
+
+</resources>

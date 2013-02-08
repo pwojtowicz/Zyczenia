@@ -1,4 +1,4 @@
-package pl.netplus.wishesphone;
+package pl.netplus.jokesphone;
 
 import pl.netplus.appbase.database.DataBaseManager;
 import pl.netplus.appbase.enums.EDialogType;
@@ -24,9 +24,9 @@ import android.view.MenuItem;
 public abstract class AppBaseActivity extends FragmentActivity implements
 		IReadRepository {
 
-	private final static String categoryAddress = "http://zyczenia.tja.pl/api/android_bramka.php?co=lista_kategorii";
-	private final static String contentAddress = "http://zyczenia.tja.pl/api/android_bramka.php?co=lista_obekty&data=";
-	private final static String contentToDeleteAddress = "http://zyczenia.tja.pl/api/android_bramka.php?co=lista_obekty_id";
+	private final static String categoryAddress = "http://kawaly.tja.pl/api/android_bramka.php?co=lista_kategorii";
+	private final static String contentAddress = "http://kawaly.tja.pl/api/android_bramka.php?co=lista_obekty&data=";
+	private final static String contentToDeleteAddress = "http://kawaly.tja.pl/api/android_bramka.php?co=lista_obekty_id";
 
 	private ProgressDialog dialog;
 
@@ -70,7 +70,14 @@ public abstract class AppBaseActivity extends FragmentActivity implements
 		if (message.length() == 0)
 			message = getString(R.string.progress_download_data);
 		dialog.setMessage(message);
-		// dialog.setIndeterminate(true);
+
+		if (showProgress) {
+			dialog.setIndeterminate(false);
+			dialog.setMax(100);
+			dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+		} else {
+			dialog.setIndeterminate(true);
+		}
 		dialog.setCancelable(false);
 		dialog.show();
 	}
@@ -102,6 +109,8 @@ public abstract class AppBaseActivity extends FragmentActivity implements
 
 	@Override
 	public void onTaskProgressUpdate(int actualProgress) {
+		System.out.println("Update progress to:"
+				+ String.valueOf(actualProgress));
 		if (dialog != null)
 			dialog.setProgress(actualProgress);
 
