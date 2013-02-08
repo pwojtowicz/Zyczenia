@@ -14,15 +14,16 @@
     
     <string name="text_to_search">Treść do wyszukania</string>
     <string name="optional_select_category">Szukaj w:</string>
-    <string name="get_data">Aktualizacja danych</string>
+    <string name="get_data"> Pobierz nowe kawały</string>
     <string name="btn_footer_another">Więcej dowcipów</string>
-    <string name="btn_footer_add_wishes">Dodaj dowcip</string>
-    <string name="btn_update">Aktualizacja danych</string>
-    <string name="update_question">Czy chcesz dokonać aktualizacji dowcipów?</string>
+    <string name="btn_footer_add_wishes">Dodaj kawał</string>
+    <string name="btn_update">Pobierz nowe kawały</string>
+    <string name="update_question">Czy chcesz dokonać aktualizacji kawałów?</string>
     
-    <string name="title_fragment_search">Wyszukaj dowcip</string>
+    <string name="title_fragment_search">Wyszukaj kawał</string>
     <string name="title_fragment_start">Start</string>
     <string name="title_fragment_categories">Kategorie</string>
+    <string name="btn_title_news">Najnowsze kawały</string>
 
 
 </resources>

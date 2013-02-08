@@ -22,15 +22,18 @@ public class StartFragment extends BaseFragment<Object> implements
 
 	public static StartFragment newInstance() {
 		StartFragment f = new StartFragment();
+		f.setRetainInstance(true);
 		return f;
 	}
 
 	public StartFragment() {
 		super(R.layout.fragment_start_layout, null);
+
 	}
 
 	@Override
 	public void linkViews(View convertView) {
+
 		btn_favorite = (Button) convertView.findViewById(R.id.button_favorite);
 
 		Button btn_random = (Button) convertView.findViewById(R.id.btn_random);

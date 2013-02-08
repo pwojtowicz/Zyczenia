@@ -40,6 +40,7 @@ public class SearchFragment extends Fragment implements IReadRepository {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setRetainInstance(true);
 	}
 
 	@Override

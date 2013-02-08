@@ -26,7 +26,8 @@
 	<string name="add_to_favorites">Dodaj do ulubionych</string>
     <string name="removed_from_favorites">Usuń z ulubionych</string>
     
-    <string name="progress_download_data">Pobieranie danych</string>
+    <string name="progress_download_data">Wczytywanie danych</string>
+    <string name="progress_update_data">Aktualizacja danych</string>
     <string name="progress_save_changes">Zapisywanie zmian</string>
     <string name="progress_search">Wyszukiwanie</string>
     

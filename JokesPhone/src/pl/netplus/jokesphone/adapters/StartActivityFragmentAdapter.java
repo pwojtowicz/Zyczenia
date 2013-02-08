@@ -9,6 +9,8 @@ import android.content.res.Resources;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentTransaction;
+import android.view.ViewGroup;
 
 public class StartActivityFragmentAdapter extends FragmentStatePagerAdapter {
 
@@ -55,6 +57,16 @@ public class StartActivityFragmentAdapter extends FragmentStatePagerAdapter {
 			return titleCategories;
 		default:
 			return "";
+		}
+	}
+
+	@Override
+	public void destroyItem(ViewGroup container, int position, Object object) {
+		if (position >= getCount()) {
+			FragmentManager manager = ((Fragment) object).getFragmentManager();
+			FragmentTransaction trans = manager.beginTransaction();
+			trans.remove((Fragment) object);
+			trans.commit();
 		}
 	}
 

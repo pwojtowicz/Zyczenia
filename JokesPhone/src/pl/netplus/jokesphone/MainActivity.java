@@ -34,7 +34,7 @@ public class MainActivity extends AppBaseActivity implements IReadRepository {
 	@Override
 	public void onStart() {
 		super.onStart();
-		updateFragmentPager();
+
 		System.out.println("onStart MainActivity");
 		long nextUpdate = getNextUpdateDate();
 		long actualTime = Calendar.getInstance().getTimeInMillis();
@@ -91,6 +91,8 @@ public class MainActivity extends AppBaseActivity implements IReadRepository {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
+		updateFragmentPager();
+
 	}
 
 	private void updateFragmentPager() {
@@ -103,6 +105,8 @@ public class MainActivity extends AppBaseActivity implements IReadRepository {
 				getString(R.string.title_fragment_categories));
 
 		mViewPager = (ViewPager) findViewById(R.id.pager);
+		mViewPager.setOffscreenPageLimit(3);
+
 		mViewPager.setAdapter(mPageAdapter);
 		mViewPager.setCurrentItem(1);
 	}

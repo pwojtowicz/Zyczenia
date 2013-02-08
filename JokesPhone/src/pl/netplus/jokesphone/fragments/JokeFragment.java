@@ -1,6 +1,7 @@
 package pl.netplus.jokesphone.fragments;
 
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import pl.netplus.appbase.asynctask.ObjectsAsycnTask.AsyncTaskResult;
 import pl.netplus.appbase.entities.ContentObject;
@@ -12,6 +13,7 @@ import pl.netplus.appbase.interfaces.IReadRepository;
 import pl.netplus.appbase.managers.ObjectManager;
 import pl.netplus.jokesphone.AppBaseActivity;
 import pl.netplus.jokesphone.R;
+import pl.netplus.wishesbase.support.StringHelper;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -80,15 +82,15 @@ public class JokeFragment extends BaseFragment<ContentObject> implements
 	public void reloadContent() {
 		if (contentObject != null) {
 
-			// tv_actual.setText(String.format("%d/%d", actualWishId + 1,
-			// contentObject.size()));
-
 			tv_lenght.setText(String.format("znaki: %d", contentObject
 					.getText().length()));
 
-			Date t = new Date(contentObject.getUploadDate());
+			Date updateDate = new Date(contentObject.getUploadDate() * 1000);
 
-			tv_addDate.setText(t.toLocaleString());
+			long daysBetween = TimeUnit.MILLISECONDS.toDays(updateDate
+					.getTime() - new Date().getTime());
+
+			tv_addDate.setText(StringHelper.daysCountToString(daysBetween));
 
 			tv_wish.setText(contentObject.getText());
 

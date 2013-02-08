@@ -25,4 +25,21 @@ public class StringHelper {
 		text = text.replace('Ñ', 'N');
 		return text;
 	}
+
+	public static String daysCountToString(long days) {
+
+		if (days == 0)
+			return "Dodany dzisiaj";
+		if (days >= 1 && days < 11)
+			return "Dodany wczoraj";
+
+		if (days >= 11 && days < 60)
+			return "Dodany 11 dni temu";
+
+		if (days >= 60 && days < 360)
+			return "Dodany 2 miesi¹ce temu";
+
+		return "Dodany ponad rok temu";
+
+	}
 }
