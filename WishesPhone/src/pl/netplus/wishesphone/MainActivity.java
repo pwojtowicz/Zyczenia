@@ -7,6 +7,7 @@ import java.util.Date;
 import pl.netplus.appbase.asynctask.ObjectsAsycnTask.AsyncTaskResult;
 import pl.netplus.appbase.entities.Category;
 import pl.netplus.appbase.entities.FragmentObject;
+import pl.netplus.appbase.enums.ERepositoryManagerMethods;
 import pl.netplus.appbase.enums.ERepositoryTypes;
 import pl.netplus.appbase.exception.RepositoryException;
 import pl.netplus.appbase.interfaces.IReadRepository;
@@ -14,12 +15,10 @@ import pl.netplus.appbase.managers.ObjectManager;
 import pl.netplus.wishesbase.support.DialogHelper;
 import pl.netplus.wishesbase.support.NetPlusAppGlobals;
 import pl.netplus.wishesphone.adapters.StartActivityFragmentAdapter;
-import pl.netplus.wishesphone.fragments.CategoryListFragment;
-import pl.netplus.wishesphone.fragments.SearchFragment;
-import pl.netplus.wishesphone.fragments.StartFragment;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 
@@ -34,7 +33,6 @@ public class MainActivity extends AppBaseActivity implements IReadRepository {
 	@Override
 	public void onStart() {
 		super.onStart();
-		System.out.println("onStart MainActivity");
 		long nextUpdate = getNextUpdateDate();
 		long actualTime = Calendar.getInstance().getTimeInMillis();
 
@@ -42,7 +40,10 @@ public class MainActivity extends AppBaseActivity implements IReadRepository {
 			update(nextUpdate == 0 ? false : true);
 		} else if (isFirstTime) {
 			ObjectManager manager = new ObjectManager();
-			manager.readAll(this, ERepositoryTypes.Categories);
+			manager.readObjectsWithoutSendItem(this,
+					ERepositoryTypes.Categories,
+					ERepositoryManagerMethods.ReadAll, null);
+
 		}
 	}
 
@@ -89,19 +90,25 @@ public class MainActivity extends AppBaseActivity implements IReadRepository {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		updateFragmentPager();
 
+	}
+
+	private void updateFragmentPager() {
 		pages = new ArrayList<FragmentObject>();
 
-		mPageAdapter = new StartActivityFragmentAdapter(
-				getSupportFragmentManager(),
+		FragmentManager fm = getSupportFragmentManager();
+
+		mPageAdapter = new StartActivityFragmentAdapter(fm,
 				getString(R.string.title_fragment_search),
 				getString(R.string.title_fragment_start),
 				getString(R.string.title_fragment_categories));
 
 		mViewPager = (ViewPager) findViewById(R.id.pager);
+		mViewPager.setOffscreenPageLimit(3);
+
 		mViewPager.setAdapter(mPageAdapter);
 		mViewPager.setCurrentItem(1);
-
 	}
 
 	@Override
@@ -121,12 +128,7 @@ public class MainActivity extends AppBaseActivity implements IReadRepository {
 				setUpdateDates(c.getTimeInMillis(), returnFromServerTime);
 			}
 		}
-		System.out.println("MainActivity onTaskResponse");
-		((SearchFragment) mPageAdapter.getItem(0)).reload();
-		((StartFragment) mPageAdapter.getItem(1)).reload();
-		((CategoryListFragment) mPageAdapter.getItem(2)).reload();
-		mPageAdapter.notifyDataSetChanged();
-
+		updateFragmentPager();
 	}
 
 	@Override

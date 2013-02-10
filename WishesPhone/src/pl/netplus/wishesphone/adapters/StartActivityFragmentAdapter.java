@@ -8,9 +8,9 @@ import pl.netplus.wishesphone.fragments.StartFragment;
 import android.content.res.Resources;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentPagerAdapter;
 
-public class StartActivityFragmentAdapter extends FragmentStatePagerAdapter {
+public class StartActivityFragmentAdapter extends FragmentPagerAdapter {
 
 	int NUM_ITEMS = 3;
 

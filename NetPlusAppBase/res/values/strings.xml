@@ -6,6 +6,7 @@
     <string name="categores">Kategorie:</string>
     <string name="aboutApp">O programie</string>
     <string name="randomObjects">Losowo</string>
+    <string name="fromLatest">Od najnowszych</string>
     
     <string name="all_categories">wszystkie kategorie</string>    
     
@@ -39,5 +40,6 @@
     
     <string name="dialog_no_internet_connection">Brak połączenia z internetem, nie można wykonać aktualizacji.</string>
     
+    <string name="latest">NOWOŚĆ</string>
 	
 </resources>

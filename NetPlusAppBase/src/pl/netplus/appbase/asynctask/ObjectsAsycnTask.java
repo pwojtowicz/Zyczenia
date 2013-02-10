@@ -32,16 +32,16 @@ public class ObjectsAsycnTask extends AsyncTask<Void, Void, Void> implements
 	private Bundle bundle;
 	private boolean showProgress = false;
 
-	public ObjectsAsycnTask(IReadRepository listener,
-			ERepositoryManagerMethods method, IBaseRepository repository,
-			ModelBase item) {
-		this.listener = listener;
-		this.method = method;
-		this.repository = repository;
-		this.item = item;
-
-	}
-
+	// public ObjectsAsycnTask(IReadRepository listener,
+	// ERepositoryManagerMethods method, IBaseRepository repository,
+	// ModelBase item) {
+	// this.listener = listener;
+	// this.method = method;
+	// this.repository = repository;
+	// this.item = item;
+	//
+	// }
+	//
 	public ObjectsAsycnTask(IReadRepository listener,
 			ERepositoryManagerMethods method, IBaseRepository repository,
 			int categoryId, String value) {
@@ -52,18 +52,30 @@ public class ObjectsAsycnTask extends AsyncTask<Void, Void, Void> implements
 		this.value = value;
 	}
 
-	public ObjectsAsycnTask(IReadRepository listener,
-			ERepositoryManagerMethods method) {
-		this.listener = listener;
-		this.method = method;
-	}
+	//
+	// public ObjectsAsycnTask(IReadRepository listener,
+	// ERepositoryManagerMethods method) {
+	// this.listener = listener;
+	// this.method = method;
+	// }
+	//
+	// public ObjectsAsycnTask(IReadRepository listener,
+	// ERepositoryManagerMethods method, Bundle bundle) {
+	// this.listener = listener;
+	// this.method = method;
+	// this.bundle = bundle;
+	// this.showProgress = true;
+	// }
 
 	public ObjectsAsycnTask(IReadRepository listener,
-			ERepositoryManagerMethods method, Bundle bundle) {
+			ERepositoryManagerMethods method, IBaseRepository<?> repository,
+			ModelBase item, Bundle bundle, Boolean showProgress) {
 		this.listener = listener;
 		this.method = method;
+		this.repository = repository;
 		this.bundle = bundle;
-		this.showProgress = true;
+		this.showProgress = showProgress;
+		this.item = item;
 	}
 
 	@Override
@@ -116,7 +128,7 @@ public class ObjectsAsycnTask extends AsyncTask<Void, Void, Void> implements
 					dbm.getDataBase().endTransaction();
 				}
 				dbm.close();
-				new CategoriesRepository().readAll();
+				new CategoriesRepository().readAll(null);
 				if (results == -1)
 					throw new CommunicationException("",
 							ExceptionErrorCodes.UpdateError);
@@ -140,7 +152,7 @@ public class ObjectsAsycnTask extends AsyncTask<Void, Void, Void> implements
 				response.bundle = repository.readById(item.getId());
 				break;
 			case ReadAll:
-				response.bundle = repository.readAll();
+				response.bundle = repository.readAll(bundle);
 				break;
 			case ReadFavorites:
 				if (repository instanceof ContentObjectRepository) {

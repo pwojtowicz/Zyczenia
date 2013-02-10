@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import pl.netplus.appbase.database.DataBaseManager;
 import pl.netplus.appbase.httpconnection.IHttpRequestToAsyncTaskCommunication;
+import android.os.Bundle;
 
 public interface IBaseRepository<T> {
 
@@ -15,7 +16,7 @@ public interface IBaseRepository<T> {
 
 	public abstract ArrayList<T> readById(int value);
 
-	public abstract ArrayList<T> readAll();
+	public abstract ArrayList<T> readAll(Bundle bundle);
 
 	public abstract boolean delete(T item);
 

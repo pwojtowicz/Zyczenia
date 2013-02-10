@@ -8,6 +8,7 @@ import pl.netplus.jokesphone.JokesActivity;
 import pl.netplus.jokesphone.MainActivity;
 import pl.netplus.jokesphone.R;
 import pl.netplus.wishesbase.support.NetPlusAppGlobals;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -18,12 +19,12 @@ import android.widget.ListView;
 
 public class CategoryListFragment extends ListFragment {
 
-	public static CategoryListFragment newInstance() {
+	public static CategoryListFragment newInstance(int index) {
 		CategoryListFragment f = new CategoryListFragment();
-
-		System.out.println("CategoryListFragment: " + f.getId());
 		return f;
 	}
+
+	private Context context = null;
 
 	/**
 	 * When creating, retrieve this instance's number from its arguments.
@@ -31,7 +32,6 @@ public class CategoryListFragment extends ListFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setRetainInstance(true);
 	}
 
 	@Override
@@ -39,13 +39,16 @@ public class CategoryListFragment extends ListFragment {
 			Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.fragment_categories, container,
 				false);
-
 		return v;
 	}
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+
+		if (getActivity() != null) {
+			this.context = getActivity();
+		}
 		reload();
 	}
 
@@ -53,11 +56,11 @@ public class CategoryListFragment extends ListFragment {
 		ArrayList<Category> categories = NetPlusAppGlobals.getInstance()
 				.getCategories();
 
-		if (categories != null && categories.size() > 0
-				&& getActivity() != null) {
-			CategoryListAdapter adapter = new CategoryListAdapter(
-					getActivity(), categories, R.layout.row_category_layout);
+		if (categories != null && categories.size() > 0 && context != null) {
+			CategoryListAdapter adapter = new CategoryListAdapter(context,
+					categories, R.layout.row_category_layout);
 			setListAdapter(adapter);
+			System.out.println("reload success");
 		}
 	}
 

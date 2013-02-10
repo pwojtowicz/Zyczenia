@@ -8,11 +8,9 @@ import pl.netplus.jokesphone.fragments.StartFragment;
 import android.content.res.Resources;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.app.FragmentTransaction;
-import android.view.ViewGroup;
+import android.support.v4.app.FragmentPagerAdapter;
 
-public class StartActivityFragmentAdapter extends FragmentStatePagerAdapter {
+public class StartActivityFragmentAdapter extends FragmentPagerAdapter {
 
 	int NUM_ITEMS = 3;
 
@@ -30,9 +28,9 @@ public class StartActivityFragmentAdapter extends FragmentStatePagerAdapter {
 		this.titleSearch = titleSearch;
 		this.titleStart = titleStart;
 		this.titleCategories = titleCategories;
-		fragments.add(SearchFragment.newInstance());
-		fragments.add(StartFragment.newInstance());
-		fragments.add(CategoryListFragment.newInstance());
+		fragments.add(SearchFragment.newInstance(1));
+		fragments.add(StartFragment.newInstance(2));
+		fragments.add(CategoryListFragment.newInstance(3));
 	}
 
 	@Override
@@ -57,16 +55,6 @@ public class StartActivityFragmentAdapter extends FragmentStatePagerAdapter {
 			return titleCategories;
 		default:
 			return "";
-		}
-	}
-
-	@Override
-	public void destroyItem(ViewGroup container, int position, Object object) {
-		if (position >= getCount()) {
-			FragmentManager manager = ((Fragment) object).getFragmentManager();
-			FragmentTransaction trans = manager.beginTransaction();
-			trans.remove((Fragment) object);
-			trans.commit();
 		}
 	}
 

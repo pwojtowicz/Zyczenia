@@ -10,6 +10,7 @@ import pl.netplus.appbase.interfaces.IBaseRepository;
 import pl.netplus.wishesbase.support.NetPlusAppGlobals;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteStatement;
+import android.os.Bundle;
 
 public class FavoritesRepository implements IBaseRepository<Favorite> {
 
@@ -24,7 +25,7 @@ public class FavoritesRepository implements IBaseRepository<Favorite> {
 	}
 
 	@Override
-	public ArrayList<Favorite> readAll() {
+	public ArrayList<Favorite> readAll(Bundle bundle) {
 		dbm.checkIsOpen();
 		ArrayList<Favorite> list = new ArrayList<Favorite>();
 		Cursor cursor = dbm.getDataBase().query(DataBaseHelper.TABLE_FAVORITES,

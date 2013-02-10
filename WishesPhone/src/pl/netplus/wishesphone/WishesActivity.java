@@ -147,16 +147,18 @@ public class WishesActivity extends AppBaseActivity {
 			ObjectManager manager = new ObjectManager();
 
 			if (categoryId > 0) {
-				manager.readById(this, ERepositoryTypes.ContentObject,
-						new ModelBase(categoryId));
+				manager.readObjectsWithSendItem(this,
+						ERepositoryTypes.ContentObject,
+						ERepositoryManagerMethods.ReadById, new ModelBase(
+								categoryId), null);
 			} else if (categoryId == NetPlusAppGlobals.ITEMS_FAVORITE) {
 				manager.readObjectsWithoutSendItem(this,
 						ERepositoryTypes.ContentObject,
-						ERepositoryManagerMethods.ReadFavorites);
+						ERepositoryManagerMethods.ReadFavorites, null);
 			} else if (categoryId == NetPlusAppGlobals.ITEMS_ALL) {
 				manager.readObjectsWithoutSendItem(this,
 						ERepositoryTypes.ContentObject,
-						ERepositoryManagerMethods.ReadAll);
+						ERepositoryManagerMethods.ReadAll, null);
 			} else if (categoryId == NetPlusAppGlobals.ITEMS_SEARCH) {
 				items = NetPlusAppGlobals.getInstance()
 						.getCategoriesContentObjects(categoryId);

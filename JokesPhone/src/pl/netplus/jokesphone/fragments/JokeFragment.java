@@ -31,6 +31,8 @@ public class JokeFragment extends BaseFragment<ContentObject> implements
 	private TextView tv_lenght;
 	private TextView tv_addDate;
 
+	private TextView txtv_additional;
+
 	public JokeFragment() {
 		super(R.layout.fragment_single_wish_layout, ERepositoryTypes.SingleWish);
 
@@ -48,11 +50,12 @@ public class JokeFragment extends BaseFragment<ContentObject> implements
 
 	@Override
 	public void linkViews(View convertView) {
-		// tv_actual = (TextView) convertView
-		// .findViewById(R.id.txtv_actual_element_number);
 
 		tv_wish = (TextView) convertView.findViewById(R.id.txtv_wish);
 		tv_lenght = (TextView) convertView.findViewById(R.id.txtv_lenght);
+
+		txtv_additional = (TextView) convertView
+				.findViewById(R.id.txtv_additional);
 
 		tv_addDate = (TextView) convertView.findViewById(R.id.txtv_addTime);
 
@@ -87,10 +90,13 @@ public class JokeFragment extends BaseFragment<ContentObject> implements
 
 			Date updateDate = new Date(contentObject.getUploadDate() * 1000);
 
-			long daysBetween = TimeUnit.MILLISECONDS.toDays(updateDate
-					.getTime() - new Date().getTime());
+			long daysBetween = TimeUnit.MILLISECONDS.toDays(new Date()
+					.getTime() - updateDate.getTime());
 
-			tv_addDate.setText(StringHelper.daysCountToString(daysBetween));
+			if (daysBetween < 5)
+				txtv_additional.setText(pl.netplus.appbase.R.string.latest);
+
+			tv_addDate.setText(StringHelper.daysCountToString(daysBetween + 1));
 
 			tv_wish.setText(contentObject.getText());
 

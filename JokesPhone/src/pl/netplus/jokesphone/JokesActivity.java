@@ -147,19 +147,28 @@ public class JokesActivity extends AppBaseActivity {
 			ObjectManager manager = new ObjectManager();
 
 			if (categoryId > 0) {
-				manager.readById(this, ERepositoryTypes.ContentObject,
-						new ModelBase(categoryId));
+				manager.readObjectsWithSendItem(this,
+						ERepositoryTypes.ContentObject,
+						ERepositoryManagerMethods.ReadById, new ModelBase(
+								categoryId), null);
 			} else if (categoryId == NetPlusAppGlobals.ITEMS_FAVORITE) {
 				manager.readObjectsWithoutSendItem(this,
 						ERepositoryTypes.ContentObject,
-						ERepositoryManagerMethods.ReadFavorites);
+						ERepositoryManagerMethods.ReadFavorites, null);
 			} else if (categoryId == NetPlusAppGlobals.ITEMS_ALL) {
 				manager.readObjectsWithoutSendItem(this,
 						ERepositoryTypes.ContentObject,
-						ERepositoryManagerMethods.ReadAll);
+						ERepositoryManagerMethods.ReadAll, null);
 			} else if (categoryId == NetPlusAppGlobals.ITEMS_SEARCH) {
 				items = NetPlusAppGlobals.getInstance()
 						.getCategoriesContentObjects(categoryId);
+			} else if (categoryId == NetPlusAppGlobals.ITEMS_LATEST) {
+				categoryId = NetPlusAppGlobals.ITEMS_ALL;
+				Bundle bundle = new Bundle();
+				bundle.putString("OrderBy", "udate DESC");
+				manager.readObjectsWithoutSendItem(this,
+						ERepositoryTypes.ContentObject,
+						ERepositoryManagerMethods.ReadAll, bundle);
 			}
 		}
 
@@ -180,15 +189,13 @@ public class JokesActivity extends AppBaseActivity {
 	private void ReloadAllItems(ArrayList<ContentObject> items) {
 		fragments = new ArrayList<FragmentObject>();
 
-		allItemCount = items.size();
-
-		for (ContentObject contentObject : items) {
-
-			JokeFragment fragment = new JokeFragment();
-			fragment.setContentObject(contentObject);
-
-			fragments.add(new FragmentObject(fragment));
-
+		if (items != null) {
+			allItemCount = items.size();
+			for (ContentObject contentObject : items) {
+				JokeFragment fragment = new JokeFragment();
+				fragment.setContentObject(contentObject);
+				fragments.add(new FragmentObject(fragment));
+			}
 		}
 		fAdapter = new FragmentAdapter(getSupportFragmentManager(), fragments,
 				0);

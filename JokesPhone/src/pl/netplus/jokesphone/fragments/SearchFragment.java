@@ -32,7 +32,7 @@ public class SearchFragment extends Fragment implements IReadRepository {
 	private Spinner spinner;
 	private EditText textToSearch;
 
-	public static SearchFragment newInstance() {
+	public static SearchFragment newInstance(int index) {
 		SearchFragment f = new SearchFragment();
 		return f;
 	}
@@ -40,7 +40,7 @@ public class SearchFragment extends Fragment implements IReadRepository {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setRetainInstance(true);
+		// setRetainInstance(true);
 	}
 
 	@Override

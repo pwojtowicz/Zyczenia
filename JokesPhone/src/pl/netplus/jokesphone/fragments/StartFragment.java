@@ -20,9 +20,9 @@ public class StartFragment extends BaseFragment<Object> implements
 
 	private Button btn_favorite;
 
-	public static StartFragment newInstance() {
+	public static StartFragment newInstance(int index) {
 		StartFragment f = new StartFragment();
-		f.setRetainInstance(true);
+		// f.setRetainInstance(true);
 		return f;
 	}
 
@@ -59,7 +59,9 @@ public class StartFragment extends BaseFragment<Object> implements
 		btn_about.setTag(EButtonType.About);
 		btn_about.setOnClickListener(this);
 
+		btn_otherpage.setTag(EButtonType.News);
 		btn_otherpage.setOnClickListener(this);
+
 		btn_webpage.setOnClickListener(this);
 		btn_add_wish.setOnClickListener(this);
 		btn_facebook.setOnClickListener(this);
@@ -82,7 +84,7 @@ public class StartFragment extends BaseFragment<Object> implements
 	}
 
 	private enum EButtonType {
-		Favorite, Update, About, Random
+		Favorite, Update, About, Random, News
 	}
 
 	@Override
@@ -91,10 +93,13 @@ public class StartFragment extends BaseFragment<Object> implements
 		if (o instanceof EButtonType) {
 			switch ((EButtonType) o) {
 			case Favorite:
-				showFavoritesWish();
+				showFavoritesJokes();
+				break;
+			case News:
+				showNewsJokes();
 				break;
 			case Random:
-				showRandomWish();
+				showRandomJokes();
 				break;
 			case Update:
 				upddate();
@@ -120,7 +125,7 @@ public class StartFragment extends BaseFragment<Object> implements
 		((MainActivity) getActivity()).update(true);
 	}
 
-	protected void showFavoritesWish() {
+	protected void showFavoritesJokes() {
 		if (NetPlusAppGlobals.getInstance().getFavoritesCount() > 0)
 			startWishesIntent(NetPlusAppGlobals.ITEMS_FAVORITE,
 					getText(pl.netplus.appbase.R.string.favorites).toString());
@@ -130,9 +135,14 @@ public class StartFragment extends BaseFragment<Object> implements
 		}
 	}
 
-	protected void showRandomWish() {
+	protected void showRandomJokes() {
 		startWishesIntent(NetPlusAppGlobals.ITEMS_ALL,
 				getText(pl.netplus.appbase.R.string.randomObjects).toString());
+	}
+
+	protected void showNewsJokes() {
+		startWishesIntent(NetPlusAppGlobals.ITEMS_LATEST,
+				getText(pl.netplus.appbase.R.string.fromLatest).toString());
 	}
 
 	protected void showWebPage(String url) {

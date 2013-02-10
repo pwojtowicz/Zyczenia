@@ -119,8 +119,7 @@ public class HTTPRequestProvider {
 
 			if ((progressPercent % 5) == 0
 					&& lastProgressValue < progressPercent) {
-				System.out.println("Progress: "
-						+ String.valueOf(progressPercent));
+
 				if (listener != null) {
 					listener.onObjectsProgressUpdate(progressPercent);
 					if (listener.checkIsTaskCancled()) {

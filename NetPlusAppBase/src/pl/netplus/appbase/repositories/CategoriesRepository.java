@@ -14,6 +14,7 @@ import pl.netplus.appbase.interfaces.IBaseRepository;
 import pl.netplus.wishesbase.support.NetPlusAppGlobals;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteStatement;
+import android.os.Bundle;
 
 public class CategoriesRepository implements IBaseRepository<Category> {
 
@@ -51,7 +52,7 @@ public class CategoriesRepository implements IBaseRepository<Category> {
 	}
 
 	@Override
-	public ArrayList<Category> readAll() {
+	public ArrayList<Category> readAll(Bundle bundle) {
 		dbm.checkIsOpen();
 		ArrayList<Category> list = new ArrayList<Category>();
 		Cursor cursor = dbm.getDataBase().query(
@@ -74,7 +75,7 @@ public class CategoriesRepository implements IBaseRepository<Category> {
 
 		NetPlusAppGlobals.getInstance().setCategories(list);
 
-		new FavoritesRepository().readAll();
+		new FavoritesRepository().readAll(null);
 		return list;
 	}
 

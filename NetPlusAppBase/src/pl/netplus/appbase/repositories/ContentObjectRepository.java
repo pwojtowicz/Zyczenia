@@ -16,6 +16,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteStatement;
+import android.os.Bundle;
 
 public class ContentObjectRepository implements IBaseRepository<ContentObject> {
 
@@ -134,12 +135,19 @@ public class ContentObjectRepository implements IBaseRepository<ContentObject> {
 	}
 
 	@Override
-	public ArrayList<ContentObject> readAll() {
+	public ArrayList<ContentObject> readAll(Bundle bundle) {
+		String orderBy = "ID";
+		if (bundle != null) {
+			String tmp = bundle.getString("OrderBy");
+			if (tmp != null && !tmp.isEmpty())
+				orderBy = tmp;
+		}
+
 		dbm.checkIsOpen();
 		ArrayList<ContentObject> list = new ArrayList<ContentObject>();
 		Cursor cursor = dbm.getDataBase().query(DataBaseHelper.TABLE_OBJECTS,
 				new String[] { "ID,Content, Categories, Rating, udate" }, null,
-				null, null, null, "ID");
+				null, null, null, orderBy);
 		if (cursor.moveToFirst()) {
 			do {
 				ContentObject item = new ContentObject();

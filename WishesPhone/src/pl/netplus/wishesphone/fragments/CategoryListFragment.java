@@ -8,6 +8,7 @@ import pl.netplus.wishesbase.support.NetPlusAppGlobals;
 import pl.netplus.wishesphone.MainActivity;
 import pl.netplus.wishesphone.R;
 import pl.netplus.wishesphone.WishesActivity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -18,10 +19,11 @@ import android.widget.ListView;
 
 public class CategoryListFragment extends ListFragment {
 
+	private Context context = null;
+
 	public static CategoryListFragment newInstance() {
 		CategoryListFragment f = new CategoryListFragment();
 
-		System.out.println("CategoryListFragment: " + f.getId());
 		return f;
 	}
 
@@ -45,6 +47,9 @@ public class CategoryListFragment extends ListFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		if (getActivity() != null) {
+			this.context = getActivity();
+		}
 		reload();
 	}
 
@@ -52,10 +57,9 @@ public class CategoryListFragment extends ListFragment {
 		ArrayList<Category> categories = NetPlusAppGlobals.getInstance()
 				.getCategories();
 
-		if (categories != null && categories.size() > 0
-				&& getActivity() != null) {
-			CategoryListAdapter adapter = new CategoryListAdapter(
-					getActivity(), categories, R.layout.row_category_layout);
+		if (categories != null && categories.size() > 0 && context != null) {
+			CategoryListAdapter adapter = new CategoryListAdapter(context,
+					categories, R.layout.row_category_layout);
 			setListAdapter(adapter);
 		}
 	}

@@ -110,8 +110,6 @@ public abstract class AppBaseActivity extends FragmentActivity implements
 
 	@Override
 	public void onTaskProgressUpdate(int actualProgress) {
-		System.out.println("Update progress to:"
-				+ String.valueOf(actualProgress));
 		if (dialog != null)
 			dialog.setProgress(actualProgress);
 
