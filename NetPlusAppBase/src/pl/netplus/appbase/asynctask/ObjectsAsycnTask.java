@@ -208,12 +208,11 @@ public class ObjectsAsycnTask extends AsyncTask<Void, Void, Void> implements
 	@Override
 	public void onObjectsProgressUpdate(int progressPercent) {
 		if (listener != null) {
-			if (progressPercent > 0) {
-				int actualProgress = 100 / elementCount * downloadElementCount;
-				actualProgress = actualProgress + progressPercent
-						/ elementCount;
-				listener.onTaskProgressUpdate(actualProgress);
-			}
+			// if (progressPercent > 0) {
+			int actualProgress = 100 / elementCount * downloadElementCount;
+			actualProgress = actualProgress + progressPercent / elementCount;
+			listener.onTaskProgressUpdate(actualProgress);
+			// }
 		}
 
 	}
