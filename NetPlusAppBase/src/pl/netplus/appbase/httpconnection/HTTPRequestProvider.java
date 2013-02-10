@@ -50,7 +50,6 @@ public class HTTPRequestProvider {
 
 			InputStream in = getConnectionInputStream(connection);
 
-			fileSize = 3091858;
 			ByteArrayOutputStream byteArray = readInpdutStream(in, fileSize,
 					listener);
 

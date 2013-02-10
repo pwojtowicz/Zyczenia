@@ -16,6 +16,7 @@ public class NetPlusAppGlobals {
 	public static final int ITEMS_SEARCH = -3;
 	public static final int ITEMS_NEET_UPDATE = -4;
 	public static final int ITEMS_LATEST = -5;
+	public static final int ITEMS_RANDOM = -6;
 
 	private static volatile NetPlusAppGlobals instance = null;
 
@@ -81,6 +82,10 @@ public class NetPlusAppGlobals {
 	}
 
 	public ArrayList<ContentObject> getCategoriesContentObjects(int categoryId) {
+
+		if (categoryId == ITEMS_LATEST || categoryId == ITEMS_RANDOM)
+			categoryId = ITEMS_ALL;
+
 		if (this.objectsDictionary != null) {
 			if (this.objectsDictionary.containsKey(categoryId)) {
 				ArrayList<ContentObject> items = this.objectsDictionary

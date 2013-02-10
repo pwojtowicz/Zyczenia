@@ -155,7 +155,8 @@ public class JokesActivity extends AppBaseActivity {
 				manager.readObjectsWithoutSendItem(this,
 						ERepositoryTypes.ContentObject,
 						ERepositoryManagerMethods.ReadFavorites, null);
-			} else if (categoryId == NetPlusAppGlobals.ITEMS_ALL) {
+			} else if (categoryId == NetPlusAppGlobals.ITEMS_ALL
+					|| categoryId == NetPlusAppGlobals.ITEMS_RANDOM) {
 				manager.readObjectsWithoutSendItem(this,
 						ERepositoryTypes.ContentObject,
 						ERepositoryManagerMethods.ReadAll, null);
@@ -163,7 +164,6 @@ public class JokesActivity extends AppBaseActivity {
 				items = NetPlusAppGlobals.getInstance()
 						.getCategoriesContentObjects(categoryId);
 			} else if (categoryId == NetPlusAppGlobals.ITEMS_LATEST) {
-				categoryId = NetPlusAppGlobals.ITEMS_ALL;
 				Bundle bundle = new Bundle();
 				bundle.putString("OrderBy", "udate DESC");
 				manager.readObjectsWithoutSendItem(this,
@@ -173,8 +173,6 @@ public class JokesActivity extends AppBaseActivity {
 		}
 
 		if (items != null) {
-			if (categoryId == NetPlusAppGlobals.ITEMS_ALL)
-				Collections.shuffle(items);
 			ReloadAllItems(items);
 		}
 
@@ -188,6 +186,9 @@ public class JokesActivity extends AppBaseActivity {
 
 	private void ReloadAllItems(ArrayList<ContentObject> items) {
 		fragments = new ArrayList<FragmentObject>();
+
+		if (categoryId == NetPlusAppGlobals.ITEMS_RANDOM)
+			Collections.shuffle(items);
 
 		if (items != null) {
 			allItemCount = items.size();
