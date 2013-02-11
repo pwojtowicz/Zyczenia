@@ -154,6 +154,7 @@ public class MainActivity extends AppBaseActivity implements IReadRepository {
 			} catch (Exception e) {
 
 			}
+			updateOldVersion = false;
 
 		}
 

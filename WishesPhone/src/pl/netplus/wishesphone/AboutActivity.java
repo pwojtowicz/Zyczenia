@@ -1,8 +1,10 @@
 package pl.netplus.wishesphone;
 
-import android.os.Bundle;
 import android.app.Activity;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.os.Bundle;
 import android.view.Menu;
+import android.widget.TextView;
 
 public class AboutActivity extends Activity {
 
@@ -10,6 +12,15 @@ public class AboutActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_about);
+		TextView version = (TextView) findViewById(R.id.txtv_version);
+		try {
+			version.setText(String.format(
+					"wersja: %s",
+					this.getPackageManager().getPackageInfo(
+							this.getPackageName(), 0).versionName));
+		} catch (NameNotFoundException e) {
+
+		}
 	}
 
 	@Override
