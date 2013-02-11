@@ -155,7 +155,8 @@ public class WishesActivity extends AppBaseActivity {
 				manager.readObjectsWithoutSendItem(this,
 						ERepositoryTypes.ContentObject,
 						ERepositoryManagerMethods.ReadFavorites, null);
-			} else if (categoryId == NetPlusAppGlobals.ITEMS_ALL) {
+			} else if (categoryId == NetPlusAppGlobals.ITEMS_ALL
+					|| categoryId == NetPlusAppGlobals.ITEMS_RANDOM) {
 				manager.readObjectsWithoutSendItem(this,
 						ERepositoryTypes.ContentObject,
 						ERepositoryManagerMethods.ReadAll, null);
@@ -166,8 +167,6 @@ public class WishesActivity extends AppBaseActivity {
 		}
 
 		if (items != null) {
-			if (categoryId == NetPlusAppGlobals.ITEMS_ALL)
-				Collections.shuffle(items);
 			ReloadAllItems(items);
 		}
 
@@ -183,6 +182,9 @@ public class WishesActivity extends AppBaseActivity {
 		fragments = new ArrayList<FragmentObject>();
 
 		allItemCount = items.size();
+
+		if (categoryId == NetPlusAppGlobals.ITEMS_RANDOM)
+			Collections.shuffle(items);
 
 		for (ContentObject contentObject : items) {
 

@@ -128,7 +128,7 @@ public class StartFragment extends BaseFragment<Object> implements
 	}
 
 	protected void showRandomWish() {
-		startWishesIntent(NetPlusAppGlobals.ITEMS_ALL,
+		startWishesIntent(NetPlusAppGlobals.ITEMS_RANDOM,
 				getText(pl.netplus.appbase.R.string.randomObjects).toString());
 	}
 
