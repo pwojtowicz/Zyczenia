@@ -29,15 +29,32 @@ public class MainActivity extends AppBaseActivity implements IReadRepository {
 	private ArrayList<FragmentObject> pages;
 
 	private boolean isFirstTime = true;
+	private boolean updateOldVersion = false;
 
 	@Override
 	public void onStart() {
 		super.onStart();
+
+		Double appCurrent = 0.0;
+		Double appLast = 0.0;
+		try {
+			String curr_app_ver = this.getPackageManager().getPackageInfo(
+					this.getPackageName(), 0).versionName;
+			String last_app_ver = getLastAppVersion();
+
+			appCurrent = Double.parseDouble(curr_app_ver);
+			appLast = Double.parseDouble(last_app_ver);
+			updateOldVersion = appLast < appCurrent;
+
+		} catch (Exception e) {
+
+		}
+
 		long nextUpdate = getNextUpdateDate();
 		long actualTime = Calendar.getInstance().getTimeInMillis();
 
-		if (nextUpdate < actualTime) {
-			update(nextUpdate == 0 ? false : true);
+		if (nextUpdate < actualTime || updateOldVersion) {
+			update(nextUpdate == 0 || updateOldVersion ? false : true);
 		} else if (isFirstTime) {
 			ObjectManager manager = new ObjectManager();
 			manager.readObjectsWithoutSendItem(this,
@@ -67,7 +84,8 @@ public class MainActivity extends AppBaseActivity implements IReadRepository {
 		if (super.checkIsOnline()) {
 			Bundle b = new Bundle();
 			b.putString("CategoryLink", super.getCategoryAddress());
-			b.putString("ObjectsLink", super.getContentAddress());
+			b.putString("ObjectsLink",
+					super.getContentAddress(updateOldVersion));
 			b.putString("ObjectsToDeleteLink",
 					super.getContentToDeleteAddress());
 
@@ -128,6 +146,17 @@ public class MainActivity extends AppBaseActivity implements IReadRepository {
 				setUpdateDates(c.getTimeInMillis(), returnFromServerTime);
 			}
 		}
+		if (updateOldVersion) {
+			try {
+				String curr_app_ver = this.getPackageManager().getPackageInfo(
+						this.getPackageName(), 0).versionName;
+				setLastAppVersion(curr_app_ver);
+			} catch (Exception e) {
+
+			}
+
+		}
+
 		updateFragmentPager();
 	}
 

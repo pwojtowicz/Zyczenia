@@ -111,11 +111,11 @@ public abstract class AppBaseActivity extends FragmentActivity implements
 		return categoryAddress;
 	}
 
-	public String getContentAddress() {
+	public String getContentAddress(boolean updateOldVersion) {
 		SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(this);
-		return String.format("%s%s", contentAddress,
-				prefs.getString("prop_last_update_return_date", "0"));
+		return String.format("%s%s", contentAddress, (updateOldVersion ? 0
+				: prefs.getString("prop_last_update_return_date", "0")));
 	}
 
 	public String getContentToDeleteAddress() {
@@ -129,6 +129,21 @@ public abstract class AppBaseActivity extends FragmentActivity implements
 				"0");
 
 		return Long.parseLong(pref_next_update_date);
+	}
+
+	public String getLastAppVersion() {
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(this);
+		String lastAppVersion = prefs.getString("last_app_version", "0");
+		return lastAppVersion;
+	}
+
+	public void setLastAppVersion(String value) {
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(this);
+		SharedPreferences.Editor editor = prefs.edit();
+		editor.putString("last_app_version", value);
+		editor.commit();
 	}
 
 	public void setUpdateDates(long nextUpdateLongDate, long returnDate) {
