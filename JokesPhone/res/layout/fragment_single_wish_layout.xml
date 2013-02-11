@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:background="@color/darkGreen" >
+        android:background="#008300" >
 
         <RelativeLayout
             android:id="@+id/rl1"
@@ -81,9 +81,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_alignRight="@+id/txtv_additional"
+            android:layout_alignRight="@+id/rl1"
+            android:layout_marginRight="38dp"
+            android:paddingRight="30dp"
             android:src="@drawable/news2"
-            android:visibility="gone" />
+            android:visibility="visible" />
 
     </RelativeLayout>
 
