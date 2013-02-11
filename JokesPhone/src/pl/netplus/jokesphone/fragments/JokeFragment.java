@@ -14,6 +14,7 @@ import pl.netplus.appbase.managers.ObjectManager;
 import pl.netplus.jokesphone.AppBaseActivity;
 import pl.netplus.jokesphone.R;
 import pl.netplus.wishesbase.support.StringHelper;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -97,6 +98,8 @@ public class JokeFragment extends BaseFragment<ContentObject> implements
 				txtv_additional.setText(pl.netplus.appbase.R.string.latest);
 
 			tv_addDate.setText(StringHelper.daysCountToString(daysBetween + 1));
+			if (daysBetween + 1 > 365)
+				tv_addDate.setTextColor(Color.RED);
 
 			tv_wish.setText(contentObject.getText());
 

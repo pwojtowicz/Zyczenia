@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Dowcipy</string>
+    <string name="app_name">Kawały</string>
     <string name="menu_search">Wyszukaj</string>
     <string name="menu_settings">Ustawienia</string>
     <string name="menu_share">Wyślij</string>
@@ -24,6 +24,9 @@
     <string name="title_fragment_start">Start</string>
     <string name="title_fragment_categories">Kategorie</string>
     <string name="btn_title_news">Najnowsze kawały</string>
+    
+    
+    <string name="downloading_jokes">Trwa pobieranie kawałów</string>
 
 
 </resources>

@@ -54,7 +54,7 @@
             android:layout_height="48dp"
             android:layout_marginTop="5dp"
             android:background="@color/btn_blue_selector"
-            android:tag="http://zyczenia.tja.pl/dodaj.html"
+            android:tag="http://kawaly.tja.pl/dodaj.html"
             android:text="@string/btn_footer_add_wishes" />
 
         <Button
@@ -74,7 +74,7 @@
             android:layout_height="48dp"
             android:layout_marginTop="5dp"
             android:background="@color/btn_blue_selector"
-            android:tag="http://www.facebook.com/ZyczeniaTjaPL"
+            android:tag="http://www.facebook.com/KawalyTjaPl"
             android:text="Facebook" />
 
         <Button
