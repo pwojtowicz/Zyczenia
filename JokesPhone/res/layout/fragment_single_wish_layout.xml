@@ -38,10 +38,10 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
-
         </RelativeLayout>
 
         <LinearLayout
+            android:id="@+id/linearLayout1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -75,6 +75,15 @@
             android:layout_toLeftOf="@+id/rl1"
             android:text="@string/our_rating"
             android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <ImageView
+            android:id="@+id/iv_news"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignRight="@+id/txtv_additional"
+            android:src="@drawable/news2"
+            android:visibility="gone" />
 
     </RelativeLayout>
 

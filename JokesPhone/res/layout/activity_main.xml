@@ -3,7 +3,7 @@
     android:id="@+id/pager"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/app_background_dark"
+    android:background="@drawable/app_background_dark2"
     tools:context=".MainActivity" >
 
     <!--
@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="top"
-        android:background="@color/darkGreen"
+        android:background="#1E3B22"
         android:paddingBottom="4dp"
         android:paddingTop="4dp"
         android:textColor="#fff" />

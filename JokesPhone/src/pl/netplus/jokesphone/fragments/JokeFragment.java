@@ -19,6 +19,7 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class JokeFragment extends BaseFragment<ContentObject> implements
@@ -33,6 +34,8 @@ public class JokeFragment extends BaseFragment<ContentObject> implements
 	private TextView tv_addDate;
 
 	private TextView txtv_additional;
+
+	private ImageView iv_new;
 
 	public JokeFragment() {
 		super(R.layout.fragment_single_wish_layout, ERepositoryTypes.SingleWish);
@@ -57,6 +60,8 @@ public class JokeFragment extends BaseFragment<ContentObject> implements
 
 		txtv_additional = (TextView) convertView
 				.findViewById(R.id.txtv_additional);
+
+		iv_new = (ImageView) convertView.findViewById(R.id.iv_news);
 
 		tv_addDate = (TextView) convertView.findViewById(R.id.txtv_addTime);
 
@@ -94,8 +99,13 @@ public class JokeFragment extends BaseFragment<ContentObject> implements
 			long daysBetween = TimeUnit.MILLISECONDS.toDays(new Date()
 					.getTime() - updateDate.getTime());
 
-			if (daysBetween < 5)
-				txtv_additional.setText(pl.netplus.appbase.R.string.latest);
+			if (daysBetween < 5) {
+				txtv_additional.setVisibility(TextView.GONE);
+				iv_new.setVisibility(ImageView.VISIBLE);
+			} else {
+				txtv_additional.setVisibility(TextView.VISIBLE);
+				iv_new.setVisibility(ImageView.GONE);
+			}
 
 			tv_addDate.setText(StringHelper.daysCountToString(daysBetween + 1));
 			if (daysBetween + 1 > 365)
