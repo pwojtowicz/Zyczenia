@@ -1,5 +1,9 @@
 package pl.netplus.appbase.database;
 
+import java.util.ArrayList;
+
+import pl.netplus.appbase.entities.Favorite;
+import pl.netplus.appbase.repositories.FavoritesRepository;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -7,7 +11,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DataBaseHelper extends SQLiteOpenHelper {
 
 	private static final String DATABASE_NAME = "netpluswishes.db";
-	private static final int DATABASE_VERSION = 1;
+	private static final int DATABASE_VERSION = 2;
 
 	public static final String TABLE_CATEGORIES = "Category";
 	public static final String TABLE_OBJECTS = "Objects";
@@ -25,6 +29,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 			+ TABLE_FAVORITES
 			+ "(ID integer primary key autoincrement, ObjectId integer);";
 
+	private ArrayList<Favorite> favorites;
+
 	public DataBaseHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 		SQLiteDatabase db = getWritableDatabase();
@@ -37,13 +43,22 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 		database.execSQL(CREATE_CATEGORIES);
 		database.execSQL(CREATE_OBJECTS);
 		database.execSQL(CREATE_FAVORITES);
+		if (favorites != null && favorites.size() > 0) {
+			FavoritesRepository favoritesRepo = new FavoritesRepository();
+			for (Favorite item : favorites) {
+				favoritesRepo.insertOrUpdateAfterDataBaseUpdate(item, database);
+			}
+		}
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+		FavoritesRepository favoritesRepo = new FavoritesRepository();
+		favorites = favoritesRepo.readAllForDataBaseUpdate(db);
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_CATEGORIES);
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_OBJECTS);
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_FAVORITES);
+		onCreate(db);
 	}
 
 }

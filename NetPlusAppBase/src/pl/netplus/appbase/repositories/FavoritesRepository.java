@@ -9,6 +9,7 @@ import pl.netplus.appbase.httpconnection.IHttpRequestToAsyncTaskCommunication;
 import pl.netplus.appbase.interfaces.IBaseRepository;
 import pl.netplus.wishesbase.support.NetPlusAppGlobals;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.os.Bundle;
 
@@ -46,6 +47,43 @@ public class FavoritesRepository implements IBaseRepository<Favorite> {
 
 		NetPlusAppGlobals.getInstance().setFavoritesId(list);
 		return list;
+	}
+
+	public ArrayList<Favorite> readAllForDataBaseUpdate(SQLiteDatabase db) {
+
+		ArrayList<Favorite> list = new ArrayList<Favorite>();
+		Cursor cursor = db.query(DataBaseHelper.TABLE_FAVORITES,
+				new String[] { "ID,ObjectId" }, null, null, null, null, "ID");
+		if (cursor.moveToFirst()) {
+			do {
+				Favorite item = new Favorite();
+				item.setId(cursor.getInt(0));
+				item.setObjectId(cursor.getInt(1));
+
+				list.add(item);
+			} while (cursor.moveToNext());
+		}
+		if (cursor != null && !cursor.isClosed()) {
+			cursor.close();
+		}
+
+		return list;
+	}
+
+	public boolean insertOrUpdateAfterDataBaseUpdate(Favorite item,
+			SQLiteDatabase db) {
+		if (item != null) {
+
+			SQLiteStatement insertStmt = db
+					.compileStatement(INSERT_TO_FAVORITES);
+			insertStmt.bindLong(1, item.getObjectId());
+			long result = insertStmt.executeInsert();
+
+			return true;
+		}
+
+		return false;
+
 	}
 
 	@Override
