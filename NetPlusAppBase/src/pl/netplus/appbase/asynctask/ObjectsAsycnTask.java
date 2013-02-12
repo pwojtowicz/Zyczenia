@@ -106,20 +106,25 @@ public class ObjectsAsycnTask extends AsyncTask<Void, Void, Void> implements
 
 					catrep.deleteAll(dbm);
 
-					results = catrep.getFromServer(dbm, addressCategory, this);
+					results = catrep.getFromServer(dbm, addressCategory, null);
 					if (results < 0)
 						throw new Exception();
+					onObjectsProgressUpdate(100);
 					downloadElementCount++;
 
-					results = objrep.getFromServer(dbm, addressObjects, this);
+					results = objrep.getFromServer(dbm, addressObjects, null);
 					if (results < 0)
 						throw new Exception();
+					onObjectsProgressUpdate(100);
 					downloadElementCount++;
+
 					long tmpResult = objrep.getObjectsToDeleteFromServer(dbm,
 							toDeleteObjects, this);
 					if (tmpResult < 0)
 						throw new Exception();
+					onObjectsProgressUpdate(100);
 					downloadElementCount++;
+
 					dbm.getDataBase().setTransactionSuccessful();
 				} catch (Exception e) {
 					throw new CommunicationException("",

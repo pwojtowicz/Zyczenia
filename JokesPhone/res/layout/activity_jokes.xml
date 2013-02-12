@@ -31,7 +31,7 @@
             android:id="@+id/btn_previous"
             style="@style/Style_TextWithShadow"
             android:layout_width="40dp"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:layout_weight="0.3"
             android:background="@color/btn_blue_selector"
             android:text="&lt;" />
@@ -40,7 +40,7 @@
             android:id="@+id/btn_share"
             style="@style/Style_TextWithShadow"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:layout_weight="0.4"
             android:background="@color/btn_blue_selector"
             android:text="@string/menu_share" />
@@ -49,7 +49,7 @@
             android:id="@+id/btn_next"
             style="@style/Style_TextWithShadow"
             android:layout_width="40dp"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_weight="0.3"
@@ -63,7 +63,7 @@
         				 android:layout_alignParentBottom="true"
                          android:layout_width="wrap_content"
                          android:layout_height="wrap_content"
-                         ads:adUnitId="a15113f797621a0"
+                         ads:adUnitId="a15118eb6e01f3c"
                          ads:adSize="BANNER"
                          ads:loadAdOnCreate="true"/>
     

@@ -13,9 +13,7 @@ import pl.netplus.appbase.enums.ERepositoryTypes;
 import pl.netplus.appbase.managers.ObjectManager;
 import pl.netplus.jokesphone.fragments.JokeFragment;
 import pl.netplus.wishesbase.support.NetPlusAppGlobals;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -40,6 +38,7 @@ public class JokesActivity extends AppBaseActivity {
 	private Button btn_previous;
 	private Button btn_share;
 	private String title = "";
+	private int actualPage;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +57,12 @@ public class JokesActivity extends AppBaseActivity {
 		mViewPager.setAdapter(fAdapter);
 
 		configureViews();
+
+		if (savedInstanceState != null) {
+			actualPage = savedInstanceState.getInt(BUNGLE_ACTUAL_PAGE_ID);
+		} else {
+			actualPage = 0;
+		}
 
 	}
 
@@ -120,11 +125,11 @@ public class JokesActivity extends AppBaseActivity {
 	public void onPause() {
 		super.onPause();
 
-		SharedPreferences prefs = this.getSharedPreferences(
-				"pl.netplus.wishphone", Context.MODE_PRIVATE);
-		SharedPreferences.Editor ed = prefs.edit();
-		ed.putInt(BUNGLE_ACTUAL_PAGE_ID, mViewPager.getCurrentItem());
-		ed.commit();
+		// SharedPreferences prefs = this.getSharedPreferences(
+		// "pl.netplus.wishphone", Context.MODE_PRIVATE);
+		// SharedPreferences.Editor ed = prefs.edit();
+		// ed.putInt(BUNGLE_ACTUAL_PAGE_ID, mViewPager.getCurrentItem());
+		// ed.commit();
 	}
 
 	@Override
@@ -176,12 +181,17 @@ public class JokesActivity extends AppBaseActivity {
 			ReloadAllItems(items);
 		}
 
-		SharedPreferences prefs = this.getSharedPreferences(
-				"pl.netplus.wishphone", Context.MODE_PRIVATE);
-		int actualPage = prefs.getInt(BUNGLE_ACTUAL_PAGE_ID, 0);
-
 		mViewPager.setCurrentItem(actualPage);
 
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle savedInstanceState) {
+		savedInstanceState.putInt(BUNGLE_ACTUAL_PAGE_ID,
+				mViewPager.getCurrentItem());
+
+		// Always call the superclass so it can save the view hierarchy state
+		super.onSaveInstanceState(savedInstanceState);
 	}
 
 	private void ReloadAllItems(ArrayList<ContentObject> items) {
