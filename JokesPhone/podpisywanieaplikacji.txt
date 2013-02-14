@@ -1,0 +1,2 @@
+has³o: JokesPhone1
+alias: JokesPhone
