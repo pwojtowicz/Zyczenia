@@ -8,5 +8,5 @@
           android:state_focused="true" />
     <item android:drawable="@drawable/btn_one_disable"
           android:state_enabled="false"/>
-    <item android:drawable="@drawable/btn_one_normal" />
+    <item android:drawable="@drawable/button_orange2" />
 </selector>
