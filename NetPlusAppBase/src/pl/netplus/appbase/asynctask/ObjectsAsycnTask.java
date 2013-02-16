@@ -154,7 +154,7 @@ public class ObjectsAsycnTask extends AsyncTask<Void, Void, Void> implements
 							ExceptionErrorCodes.InvalidRepository);
 				break;
 			case ReadById:
-				response.bundle = repository.readById(item.getId());
+				response.bundle = repository.readById(item.getId(), bundle);
 				break;
 			case ReadAll:
 				response.bundle = repository.readAll(bundle);

@@ -18,6 +18,9 @@ public class NetPlusAppGlobals {
 	public static final int ITEMS_LATEST = -5;
 	public static final int ITEMS_RANDOM = -6;
 
+	public static final int SORT_BY_DATE = 1;
+	public static final int SORT_BY_RATE = 2;
+
 	private static volatile NetPlusAppGlobals instance = null;
 
 	private ArrayList<Category> categories;
@@ -81,7 +84,8 @@ public class NetPlusAppGlobals {
 		this.objectsDictionary.put(categoryId, contentObjects);
 	}
 
-	public ArrayList<ContentObject> getCategoriesContentObjects(int categoryId) {
+	public ArrayList<ContentObject> getCategoriesContentObjects(int categoryId,
+			int sortOption) {
 
 		if (categoryId == ITEMS_LATEST || categoryId == ITEMS_RANDOM)
 			categoryId = ITEMS_ALL;
@@ -96,6 +100,34 @@ public class NetPlusAppGlobals {
 					for (ContentObject contentObject : items) {
 						if (favorites.contains(contentObject.getId()))
 							contentObject.setFavorites(true);
+					}
+				}
+
+				if (categoryId > 0 || categoryId == ITEMS_SEARCH) {
+					if (sortOption == SORT_BY_DATE) {
+						Collections.sort(items,
+								new Comparator<ContentObject>() {
+									@Override
+									public int compare(ContentObject c1,
+											ContentObject c2) {
+										return (c1.getUploadDate() > c2
+												.getUploadDate() ? -1 : (c1
+												.getUploadDate() == c2
+												.getUploadDate() ? 0 : 1));
+									}
+								});
+					} else if (sortOption == SORT_BY_RATE) {
+						Collections.sort(items,
+								new Comparator<ContentObject>() {
+									@Override
+									public int compare(ContentObject c1,
+											ContentObject c2) {
+										return (c1.getRating() > c2.getRating() ? -1
+												: (c1.getRating() == c2
+														.getRating() ? 0 : 1));
+
+									}
+								});
 					}
 				}
 

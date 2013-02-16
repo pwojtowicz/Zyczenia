@@ -29,26 +29,26 @@ public class StringHelper {
 	public static String daysCountToString(long days) {
 
 		if (days <= 0)
-			return "Dodany dzisiaj";
+			return " dzisiaj";
 		if (days == 1)
-			return "Dodany wczoraj";
+			return " wczoraj";
 
 		if (days > 1 && days < 30)
-			return String.format("Dodany %d dni temu", days);
+			return String.format(" %d dni temu", days);
 
 		if (days >= 30 && days < 365) {
 			int months = (int) (days / 30);
 			String name = "miesi¹c";
 			if (months == 1)
-				return String.format("Dodany %s temu", name);
+				return String.format(" %s temu", name);
 			if (months > 1 && months < 5)
 				name = "miesi¹ce";
 			if (months >= 5)
 				name = "miesiêcy";
-			return String.format("Dodany %d %s temu", months, name);
+			return String.format(" %d %s temu", months, name);
 		}
 
-		return "Dodany ponad rok temu";
+		return " ponad rok temu";
 
 	}
 }

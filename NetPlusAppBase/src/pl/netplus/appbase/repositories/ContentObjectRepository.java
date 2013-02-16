@@ -101,7 +101,14 @@ public class ContentObjectRepository implements IBaseRepository<ContentObject> {
 	}
 
 	@Override
-	public ArrayList<ContentObject> readById(int value) {
+	public ArrayList<ContentObject> readById(int value, Bundle bundle) {
+		String orderBy = "ID";
+		if (bundle != null) {
+			String tmp = bundle.getString("OrderBy");
+			if (tmp != null && !tmp.isEmpty())
+				orderBy = tmp;
+		}
+
 		ArrayList<ContentObject> list = new ArrayList<ContentObject>();
 		try {
 			dbm.checkIsOpen();
@@ -111,7 +118,7 @@ public class ContentObjectRepository implements IBaseRepository<ContentObject> {
 					new String[] { "ID,Content, Categories, Rating, udate" },
 					"Categories LIKE ? ",
 					new String[] { "%(" + String.valueOf(value) + ")%" }, null,
-					null, "ID");
+					null, orderBy);
 			if (cursor.moveToFirst()) {
 				do {
 					ContentObject item = new ContentObject();

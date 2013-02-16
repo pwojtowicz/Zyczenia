@@ -5,6 +5,7 @@
     <string name="menu_search">Wyszukaj</string>
     <string name="menu_settings">Ustawienia</string>
     <string name="menu_share">Wyślij</string>
+    <string name="menu_filter">Sortowanie</string>
     <string name="title_activity_wishes">Dowcipy</string>
     <string name="title_activity_preferences">Ustawienia</string>
     <string name="preference_title_replace">Polskie znaki</string>
@@ -27,6 +28,9 @@
     
     
     <string name="downloading_jokes">Trwa pobieranie kawałów</string>
+    
+    
+    <string name="text_added">Dodany</string>
 
 
 </resources>

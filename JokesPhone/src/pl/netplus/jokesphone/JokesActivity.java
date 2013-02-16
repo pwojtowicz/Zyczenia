@@ -12,12 +12,15 @@ import pl.netplus.appbase.enums.ERepositoryManagerMethods;
 import pl.netplus.appbase.enums.ERepositoryTypes;
 import pl.netplus.appbase.managers.ObjectManager;
 import pl.netplus.jokesphone.fragments.JokeFragment;
+import pl.netplus.wishesbase.support.DialogHelper;
 import pl.netplus.wishesbase.support.NetPlusAppGlobals;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -27,6 +30,8 @@ public class JokesActivity extends AppBaseActivity {
 	public static final String BUNDLE_CATEGORY_ID = "catId";
 	private static final String BUNGLE_ACTUAL_PAGE_ID = "actualPageId";
 	public static final String BUNDLE_TITLE = "title";
+
+	public int CURRENT_SORT_OPTION = NetPlusAppGlobals.SORT_BY_DATE;
 
 	private ViewPager mViewPager;
 	private FragmentAdapter fAdapter;
@@ -144,12 +149,15 @@ public class JokesActivity extends AppBaseActivity {
 		}
 
 		ArrayList<ContentObject> items = NetPlusAppGlobals.getInstance()
-				.getCategoriesContentObjects(categoryId);
+				.getCategoriesContentObjects(categoryId, CURRENT_SORT_OPTION);
 
 		if (items == null && b != null) {
 			categoryId = b.getInt(BUNDLE_CATEGORY_ID);
 
 			ObjectManager manager = new ObjectManager();
+
+			Bundle bundle = new Bundle();
+			bundle.putString("OrderBy", "udate DESC");
 
 			if (categoryId > 0) {
 				manager.readObjectsWithSendItem(this,
@@ -167,10 +175,9 @@ public class JokesActivity extends AppBaseActivity {
 						ERepositoryManagerMethods.ReadAll, null);
 			} else if (categoryId == NetPlusAppGlobals.ITEMS_SEARCH) {
 				items = NetPlusAppGlobals.getInstance()
-						.getCategoriesContentObjects(categoryId);
+						.getCategoriesContentObjects(categoryId,
+								CURRENT_SORT_OPTION);
 			} else if (categoryId == NetPlusAppGlobals.ITEMS_LATEST) {
-				Bundle bundle = new Bundle();
-				bundle.putString("OrderBy", "udate DESC");
 				manager.readObjectsWithoutSendItem(this,
 						ERepositoryTypes.ContentObject,
 						ERepositoryManagerMethods.ReadAll, bundle);
@@ -212,11 +219,22 @@ public class JokesActivity extends AppBaseActivity {
 				0);
 
 		mViewPager.setAdapter(fAdapter);
+		changeActivityTitle();
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.activity_jokes, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		if (categoryId > 0 || categoryId == NetPlusAppGlobals.ITEMS_SEARCH) {
+
+		} else
+			menu.removeItem(R.id.menu_filter);
+
 		return true;
 	}
 
@@ -240,7 +258,8 @@ public class JokesActivity extends AppBaseActivity {
 	public void onTaskResponse(AsyncTaskResult response) {
 		if (response.bundle instanceof ArrayList<?>) {
 			ReloadAllItems(NetPlusAppGlobals.getInstance()
-					.getCategoriesContentObjects(categoryId));
+					.getCategoriesContentObjects(categoryId,
+							CURRENT_SORT_OPTION));
 		}
 
 	}
@@ -251,4 +270,41 @@ public class JokesActivity extends AppBaseActivity {
 
 	}
 
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		super.onOptionsItemSelected(item);
+		switch (item.getItemId()) {
+		case R.id.menu_filter:
+
+			String[] options = new String[2];
+			options[0] = "od najnowszych";
+			options[1] = "od najlepszych";
+
+			DialogHelper.createSortQuestionDialog(this,
+					"Wybierz sposób sortowania", options,
+					CURRENT_SORT_OPTION - 1, onSortSelect, onSortItemSelect)
+					.show();
+			break;
+		}
+		return true;
+	}
+
+	int tmpSelectedOption = -1;
+
+	DialogInterface.OnClickListener onSortItemSelect = new DialogInterface.OnClickListener() {
+		@Override
+		public void onClick(DialogInterface dialog, int id) {
+			tmpSelectedOption = id;
+		}
+	};
+
+	DialogInterface.OnClickListener onSortSelect = new DialogInterface.OnClickListener() {
+		@Override
+		public void onClick(DialogInterface dialog, int id) {
+			CURRENT_SORT_OPTION = tmpSelectedOption + 1;
+			ReloadAllItems(NetPlusAppGlobals.getInstance()
+					.getCategoriesContentObjects(categoryId,
+							CURRENT_SORT_OPTION));
+		}
+	};
 }

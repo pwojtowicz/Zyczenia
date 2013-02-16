@@ -132,7 +132,7 @@ public class FavoritesRepository implements IBaseRepository<Favorite> {
 	}
 
 	@Override
-	public ArrayList<Favorite> readById(int value) {
+	public ArrayList<Favorite> readById(int value, Bundle bundle) {
 		// TODO Auto-generated method stub
 		return null;
 	}

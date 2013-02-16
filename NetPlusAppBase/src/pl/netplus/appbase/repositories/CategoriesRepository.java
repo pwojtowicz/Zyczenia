@@ -135,7 +135,7 @@ public class CategoriesRepository implements IBaseRepository<Category> {
 	}
 
 	@Override
-	public ArrayList<Category> readById(int value) {
+	public ArrayList<Category> readById(int value, Bundle bundle) {
 		// TODO Auto-generated method stub
 		return null;
 	}

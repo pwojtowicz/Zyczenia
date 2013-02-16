@@ -64,4 +64,18 @@ public class DialogHelper {
 		return dialog.create();
 	}
 
+	public static Dialog createSortQuestionDialog(Context context,
+			String title, String[] options, int checkedItemId,
+			OnClickListener positiveListener, OnClickListener itemSelect) {
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
+		builder.setTitle(title);
+		builder.setSingleChoiceItems(options, checkedItemId, itemSelect);
+
+		builder.setNegativeButton(R.string.dialog_Cancel, null);
+		builder.setPositiveButton(R.string.dialog_OK, positiveListener);
+
+		return builder.create();
+
+	}
 }

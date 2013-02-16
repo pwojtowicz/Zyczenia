@@ -14,7 +14,7 @@ public interface IBaseRepository<T> {
 
 	public abstract T read(int id, DataBaseManager dbManager);
 
-	public abstract ArrayList<T> readById(int value);
+	public abstract ArrayList<T> readById(int value, Bundle bundle);
 
 	public abstract ArrayList<T> readAll(Bundle bundle);
 

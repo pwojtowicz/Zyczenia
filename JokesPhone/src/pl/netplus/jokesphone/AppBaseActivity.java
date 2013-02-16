@@ -191,6 +191,8 @@ public abstract class AppBaseActivity extends FragmentActivity implements
 				startActivity(new Intent(this, PreferencesNewActivity.class));
 			}
 			break;
+		default:
+			break;
 		}
 		return true;
 	}
