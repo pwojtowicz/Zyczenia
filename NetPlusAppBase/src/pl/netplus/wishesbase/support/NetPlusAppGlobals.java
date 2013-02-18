@@ -17,6 +17,7 @@ public class NetPlusAppGlobals {
 	public static final int ITEMS_NEET_UPDATE = -4;
 	public static final int ITEMS_LATEST = -5;
 	public static final int ITEMS_RANDOM = -6;
+	public static final int ITEMS_THE_BEST = -7;
 
 	public static final int SORT_BY_DATE = 1;
 	public static final int SORT_BY_RATE = 2;
@@ -87,7 +88,8 @@ public class NetPlusAppGlobals {
 	public ArrayList<ContentObject> getCategoriesContentObjects(int categoryId,
 			int sortOption) {
 
-		if (categoryId == ITEMS_LATEST || categoryId == ITEMS_RANDOM)
+		if (categoryId == ITEMS_LATEST || categoryId == ITEMS_RANDOM
+				|| categoryId == ITEMS_THE_BEST)
 			categoryId = ITEMS_ALL;
 
 		if (this.objectsDictionary != null) {
@@ -103,7 +105,8 @@ public class NetPlusAppGlobals {
 					}
 				}
 
-				if (categoryId > 0 || categoryId == ITEMS_SEARCH) {
+				if (categoryId > 0 || categoryId == ITEMS_SEARCH
+						|| categoryId == ITEMS_FAVORITE) {
 					if (sortOption == SORT_BY_DATE) {
 						Collections.sort(items,
 								new Comparator<ContentObject>() {

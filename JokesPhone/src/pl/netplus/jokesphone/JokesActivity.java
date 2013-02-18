@@ -14,8 +14,10 @@ import pl.netplus.appbase.managers.ObjectManager;
 import pl.netplus.jokesphone.fragments.JokeFragment;
 import pl.netplus.wishesbase.support.DialogHelper;
 import pl.netplus.wishesbase.support.NetPlusAppGlobals;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -30,6 +32,7 @@ public class JokesActivity extends AppBaseActivity {
 	public static final String BUNDLE_CATEGORY_ID = "catId";
 	private static final String BUNGLE_ACTUAL_PAGE_ID = "actualPageId";
 	public static final String BUNDLE_TITLE = "title";
+	private static final String BUNGLE_CURRENT_SORT_OPTION = "sortOption";
 
 	public int CURRENT_SORT_OPTION = NetPlusAppGlobals.SORT_BY_DATE;
 
@@ -63,11 +66,10 @@ public class JokesActivity extends AppBaseActivity {
 
 		configureViews();
 
-		if (savedInstanceState != null) {
-			actualPage = savedInstanceState.getInt(BUNGLE_ACTUAL_PAGE_ID);
-		} else {
-			actualPage = 0;
-		}
+		SharedPreferences prefs = this.getSharedPreferences(
+				"pl.netplus.wishphone", Context.MODE_PRIVATE);
+		CURRENT_SORT_OPTION = prefs.getInt(BUNGLE_CURRENT_SORT_OPTION,
+				NetPlusAppGlobals.SORT_BY_DATE);
 
 	}
 
@@ -130,11 +132,22 @@ public class JokesActivity extends AppBaseActivity {
 	public void onPause() {
 		super.onPause();
 
-		// SharedPreferences prefs = this.getSharedPreferences(
-		// "pl.netplus.wishphone", Context.MODE_PRIVATE);
-		// SharedPreferences.Editor ed = prefs.edit();
-		// ed.putInt(BUNGLE_ACTUAL_PAGE_ID, mViewPager.getCurrentItem());
-		// ed.commit();
+		SharedPreferences prefs = this.getSharedPreferences(
+				"pl.netplus.wishphone", Context.MODE_PRIVATE);
+		SharedPreferences.Editor ed = prefs.edit();
+		ed.putInt(BUNGLE_ACTUAL_PAGE_ID, mViewPager.getCurrentItem());
+		ed.commit();
+	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+
+		SharedPreferences prefs = this.getSharedPreferences(
+				"pl.netplus.wishphone", Context.MODE_PRIVATE);
+		SharedPreferences.Editor ed = prefs.edit();
+		ed.putInt(BUNGLE_ACTUAL_PAGE_ID, 0);
+		ed.commit();
 	}
 
 	@Override
@@ -146,18 +159,24 @@ public class JokesActivity extends AppBaseActivity {
 		if (b != null) {
 			title = b.getString(BUNDLE_TITLE);
 			setTitle(title);
+			categoryId = b.getInt(BUNDLE_CATEGORY_ID);
 		}
 
-		ArrayList<ContentObject> items = NetPlusAppGlobals.getInstance()
-				.getCategoriesContentObjects(categoryId, CURRENT_SORT_OPTION);
+		ArrayList<ContentObject> items = null;
+
+		if (categoryId != NetPlusAppGlobals.ITEMS_ALL
+				&& categoryId != NetPlusAppGlobals.ITEMS_RANDOM
+				&& categoryId != NetPlusAppGlobals.ITEMS_LATEST
+				&& categoryId != NetPlusAppGlobals.ITEMS_THE_BEST)
+			items = NetPlusAppGlobals.getInstance()
+					.getCategoriesContentObjects(categoryId,
+							CURRENT_SORT_OPTION);
 
 		if (items == null && b != null) {
-			categoryId = b.getInt(BUNDLE_CATEGORY_ID);
 
 			ObjectManager manager = new ObjectManager();
 
 			Bundle bundle = new Bundle();
-			bundle.putString("OrderBy", "udate DESC");
 
 			if (categoryId > 0) {
 				manager.readObjectsWithSendItem(this,
@@ -178,6 +197,12 @@ public class JokesActivity extends AppBaseActivity {
 						.getCategoriesContentObjects(categoryId,
 								CURRENT_SORT_OPTION);
 			} else if (categoryId == NetPlusAppGlobals.ITEMS_LATEST) {
+				bundle.putString("OrderBy", "udate DESC");
+				manager.readObjectsWithoutSendItem(this,
+						ERepositoryTypes.ContentObject,
+						ERepositoryManagerMethods.ReadAll, bundle);
+			} else if (categoryId == NetPlusAppGlobals.ITEMS_THE_BEST) {
+				bundle.putString("OrderBy", "Rating DESC");
 				manager.readObjectsWithoutSendItem(this,
 						ERepositoryTypes.ContentObject,
 						ERepositoryManagerMethods.ReadAll, bundle);
@@ -188,18 +213,35 @@ public class JokesActivity extends AppBaseActivity {
 			ReloadAllItems(items);
 		}
 
+		SharedPreferences prefs = this.getSharedPreferences(
+				"pl.netplus.wishphone", Context.MODE_PRIVATE);
+		int actualPage = prefs.getInt(BUNGLE_ACTUAL_PAGE_ID, 0);
+
 		mViewPager.setCurrentItem(actualPage);
-
+		changeActivityTitle();
 	}
 
-	@Override
-	public void onSaveInstanceState(Bundle savedInstanceState) {
-		savedInstanceState.putInt(BUNGLE_ACTUAL_PAGE_ID,
-				mViewPager.getCurrentItem());
-
-		// Always call the superclass so it can save the view hierarchy state
-		super.onSaveInstanceState(savedInstanceState);
-	}
+	// @Override
+	// public void onSaveInstanceState(Bundle savedInstanceState) {
+	// super.onSaveInstanceState(savedInstanceState);
+	// savedInstanceState.putInt(BUNGLE_ACTUAL_PAGE_ID,
+	// mViewPager.getCurrentItem());
+	//
+	// // Always call the superclass so it can save the view hierarchy state
+	//
+	// }
+	//
+	// @Override
+	// public void onRestoreInstanceState(Bundle savedInstanceState) {
+	// super.onRestoreInstanceState(savedInstanceState);
+	//
+	// if (savedInstanceState != null) {
+	// actualPage = savedInstanceState.getInt(BUNGLE_ACTUAL_PAGE_ID);
+	// } else {
+	// actualPage = 0;
+	// }
+	// mViewPager.setCurrentItem(actualPage);
+	// }
 
 	private void ReloadAllItems(ArrayList<ContentObject> items) {
 		fragments = new ArrayList<FragmentObject>();
@@ -230,7 +272,8 @@ public class JokesActivity extends AppBaseActivity {
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		if (categoryId > 0 || categoryId == NetPlusAppGlobals.ITEMS_SEARCH) {
+		if (categoryId > 0 || categoryId == NetPlusAppGlobals.ITEMS_SEARCH
+				|| categoryId == NetPlusAppGlobals.ITEMS_FAVORITE) {
 
 		} else
 			menu.removeItem(R.id.menu_filter);
@@ -305,6 +348,15 @@ public class JokesActivity extends AppBaseActivity {
 			ReloadAllItems(NetPlusAppGlobals.getInstance()
 					.getCategoriesContentObjects(categoryId,
 							CURRENT_SORT_OPTION));
+			saveSortState();
 		}
 	};
+
+	protected void saveSortState() {
+		SharedPreferences prefs = this.getSharedPreferences(
+				"pl.netplus.wishphone", Context.MODE_PRIVATE);
+		SharedPreferences.Editor ed = prefs.edit();
+		ed.putInt(BUNGLE_CURRENT_SORT_OPTION, CURRENT_SORT_OPTION);
+		ed.commit();
+	}
 }

@@ -37,6 +37,8 @@ public class StartFragment extends BaseFragment<Object> implements
 		btn_favorite = (Button) convertView.findViewById(R.id.button_favorite);
 
 		Button btn_random = (Button) convertView.findViewById(R.id.btn_random);
+		Button btn_thebest = (Button) convertView
+				.findViewById(R.id.btn_thebest);
 		Button btn_webpage = (Button) convertView.findViewById(R.id.btn_web);
 		Button btn_otherpage = (Button) convertView
 				.findViewById(R.id.btn_other);
@@ -52,6 +54,9 @@ public class StartFragment extends BaseFragment<Object> implements
 
 		btn_random.setTag(EButtonType.Random);
 		btn_random.setOnClickListener(this);
+
+		btn_thebest.setTag(EButtonType.TheBest);
+		btn_thebest.setOnClickListener(this);
 
 		btn_update.setTag(EButtonType.Update);
 		btn_update.setOnClickListener(this);
@@ -84,7 +89,7 @@ public class StartFragment extends BaseFragment<Object> implements
 	}
 
 	private enum EButtonType {
-		Favorite, Update, About, Random, News
+		Favorite, Update, About, Random, News, TheBest
 	}
 
 	@Override
@@ -92,6 +97,9 @@ public class StartFragment extends BaseFragment<Object> implements
 		Object o = view.getTag();
 		if (o instanceof EButtonType) {
 			switch ((EButtonType) o) {
+			case TheBest:
+				showTheBestJokes();
+				break;
 			case Favorite:
 				showFavoritesJokes();
 				break;
@@ -114,6 +122,11 @@ public class StartFragment extends BaseFragment<Object> implements
 			showWebPage((String) o);
 
 		}
+	}
+
+	private void showTheBestJokes() {
+		startWishesIntent(NetPlusAppGlobals.ITEMS_THE_BEST,
+				getText(R.string.btn_title_the_best).toString());
 	}
 
 	protected void showAboutPage() {

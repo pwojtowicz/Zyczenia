@@ -105,8 +105,10 @@ public class ContentObjectRepository implements IBaseRepository<ContentObject> {
 		String orderBy = "ID";
 		if (bundle != null) {
 			String tmp = bundle.getString("OrderBy");
-			if (tmp != null && !tmp.isEmpty())
+			if (tmp != null && !tmp.isEmpty()) {
 				orderBy = tmp;
+
+			}
 		}
 
 		ArrayList<ContentObject> list = new ArrayList<ContentObject>();
@@ -149,6 +151,7 @@ public class ContentObjectRepository implements IBaseRepository<ContentObject> {
 			if (tmp != null && !tmp.isEmpty())
 				orderBy = tmp;
 		}
+		orderBy += " LIMIT 1000";
 
 		dbm.checkIsOpen();
 		ArrayList<ContentObject> list = new ArrayList<ContentObject>();

@@ -11,6 +11,15 @@
         android:padding="20dp" >
 
         <Button
+            android:id="@+id/btn_thebest"
+            style="@style/Style_TextWithShadow"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/btn_blue_selector"
+            android:text="@string/btn_title_the_best" />
+
+        <Button
             android:id="@+id/btn_other"
             style="@style/Style_TextWithShadow"
             android:layout_width="match_parent"
