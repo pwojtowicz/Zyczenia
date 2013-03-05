@@ -63,6 +63,16 @@ public class JokesActivity extends AppBaseActivity {
 
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		mViewPager.setAdapter(fAdapter);
+		//
+		// mViewPager.setPageTransformer(false, new PageTransformer() {
+		//
+		// @SuppressLint("NewApi")
+		// @Override
+		// public void transformPage(View v, float pos) {
+		// final float invt = Math.abs(Math.abs(pos) - 1);
+		// v.setAlpha(invt);
+		// }
+		// });
 
 		configureViews();
 
@@ -167,7 +177,8 @@ public class JokesActivity extends AppBaseActivity {
 		if (categoryId != NetPlusAppGlobals.ITEMS_ALL
 				&& categoryId != NetPlusAppGlobals.ITEMS_RANDOM
 				&& categoryId != NetPlusAppGlobals.ITEMS_LATEST
-				&& categoryId != NetPlusAppGlobals.ITEMS_THE_BEST)
+				&& categoryId != NetPlusAppGlobals.ITEMS_THE_BEST
+				&& categoryId != NetPlusAppGlobals.ITEMS_FAVORITE)
 			items = NetPlusAppGlobals.getInstance()
 					.getCategoriesContentObjects(categoryId,
 							CURRENT_SORT_OPTION);
