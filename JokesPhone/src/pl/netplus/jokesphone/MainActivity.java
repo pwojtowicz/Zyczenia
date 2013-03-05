@@ -51,11 +51,13 @@ public class MainActivity extends AppBaseActivity implements IReadRepository {
 		}
 
 		long nextUpdate = getNextUpdateDate();
+
 		long actualTime = Calendar.getInstance().getTimeInMillis();
 
 		if (nextUpdate < actualTime || updateOldVersion) {
 			update(nextUpdate == 0 || updateOldVersion ? false : true);
-		} else if (isFirstTime) {
+		}
+		if (isFirstTime) {
 			ObjectManager manager = new ObjectManager();
 			manager.readObjectsWithoutSendItem(this,
 					ERepositoryTypes.Categories,
