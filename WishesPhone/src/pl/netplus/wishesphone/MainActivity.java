@@ -44,6 +44,8 @@ public class MainActivity extends AppBaseActivity implements IReadRepository {
 
 			appCurrent = Double.parseDouble(curr_app_ver);
 			appLast = Double.parseDouble(last_app_ver);
+			if (appLast == 0.0)
+				isFirstTime = false;
 			updateOldVersion = appLast < appCurrent;
 
 		} catch (Exception e) {

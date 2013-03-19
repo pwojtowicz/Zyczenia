@@ -86,9 +86,12 @@ public abstract class AppBaseActivity extends FragmentActivity implements
 
 	@Override
 	public void onTaskEnd() {
-		if (dialog != null) {
-			dialog.dismiss();
-			dialog = null;
+		try {
+			if (dialog != null) {
+				dialog.dismiss();
+				dialog = null;
+			}
+		} catch (Exception ex) {
 		}
 	}
 
@@ -137,7 +140,13 @@ public abstract class AppBaseActivity extends FragmentActivity implements
 		String pref_next_update_date = prefs.getString("prop_next_update_date",
 				"0");
 
-		return Long.parseLong(pref_next_update_date);
+		long value = 0;
+		try {
+			value = Long.parseLong(pref_next_update_date);
+		} catch (Exception e) {
+			value = 0;
+		}
+		return value;
 	}
 
 	public String getLastAppVersion() {

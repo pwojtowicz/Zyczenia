@@ -24,9 +24,9 @@ import android.view.MenuItem;
 public abstract class AppBaseActivity extends FragmentActivity implements
 		IReadRepository {
 
-	private final static String categoryAddress = "http://zyczenia.tja.pl/api/android_bramka.php?co=lista_kategorii";
-	private final static String contentAddress = "http://zyczenia.tja.pl/api/android_bramka.php?co=lista_obekty&data=";
-	private final static String contentToDeleteAddress = "http://zyczenia.tja.pl/api/android_bramka.php?co=lista_obekty_id";
+	private final static String categoryAddress = "http://zyczenia.tja.pl/api/android_bramka_v2.php?co=lista_kategorii";
+	private final static String contentAddress = "http://zyczenia.tja.pl/api/android_bramka_v2.php?co=lista_obekty&data=";
+	private final static String contentToDeleteAddress = "http://zyczenia.tja.pl/api/android_bramka_v2.php?co=lista_obekty_id";
 
 	private ProgressDialog dialog;
 
@@ -77,9 +77,13 @@ public abstract class AppBaseActivity extends FragmentActivity implements
 
 	@Override
 	public void onTaskEnd() {
-		if (dialog != null) {
-			dialog.dismiss();
-			dialog = null;
+		try {
+			if (dialog != null) {
+				dialog.dismiss();
+				dialog = null;
+			}
+		} catch (Exception ex) {
+
 		}
 	}
 
@@ -127,8 +131,13 @@ public abstract class AppBaseActivity extends FragmentActivity implements
 				.getDefaultSharedPreferences(this);
 		String pref_next_update_date = prefs.getString("prop_next_update_date",
 				"0");
-
-		return Long.parseLong(pref_next_update_date);
+		long value = 0;
+		try {
+			value = Long.parseLong(pref_next_update_date);
+		} catch (Exception e) {
+			value = 0;
+		}
+		return value;
 	}
 
 	public String getLastAppVersion() {

@@ -1,13 +1,15 @@
 package pl.netplus.appbase.httpconnection;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.zip.GZIPInputStream;
-
-import android.util.Log;
 
 public class HTTPRequestProvider {
 
@@ -31,7 +33,7 @@ public class HTTPRequestProvider {
 	private static HTTPRequestBundle getRequest(String address,
 			IHttpRequestToAsyncTaskCommunication listener) {
 
-		Log.i("WishUrlAddress", address);
+		// Log.i("WishUrlAddress", address);
 		HttpURLConnection connection = null;
 		String response = null;
 		byte[] rawResponse = null;
@@ -50,14 +52,16 @@ public class HTTPRequestProvider {
 
 			InputStream in = getConnectionInputStream(connection);
 
-			ByteArrayOutputStream byteArray = readInpdutStream(in, fileSize,
-					listener);
+			// ByteArrayOutputStream byteArray = readInpdutStream(in, fileSize,
+			// listener);
 
-			System.out.println("Content Size: " + String.valueOf(fileSize)
-					+ " byteArray Size: " + String.valueOf(byteArray.size()));
+			// System.out.println("Content Size: " + String.valueOf(fileSize)
+			// + " byteArray Size: " + String.valueOf(byteArray.size()));
 
 			try {
-				response = byteArray.toString();// ("ISO-8859-2");
+				response = readStream(in);// slurp(in, 4096);//
+											// byteArray.toString();//
+											// ("ISO-8859-2");
 			} catch (Exception e) {
 				response = "ConvertToStringProblem";
 			}
@@ -66,6 +70,8 @@ public class HTTPRequestProvider {
 
 		} catch (IOException e) {
 			response = e.getMessage();
+		} catch (Exception ex) {
+			response = ex.getMessage();
 		} finally {
 			if (connection != null) {
 				connection.disconnect();
@@ -103,7 +109,9 @@ public class HTTPRequestProvider {
 			InputStream inputStream, int fileSize,
 			IHttpRequestToAsyncTaskCommunication listener) throws IOException {
 		byte[] buf = new byte[4096];
+		char[] ch = new char[4096];
 
+		slurp(inputStream, 4096);
 		int ret = 0;
 		long downloadedSize = 0;
 		int lastProgressValue = -1;
@@ -129,6 +137,50 @@ public class HTTPRequestProvider {
 			}
 		}
 		return byteArray;
+	}
+
+	public static String slurp(final InputStream is, final int bufferSize) {
+		final char[] buffer = new char[bufferSize];
+		final StringBuilder out = new StringBuilder();
+		try {
+			final Reader in = new InputStreamReader(is, "UTF-8");
+			try {
+				for (;;) {
+					int rsz = in.read(buffer, 0, buffer.length);
+					if (rsz < 0)
+						break;
+					out.append(buffer, 0, rsz);
+				}
+			} finally {
+				in.close();
+			}
+		} catch (UnsupportedEncodingException ex) {
+			/* ... */
+		} catch (IOException ex) {
+			/* ... */
+		}
+		return out.toString();
+	}
+
+	private static String readStream(InputStream iStream) throws IOException {
+		// build a Stream Reader, it can read char by char
+		InputStreamReader iStreamReader = new InputStreamReader(iStream);
+		// build a buffered Reader, so that i can read whole line at once
+		BufferedReader bReader = new BufferedReader(iStreamReader);
+		String line = null;
+		StringBuilder builder = new StringBuilder();
+		try {
+			while ((line = bReader.readLine()) != null) { // Read till end
+				builder.append(line);
+			}
+		} catch (Exception ex) {
+
+		} finally {
+			bReader.close(); // close all opened stuff
+			iStreamReader.close();
+			iStream.close();
+		}
+		return builder.toString();
 	}
 
 	private static HttpURLConnection getConnection(String address)

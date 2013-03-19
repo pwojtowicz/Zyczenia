@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import pl.netplus.appbase.R;
 import pl.netplus.appbase.entities.Category;
+import pl.netplus.appbase.entities.SpinnerObject;
 import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
@@ -30,6 +31,14 @@ public class CategoryListAdapter extends BaseListAdapter<Category> {
 		}
 
 		return convertView;
+	}
+	
+	public class LastSearchHelper {
+		TextView ZipCode;
+		TextView Street;
+		TextView City;
+		TextView Area;
+		public SpinnerObject object;
 	}
 
 }
