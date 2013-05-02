@@ -6,6 +6,8 @@
     <string name="menu_settings">Ustawienia</string>
     <string name="menu_share">Wyślij</string>
     <string name="menu_filter">Sortowanie</string>
+    <string name="menu_to_first_page">Pierwsza strona</string>
+    <string name="menu_go_to_page">Wybierz stronę</string>
     <string name="title_activity_wishes">Życzenia</string>
     <string name="title_activity_preferences">Ustawienia</string>
     <string name="preference_title_replace">Polskie znaki</string>

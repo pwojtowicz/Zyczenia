@@ -4,25 +4,25 @@ public class StringHelper {
 
 	public static String removePolishChars(String text) {
 
-		text = text.replace('ê', 'e');
-		text = text.replace('ó', 'o');
-		text = text.replace('¹', 'a');
-		text = text.replace('œ', 's');
-		text = text.replace('³', 'l');
-		text = text.replace('¿', 'z');
-		text = text.replace('Ÿ', 'z');
-		text = text.replace('æ', 'c');
-		text = text.replace('ñ', 'n');
+		text = text.replace('ï¿½', 'e');
+		text = text.replace('ï¿½', 'o');
+		text = text.replace('ï¿½', 'a');
+		text = text.replace('ï¿½', 's');
+		text = text.replace('ï¿½', 'l');
+		text = text.replace('ï¿½', 'z');
+		text = text.replace('ï¿½', 'z');
+		text = text.replace('ï¿½', 'c');
+		text = text.replace('ï¿½', 'n');
 
-		text = text.replace('Ê', 'E');
-		text = text.replace('Ó', 'O');
-		text = text.replace('¥', 'A');
-		text = text.replace('Œ', 'S');
-		text = text.replace('£', 'L');
-		text = text.replace('¯', 'Z');
-		text = text.replace('', 'Z');
-		text = text.replace('Æ', 'C');
-		text = text.replace('Ñ', 'N');
+		text = text.replace('ï¿½', 'E');
+		text = text.replace('ï¿½', 'O');
+		text = text.replace('ï¿½', 'A');
+		text = text.replace('ï¿½', 'S');
+		text = text.replace('ï¿½', 'L');
+		text = text.replace('ï¿½', 'Z');
+		text = text.replace('ï¿½', 'Z');
+		text = text.replace('ï¿½', 'C');
+		text = text.replace('ï¿½', 'N');
 		return text;
 	}
 
@@ -38,13 +38,13 @@ public class StringHelper {
 
 		if (days >= 30 && days < 365) {
 			int months = (int) (days / 30);
-			String name = "miesi¹c";
+			String name = "miesiï¿½c";
 			if (months == 1)
 				return String.format(" %s temu", name);
 			if (months > 1 && months < 5)
-				name = "miesi¹ce";
+				name = "miesiÄ…ce";
 			if (months >= 5)
-				name = "miesiêcy";
+				name = "miesiÄ™cy";
 			return String.format(" %d %s temu", months, name);
 		}
 

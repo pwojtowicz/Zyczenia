@@ -41,5 +41,11 @@
     <string name="dialog_no_internet_connection">Brak połączenia z internetem, nie można wykonać aktualizacji.</string>
     
     <string name="latest">NOWOŚĆ</string>
+    
+    <string name="menu_settings">Ustawienia</string>
+    <string name="menu_share">Wyślij</string>
+    <string name="menu_filter">Sortowanie</string>
+    <string name="menu_to_first_page">Pierwsza strona</string>
+    <string name="menu_go_to_page">Wybierz stronę</string>
 	
 </resources>

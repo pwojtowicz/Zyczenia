@@ -26,6 +26,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 
 public class JokesActivity extends AppBaseActivity {
 
@@ -33,6 +34,7 @@ public class JokesActivity extends AppBaseActivity {
 	private static final String BUNGLE_ACTUAL_PAGE_ID = "actualPageId";
 	public static final String BUNDLE_TITLE = "title";
 	private static final String BUNGLE_CURRENT_SORT_OPTION = "sortOption";
+	protected static final String BUNDLE_ACTUAL_CATEGORY_ID = "actualCategoryId";
 
 	public int CURRENT_SORT_OPTION = NetPlusAppGlobals.SORT_BY_DATE;
 
@@ -47,6 +49,7 @@ public class JokesActivity extends AppBaseActivity {
 	private Button btn_share;
 	private String title = "";
 	private int actualPage;
+	private EditText editTextPageNumber;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -145,6 +148,7 @@ public class JokesActivity extends AppBaseActivity {
 		SharedPreferences prefs = this.getSharedPreferences(
 				"pl.netplus.wishphone", Context.MODE_PRIVATE);
 		SharedPreferences.Editor ed = prefs.edit();
+		ed.putInt(BUNDLE_ACTUAL_CATEGORY_ID, categoryId);
 		ed.putInt(BUNGLE_ACTUAL_PAGE_ID, mViewPager.getCurrentItem());
 		ed.commit();
 	}
@@ -153,11 +157,12 @@ public class JokesActivity extends AppBaseActivity {
 	public void onDestroy() {
 		super.onDestroy();
 
-		SharedPreferences prefs = this.getSharedPreferences(
-				"pl.netplus.wishphone", Context.MODE_PRIVATE);
-		SharedPreferences.Editor ed = prefs.edit();
-		ed.putInt(BUNGLE_ACTUAL_PAGE_ID, 0);
-		ed.commit();
+		// SharedPreferences prefs = this.getSharedPreferences(
+		// "pl.netplus.wishphone", Context.MODE_PRIVATE);
+		// SharedPreferences.Editor ed = prefs.edit();
+		// ed.putInt(BUNGLE_ACTUAL_PAGE_ID, 0);
+
+		// ed.commit();
 	}
 
 	@Override
@@ -339,8 +344,43 @@ public class JokesActivity extends AppBaseActivity {
 					CURRENT_SORT_OPTION - 1, onSortSelect, onSortItemSelect)
 					.show();
 			break;
+		case R.id.menu_go_to_first_page:
+			mViewPager.setCurrentItem(0);
+			break;
+		case R.id.menu_go_to_page:
+			editTextPageNumber = new EditText(this);
+			DialogHelper.createNumberTextViewDialog(editTextPageNumber, this,
+					new DialogInterface.OnClickListener() {
+
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							onPageSelect();
+						}
+					}, 0).show();
+			break;
 		}
 		return true;
+	}
+
+	protected void onPageSelect() {
+		if (editTextPageNumber != null) {
+			boolean showPage = true;
+			try {
+				int pageNumber = Integer.parseInt(editTextPageNumber.getText()
+						.toString());
+
+				if (pageNumber >= 1 && pageNumber <= allItemCount)
+					mViewPager.setCurrentItem(pageNumber - 1, true);
+				else
+					showPage = false;
+			} catch (Exception ex) {
+				showPage = false;
+			}
+
+			if (!showPage)
+				DialogHelper.createInfoDialog(this, "Niepoprawny numer strony")
+						.show();
+		}
 	}
 
 	int tmpSelectedOption = -1;
